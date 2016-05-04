@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+  <world name="mountain_world">
+    <physics type="ode">
+     <!-- <gravity>0 0 -9.8</gravity>-->
+     <max_step_size>0.001</max_step_size>
+    </physics>
+
+    <scene>
+      <sky>
+        <clouds>
+          <speed>12</speed>
+        </clouds>
+      </sky>
+    </scene>
+
+    <gui>
+      <camera name="my_camera">
+        <pose>3 0.1 1.5 0 0 3.14</pose>
+      </camera>
+    </gui>
+
+   <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <include>
+      <name>Mountain</name>
+      <uri>model://mountain</uri>
+  <pose>0 0 0 0 0 0</pose>
+    </include>
+
+
+
+    <include>
+      <name>bigtree01</name>
+      <uri>model://bigtree</uri>
+      <pose>19.99 6.41 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>bigtree02</name>
+      <uri>model://bigtree</uri>
+      <pose>11.99 14.99 0 0 0 0</pose>
+    </include>
+
+
+  <include>
+      <name>tree01</name>
+      <uri>model://tree</uri>
+      <pose>19.02 10.99 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>tree02</name>
+      <uri>model://tree</uri>
+      <pose>18.99 14.99 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>tree03</name>
+      <uri>model://tree</uri>
+      <pose>15.99 12.99 0 0 0 0</pose>
+    </include>
+
+
+ <include>
+      <name>rock01</name>
+      <uri>model://rock</uri>
+      <pose>13 9.96 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>tree04</name>
+      <uri>model://tree</uri>
+      <pose>6.99 -13.45 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>tree05</name>
+      <uri>model://tree</uri>
+      <pose>-0.56 -0.5 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>rock02</name>
+      <uri>model://rock</uri>
+      <pose>-13.99 -18.04 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>rock03</name>
+      <uri>model://rock</uri>
+      <pose>-17.03 -16.61 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>rock04</name>
+      <uri>model://rock</uri>
+      <pose>-17.02 -19.06 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>bigtree03</name>
+      <uri>model://bigtree</uri>
+      <pose>-21 0.99 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>bigtree04</name>
+      <uri>model://bigtree</uri>
+      <pose>-29 8.99 0 0 0 0</pose>
+    </include>
+ <include>
+      <name>bigtree05</name>
+      <uri>model://bigtree</uri>
+      <pose>-38 0.99 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>rock05</name>
+      <uri>model://rock</uri>
+      <pose>-32.99 3.96 0 0 0 0</pose>
+    </include>
+
+<include>
+      <name>rock06</name>
+      <uri>model://rock</uri>
+      <pose>-42.99 7.42 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>tree06</name>
+      <uri>model://tree</uri>
+      <pose>-33 15.99 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>tree07</name>
+      <uri>model://tree</uri>
+      <pose>-27 15.99 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>tree08</name>
+      <uri>model://tree</uri>
+      <pose>-17 13.99 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>tree09</name>
+      <uri>model://tree</uri>
+      <pose>-11 16.99 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>bigtree06</name>
+      <uri>model://bigtree</uri>
+      <pose>-10 22.50 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>bigtree07</name>
+      <uri>model://bigtree</uri>
+      <pose>-15 18.99 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>bigtree08</name>
+      <uri>model://bigtree</uri>
+      <pose>-20.45 16.99 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>victim01</name>
+      <uri>model://victim</uri>
+      <pose>-3.57 0 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>busy_genius</name>
+      <uri>model://genius</uri>
+      <pose>20 0 0 0 0 17</pose>
+    </include>
+
+ <include>
+      <name>rock07</name>
+      <uri>model://rock</uri>
+      <pose>-4 3.5 0 0 0 0</pose>
+    </include>
+  </world>
+</sdf>
+
