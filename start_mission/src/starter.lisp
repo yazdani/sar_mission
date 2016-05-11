@@ -30,6 +30,4 @@
 
 
 (defun start-scenario ()
-  (roslisp-utilities:startup-ros)
-  
-  )
+  (roslisp-utilities:startup-ros))
