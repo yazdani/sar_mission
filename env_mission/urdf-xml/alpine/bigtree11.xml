@@ -7,7 +7,7 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="bigtree11">
 
 <joint name="bigtree11_joint" type="fixed">
-<origin xyz="-33 -12 7 " rpy="0 0 0"/>
+<origin xyz="39.57147 -14.00052 6.12221" rpy="0 0 0"/>
 <parent link="map_link"/>
 <child link="bigtree11_link"/>
 </joint>
@@ -16,14 +16,14 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <visual>
 <!--origin xyz="-33 -12 7 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/bigtree/meshes/tanne2.dae"/>
+<mesh filename="package://env_mission/models/bigtree/meshes/tanne2.dae"/>
 </geometry>
 <material name="Green"/>
 </visual>
 <collision>
 <!--origin xyz="-33 -12 7 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/bigtree/meshes/tanne2.dae"/>
+<mesh filename="package://env_mission/models/bigtree/meshes/tanne2.dae"/>
 </geometry>
 </collision>
 </link>

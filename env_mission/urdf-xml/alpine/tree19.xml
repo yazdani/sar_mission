@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<macro name="tree19">
+
+<joint name="tree19_joint" type="fixed">
+<origin xyz="-7.09502 2.06179 4.41874" rpy="0 0 0"/>
+<parent link="map_link"/>
+<child link="tree19_link"/>
+</joint>
+
+<link name="tree19_link">
+<visual>
+<!--origin xyz="39 22 8 " rpy="0 0 0"/-->
+<geometry>
+<mesh filename="package://env_mission/models/tree/meshes/tanne1.dae"/>
+</geometry>
+<material name="DarkGreen"/>
+</visual>
+<collision>
+<!--origin xyz="39 22 8 " rpy="0 0 0"/-->
+<geometry>
+<mesh filename="package://env_mission/models/tree/meshes/tanne1.dae"/>
+</geometry>
+</collision>
+</link>
+
+<gazebo>
+<static>true</static>
+</gazebo>
+
+</macro>
+</robot>

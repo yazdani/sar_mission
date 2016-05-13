@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<macro name="bridge">
+
+<joint name="bridge_joint" type="fixed">
+<origin xyz="0 0 2" rpy="0 0 0"/>
+<parent link="map_link"/>
+<child link="bridge_link"/>
+</joint>
+
+<link name="bridge_link">
+<visual>
+<!--origin xyz="-1.0 0.0 2.5 " rpy="0 0 0"/-->
+<geometry>
+<mesh filename="package://env_mission/models/bridge/meshes/bridge.dae"/>
+</geometry>
+<material name="Blue"/>
+</visual>
+<collision>
+<!--origin xyz="-1.0 0.0 2.5 " rpy="0 0 0"/-->
+<geometry>
+<mesh filename="package://env_mission/models/bridge/meshes/bridge.dae"/>
+</geometry>
+</collision>
+</link>
+
+<gazebo>
+<static>true</static>
+</gazebo>
+
+</macro>
+</robot>

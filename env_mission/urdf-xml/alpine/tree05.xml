@@ -8,7 +8,7 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="tree05">
 
 <joint name="tree05_joint" type="fixed">
-<origin xyz="31.51 14 8 " rpy="0 0 0"/>
+<origin xyz="0.16476 -42.54248 5.48945" rpy="0 0 0"/>
 <parent link="map_link"/>
 <child link="tree05_link"/>
 </joint>
@@ -17,14 +17,14 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <visual>
 <!--origin xyz="31.51 14 8 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/tree/meshes/tanne1.dae"/>
+<mesh filename="package://env_mission/models/tree/meshes/tanne1.dae"/>
 </geometry>
 <material name="DarkGreen"/>
 </visual>
 <collision>
 <!--origin xyz="31.51 14 8 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/tree/meshes/tanne1.dae"/>
+<mesh filename="package://env_mission/models/tree/meshes/tanne1.dae"/>
 </geometry>
 </collision>
 </link>

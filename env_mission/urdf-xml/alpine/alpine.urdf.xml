@@ -44,12 +44,24 @@
 
 <xacro:include filename="./alpine.xml"/>
 <xacro:include filename="./stream.xml"/>
-<xacro:include filename="./bigtree01.xml"/>
-<xacro:include filename="./bigtree02.xml"/>
+<xacro:include filename="./path.xml"/>
+<xacro:include filename="./bridge.xml"/>
+
 <xacro:include filename="./rock01.xml"/>
 <xacro:include filename="./rock02.xml"/>
-<xacro:include filename="./bigtree03.xml"/>
 <xacro:include filename="./rock03.xml"/>
+<xacro:include filename="./rock04.xml"/>
+<xacro:include filename="./rock05.xml"/>
+
+<xacro:include filename="./victim01.xml"/>
+<xacro:include filename="./victim02.xml"/>
+<xacro:include filename="./victim03.xml"/>
+<xacro:include filename="./victim04.xml"/>
+<xacro:include filename="./victim05.xml"/>
+
+<xacro:include filename="./bigtree01.xml"/>
+<xacro:include filename="./bigtree02.xml"/>
+<xacro:include filename="./bigtree03.xml"/>
 <xacro:include filename="./bigtree05.xml"/>
 <xacro:include filename="./bigtree06.xml"/>
 <xacro:include filename="./bigtree07.xml"/>
@@ -59,25 +71,69 @@
 <xacro:include filename="./bigtree11.xml"/>
 <xacro:include filename="./bigtree12.xml"/>
 <xacro:include filename="./bigtree13.xml"/>
+<xacro:include filename="./bigtree14.xml"/>
+<xacro:include filename="./bigtree15.xml"/>
+<xacro:include filename="./bigtree16.xml"/>
+<xacro:include filename="./bigtree17.xml"/>
+<xacro:include filename="./bigtree18.xml"/>
+<xacro:include filename="./bigtree19.xml"/>
+<xacro:include filename="./bigtree20.xml"/>
+<xacro:include filename="./bigtree21.xml"/>
+<xacro:include filename="./bigtree22.xml"/>
+<xacro:include filename="./bigtree23.xml"/>
+<xacro:include filename="./bigtree24.xml"/>
+<xacro:include filename="./bigtree25.xml"/>
+<xacro:include filename="./bigtree26.xml"/>
+<xacro:include filename="./bigtree27.xml"/>
+<xacro:include filename="./bigtree28.xml"/>
+<xacro:include filename="./bigtree29.xml"/>
+<xacro:include filename="./bigtree30.xml"/>
+<xacro:include filename="./bigtree31.xml"/>
+<xacro:include filename="./bigtree32.xml"/>
+<xacro:include filename="./bigtree33.xml"/>
+<xacro:include filename="./bigtree34.xml"/>
+<xacro:include filename="./bigtree35.xml"/>
+<xacro:include filename="./bigtree36.xml"/>
+<xacro:include filename="./bigtree37.xml"/>
+<xacro:include filename="./bigtree38.xml"/>
+
 <xacro:include filename="./tree01.xml"/>
 <xacro:include filename="./tree02.xml"/>
 <xacro:include filename="./tree03.xml"/>
-<xacro:include filename="./tree04.xml"/>
 <xacro:include filename="./tree05.xml"/>
 <xacro:include filename="./tree06.xml"/>
 <xacro:include filename="./tree07.xml"/>
+<xacro:include filename="./tree08.xml"/>
+<xacro:include filename="./tree09.xml"/>
+<xacro:include filename="./tree10.xml"/>
+<xacro:include filename="./tree11.xml"/>
+<xacro:include filename="./tree12.xml"/>
+<xacro:include filename="./tree13.xml"/>
+<xacro:include filename="./tree14.xml"/>
+<xacro:include filename="./tree15.xml"/>
+<xacro:include filename="./tree16.xml"/>
+<xacro:include filename="./tree17.xml"/>
+<xacro:include filename="./tree18.xml"/>
+<xacro:include filename="./tree19.xml"/>
+<xacro:include filename="./tree20.xml"/>
+<xacro:include filename="./tree21.xml"/>
+<xacro:include filename="./tree22.xml"/>
+<xacro:include filename="./tree23.xml"/>
+<xacro:include filename="./tree24.xml"/>
+<xacro:include filename="./tree25.xml"/>
+<xacro:include filename="./tree26.xml"/>
 
 <link name="map_link">
 </link>
 
 <alpine/>
 <stream/>
+<bridge/>
+<path/>
+
 <bigtree01/>
 <bigtree02/>
-<rock01/>
-<rock02/>
 <bigtree03/>
-<rock03/>
 <bigtree05/>
 <bigtree06/>
 <bigtree07/>
@@ -87,6 +143,32 @@
 <bigtree11/>
 <bigtree12/>
 <bigtree13/>
+<bigtree14/>
+<bigtree15/>
+<bigtree16/>
+<bigtree17/>
+<bigtree18/>
+<bigtree19/>
+<bigtree20/>
+<bigtree21/>
+<bigtree22/>
+<bigtree23/>
+<bigtree24/>
+<bigtree25/>
+<bigtree26/>
+<bigtree27/>
+<bigtree28/>
+<bigtree29/>
+<bigtree30/>
+<bigtree31/>
+<bigtree32/>
+<bigtree33/>
+<bigtree34/>
+<bigtree35/>
+<bigtree36/>
+<bigtree37/>
+<bigtree38/>
+
 <tree01/>
 <tree02/>
 <tree03/>
@@ -94,5 +176,36 @@
 <tree05/>
 <tree06/>
 <tree07/>
+<tree08/>
+<tree09/>
+<tree10/>
+<tree11/>
+<tree12/>
+<tree13/>
+<tree14/>
+<tree15/>
+<tree16/>
+<tree17/>
+<tree18/>
+<tree19/>
+<tree20/>
+<tree21/>
+<tree22/>
+<tree23/>
+<tree24/>
+<tree25/>
+<tree26/>
+
+<rock01/>
+<rock02/>
+<rock03/>
+<rock04/>
+<rock05/>
+
+<victim01/>
+<victim02/>
+<victim03/>
+<victim04/>
+<victim05/>
 
 </robot>

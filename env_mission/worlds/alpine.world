@@ -221,7 +221,7 @@
   <include>
       <name>bigtree30</name>
       <uri>model://bigtree</uri>
-      <pose>-36.02668 38.44972 2.71045 0 0 0</pose>
+      <pose>-36.02668 38.44972 1.71045 0 0 0</pose>
     </include>
 
   <include>
@@ -233,19 +233,19 @@
   <include>
       <name>bigtree32</name>
       <uri>model://bigtree</uri>
-      <pose>-44.18024 36.55897 2.00363 0 0 0</pose>
+      <pose>-44.18024 36.55897 1.00363 0 0 0</pose>
     </include>
 
   <include>
       <name>bigtree33</name>
       <uri>model://bigtree</uri>
-      <pose>-41.04187 28.39004 2.00717 0 0 0</pose>
+      <pose>-41.04187 28.39004 1.00717 0 0 0</pose>
     </include>
 
   <include>
       <name>bigtree34</name>
       <uri>model://bigtree</uri>
-      <pose>-39.65509 32.72559 1.69212 0 0 0</pose>
+      <pose>-39.65509 32.72559 1.09212 0 0 0</pose>
     </include>
 
   <include>

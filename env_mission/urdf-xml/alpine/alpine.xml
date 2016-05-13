@@ -16,14 +16,14 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <visual>
 <!--origin xyz="0.0 0.0 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/alpine/meshes/alpine.dae"/>
+<mesh filename="package://env_mission/models/alpine/meshes/alpine.dae"/>
 </geometry>
 <material name="Grey"/>
 </visual>
 <collision>
 <!--origin xyz="0.0 0.0 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://world_mission/models/alpine/meshes/alpine.dae"/>
+<mesh filename="package://env_mission/models/alpine/meshes/alpine.dae"/>
 </geometry>
 </collision>
 </link>
