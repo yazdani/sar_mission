@@ -154,7 +154,7 @@
     <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
     <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
     <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_bridge01"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;tree01"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;bridge01"/>
 </owl:NamedIndividual>
 
 <!-- path -->
@@ -1602,3 +1602,4 @@
     <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_victim05"/>
     <knowrob:objectActedOn rdf:resource="&knowrob;victim05"/>
 </owl:NamedIndividual>
+</rdf:RDF>
