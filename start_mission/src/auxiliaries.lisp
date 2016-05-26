@@ -355,7 +355,7 @@
 
 (defun human-relative-map-pose ()
   (tf:lookup-transform *tf* "map" "human"))
-
+;;test
 (defun list-values (num point)
   (let*((zet 1.0)
         (iks (cl-transforms:x point))
