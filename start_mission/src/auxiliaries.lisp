@@ -355,7 +355,7 @@
 
 (defun human-relative-map-pose ()
   (tf:lookup-transform *tf* "map" "human"))
-;;test
+
 (defun list-values (num point)
   (let*((zet 1.0)
         (iks (cl-transforms:x point))
@@ -711,6 +711,25 @@
     ;;  (swm->intern-tf-remover puber)
              (reverse (remove-duplicates elem)))) 
 
+(defun five-down-levels (liste)
+   (let*((test '()))
+         (dotimes (index (length liste))
+           do(loop for mass from 1 to 21
+                   do(loop for jindex from 1 to 11
+                           do(setf test (cons 
+                                         (cl-transforms:make-pose
+                                          (cl-transforms:make-3d-vector (cl-transforms:x (cl-transforms:origin (nth index liste)))
+                                                          (+ (cl-transforms:y (cl-transforms:origin (nth index liste))) (- 11 mass)) 
+                                                          (+ (cl-transforms:z (cl-transforms:origin (nth index liste))) (- 6 jindex)))
+                                            (cl-transforms:orientation (nth index liste))) test))
+                (setf test (cons 
+                            (cl-transforms:make-pose
+                            (cl-transforms:make-3d-vector (+ (cl-transforms:x (cl-transforms:origin (nth index liste))) (- 11 mass))
+                                                          (cl-transforms:y (cl-transforms:origin (nth index liste)))  
+                                                          (+ (cl-transforms:z (cl-transforms:origin (nth index liste))) (- 6 jindex)))
+                              (cl-transforms:orientation (nth index liste))) test)))))
+                                   
+    (reverse test)))
 
 (defun get-gesture->relative-world (gesture-vec humanpose)
   (let*((ori (cl-transforms:make-3d-vector (+ (cl-transforms:x (cl-transforms:origin humanpose)) (cl-transforms:x gesture-vec))
@@ -844,3 +863,153 @@
                                            (cl-transforms:z (cl-transforms:origin (nth index liste))))
              (cl-transforms:orientation (nth index liste))) test)))
     (reverse test)))
+
+;;####### CHECKING THE VISIBILITY OF QUADCOPTER #######;;
+
+(defun cam-depth-tf-transform ()
+  (cl-transforms-stamped:lookup-transform *tf* "map" "camera_depth_frame"))
+
+(defun cam-rgb-tf-transform ()
+  (cl-transforms-stamped:lookup-transform *tf* "map" "camera_rgb_frame"))
+
+(defun cam-get-pose->relative-map (vec)
+(let((pose-stmp (cl-transforms-stamped:make-pose-stamped "camera_depth_frame"
+                                                         0.0 vec
+                                                         (cl-transforms:make-identity-rotation))))
+  (cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose pose-stmp :target-frame "map"))))
+
+(defun cam-set-markers ()
+  (publish-pose (cl-transforms:transform->pose (cam-depth-tf-transform)) :id 0)
+  (let*((id1 0)(id2 0)
+        (limiter NIL)
+        (fvector NIL)
+        (svec NIL))
+    (loop for index from 1 to 20
+          do(setf limiter (cl-transforms:make-3d-vector 0.25d0 -0.1d0 -0.1d0))
+            (cond((<= index 4)                  
+             (loop for jindex from (* index -1) to index
+                   do (setf fvector (cam-get-pose->relative-map
+                                     (cl-transforms:make-3d-vector
+                                      ( * index (cl-transforms:x limiter))
+                                      (* (* (cl-transforms:y limiter) (* 0.7 jindex)) index)
+                                      (* (cl-transforms:z limiter) 1))))                                 (loop for mindex from -2 to 3
+                             do(setf svec fvector)
+                               (setf svec (cl-transforms:make-pose
+                                           (cl-transforms:make-3d-vector
+                                            (cl-transforms:x (cl-transforms:origin svec))
+                                            (cl-transforms:y (cl-transforms:origin svec))
+                                            (+ (cl-transforms:z (cl-transforms:origin svec)) (* mindex 0.2)))
+                                           (cl-transforms:orientation svec)))
+                               (publish-pose svec :id (+ 1000 (+ id2 1)))
+                               (setf id2 (+ id2 1))) 
+                    ;;  (publish-pose fvector :id (+ 100 (+ id1 (+ id1 (* index 2)))))
+                      (setf id1 (+ id1 1))))
+                 ((<= index 10)
+                  (loop for jindex from -5 to 5
+                   do            
+                      (setf fvector (cam-get-pose->relative-map
+                                    (cl-transforms:make-3d-vector
+                                    ( * index (cl-transforms:x limiter))
+                                     (* (* (cl-transforms:y limiter) (* 0.7 jindex)) 5)
+                                     (* (cl-transforms:z limiter) 1))))
+                                             (loop for mindex from -4 to 5
+                             do(setf svec fvector)
+                               (setf svec (cl-transforms:make-pose
+                                           (cl-transforms:make-3d-vector
+                                            (cl-transforms:x (cl-transforms:origin svec))
+                                            (cl-transforms:y (cl-transforms:origin svec))
+                                            (+ (cl-transforms:z (cl-transforms:origin svec)) (* mindex 0.2)))
+                                           (cl-transforms:orientation svec)))
+                               (publish-pose svec :id (+ 1000 (+ id2 1)))
+                               (setf id2 (+ id2 1)))
+                    ;; (publish-pose fvector :id (+ 100 (+ id1 (+ id1 (* index 2)))))
+                     (setf id1 (+ id1 1))))
+                 (t
+                  (loop for jindex from -9 to 9
+                   do            
+                      (setf fvector (cam-get-pose->relative-map
+                                    (cl-transforms:make-3d-vector
+                                    ( * index (cl-transforms:x limiter))
+                                     (* (* (cl-transforms:y limiter) (* 0.3 jindex)) 9)
+                                     (* (cl-transforms:z limiter) 1))))
+                                             (loop for mindex from -7 to 8
+                             do(setf svec fvector)
+                               (setf svec (cl-transforms:make-pose
+                                           (cl-transforms:make-3d-vector
+                                            (cl-transforms:x (cl-transforms:origin svec))
+                                            (cl-transforms:y (cl-transforms:origin svec))
+                                            (+ (cl-transforms:z (cl-transforms:origin svec)) (* mindex 0.2)))
+                                           (cl-transforms:orientation svec)))
+                                  (publish-pose svec :id (+ 3000 (+ id2 1)))
+                             
+                               (setf id2 (+ id2 1)))
+                     ;;(publish-pose fvector :id (+ 100 (+ id1 (+ id1 (* index 2)))))
+                      (setf id1 (+ id1 1))))))))
+
+
+(defun set-stream (num pose)
+  (publish-pose pose :id 1000)
+  (let*((id1 0)
+        (limiter NIL)
+        (fvector NIL)
+        (liste '()))
+    (loop for index from 0 to (- num 1)
+          do(setf limiter (cl-transforms:make-3d-vector 1.0d0 0.0d0 0.0d0))
+            (setf fvector (cam-get-pose->relative-map
+                                     (cl-transforms:make-3d-vector
+                                      ( * index (cl-transforms:x limiter))
+                                      (* (cl-transforms:y limiter) index)
+                                      (* (cl-transforms:z limiter) 1))))         
+            (publish-pose fvector :id (+ 5000 (+ id1 1)))
+            (setf liste (append liste (list fvector)))
+            (setf id1 (+ id1 1)))
+    (last liste)))
+
+(defun look-at-object-x (camera-pose object-pose)
+  "this uses the optical-frame but the position of the cam ontop of the
+quadrotor, so the rotation is on x-axis"
+  (let* ((obj-point-in-camera (cl-transforms:v-
+                               (cl-transforms:origin object-pose)
+                               (cl-transforms:origin camera-pose)))
+         (x-axis (cl-transforms:make-3d-vector 1 0 0 ))
+         (angle (acos (/ (cl-transforms:dot-product
+                          obj-point-in-camera x-axis)
+                         (cl-transforms:v-norm obj-point-in-camera))))
+         (rot-axis (cl-transforms:cross-product
+                    x-axis obj-point-in-camera))
+         (res-quaternion (cl-transforms:q*
+                          (cl-transforms:axis-angle->quaternion rot-axis angle)
+                          (cl-transforms:axis-angle->quaternion x-axis (/ pi 2)))))
+    (cl-transforms:make-pose (cl-transforms:origin camera-pose) res-quaternion)))
+
+
+(defun look-at-object-y (camera-pose object-pose)
+  "this uses the optical-frame but the position of the cam ontop of the
+quadrotor, so the rotation is on y-axis"
+  (let* ((obj-point-in-camera (cl-transforms:v-
+                               (cl-transforms:origin object-pose)
+                               (cl-transforms:origin camera-pose)))
+         (y-axis (cl-transforms:make-3d-vector 1 0 0 ))
+         (angle (acos (/ (cl-transforms:dot-product
+                          obj-point-in-camera y-axis)
+                         (cl-transforms:v-norm obj-point-in-camera))))
+         (rot-axis (cl-transforms:cross-product
+                    y-axis obj-point-in-camera)))
+    (cl-transforms:q*
+     (cl-transforms:axis-angle->quaternion rot-axis angle)
+     (cl-transforms:axis-angle->quaternion y-axis (/ pi 2)))))
+
+(defun get-distance (pose1 pose2)
+(let*((vector (cl-transforms:origin pose1))
+        (x-vec (cl-transforms:x vector))
+        (y-vec (cl-transforms:y vector))
+        (z-vec (cl-transforms:z vector))
+        (ge-vector (cl-transforms:origin pose2))
+        (x-ge (cl-transforms:x ge-vector))
+        (y-ge (cl-transforms:y ge-vector))
+        (z-ge (cl-transforms:z ge-vector)))
+    (round (sqrt (+ (square (- x-vec x-ge))
+             (square (- y-vec y-ge))
+             (square (- z-vec z-ge)))))))
+    
+;; first quaternion of camera-pose aftwards location-designator resolution
