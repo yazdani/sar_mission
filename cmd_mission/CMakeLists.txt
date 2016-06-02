@@ -136,13 +136,13 @@ include_directories(
 ## Declare a C++ executable
 # add_executable(cmd_mission_node src/cmd_mission_node.cpp)
 ## Declare a C++ executable
-add_executable(cmd_parser src/nodes/cmd_parser.cpp)
-target_link_libraries(cmd_parser ${catkin_LIBRARIES})
-add_dependencies(cmd_parser cmd_mission_gencpp)
+#add_executable(cmd_parser src/nodes/cmd_parser.cpp)
+#target_link_libraries(cmd_parser ${catkin_LIBRARIES})
+#add_dependencies(cmd_parser cmd_mission_gencpp)
 
-add_executable(closer src/nodes/closer.cpp)
-target_link_libraries(closer ${catkin_LIBRARIES})
-add_dependencies(closer cmd_mission_gencpp)
+#add_executable(closer src/nodes/closer.cpp)
+#target_link_libraries(closer ${catkin_LIBRARIES})
+#add_dependencies(closer cmd_mission_gencpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
