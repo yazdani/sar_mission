@@ -33,9 +33,4 @@
   :components
   ((:module "src"
     :components
-    ((:file "package")
-     (:file "ros-interactor" :depends-on ("package"))
-     (:file "parser" :depends-on ("package"))
-     (:file "auxiliaries" :depends-on ("package" "ros-interactor"))
-     (:file "grammar" :depends-on ("package" "auxiliaries"))
-     (:file "action-designators" :depends-on ("package" "grammar"))))))
+    ((:file "package")))))
