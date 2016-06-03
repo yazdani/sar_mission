@@ -60,6 +60,32 @@
                      (t ())))
    type))
 
+(defun get-obj-list ()
+  (let*((map (sem-map-utils:get-semantic-map))
+        (sem-hash (slot-value map 'sem-map-utils:parts)))
+    (hash-table-keys sem-hash)))
+
+(defun get-objs-with-victim())
+
+(defun get-objs-infrontof-human ()
+(let*((liste '()))
+  (dotimes (index 60)
+   ;; (format t "index ~a~%" index)
+    (if (> 5 (length liste))
+        (setf liste (objects-next-human index (sem-map-utils:get-semantic-map)))))
+      liste))
+          
+    
+   ;;     (sem-hash (copy-hash-table (slot-value map 'sem-map-utils:parts)))
+   ;;     (sem-keys (hash-table-keys sem-hash)))
+   ;; (loop for index from 0 to (- (length sem-keys) 1)
+   ;;                      do (setf liste (cons (gethash (nth index sem-keys) sem-hash) liste)))
+ ;;   (objects-next-human 10 map)))
+                         
+                         
+        ;(defun get-objects-closer-human (geom-objects param genius-pose)
+
+(defun checking-relation-between-objs (obj1 obj2 relation))
 ;;
 ;; Getting the biggest object inside the map
 ;;
@@ -83,6 +109,8 @@
              (t ())))))
     name))
 
+(defun get-map-geoms (map)
+  )
 ;;
 ;; Getting the smallest object inside the map
 ;;
@@ -120,7 +148,7 @@
 
 ;;
 ;; Calculating all objects 
-;; which are close to the human
+;; which are close to the human in the direction where human is looking at
 ;;
 (defun objects-next-human (distance sem-map)
   ;(setf puber (swm->intern-tf-creater))
@@ -142,10 +170,10 @@
 			  (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)))
 		    (cond ((equal value T)
 			   (setf elem (append (list (nth jndex sem-keys)) elem))
-			   (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
+			 ;;  (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
 			   (remove-duplicates elem)
 			   (return))
-			  (t ;;   (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
+			  (t  ;; (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
 			   )))
 		  (setf incrementer (+ incrementer 2)))))
     (reverse (remove-duplicates elem))))
@@ -171,17 +199,20 @@
 ;;
 ;; Getting all the objects close to the rescuer...
 ;;
-(defun get-objects-closer-human (geom-objects param object-pose)
+(defun get-objects-around-human (geom-objects param genius-pose)
   (let*((geom-list geom-objects)
-      (objects NIL))
-     (loop while (/= (length geom-list) 0) 
-	do(cond ((and T
-		      (compare-distance-of-objects (slot-value (car geom-list) 'sem-map-utils:pose) object-pose param))
-		 (setf objects
-		       (append objects (list (first geom-list))))
-		 (setf geom-list (cdr geom-list)))
-		(t (setf geom-list (cdr geom-list)))))
-    objects))
+        (objects '())
+        (counter 0))
+     (dotimes (index (length geom-list)) 
+       do (setf counter (+ counter 1))
+       (cond ((and T
+                   (compare-distance-of-objects (slot-value (nth index geom-list) 'sem-map-utils:pose) genius-pose param))
+           (publish-pose  (slot-value (nth index geom-list) 'sem-map-utils:pose) :id counter)
+              (format t "counter ~a~%" counter)
+		       (setf objects (cons (slot-value (nth index geom-list) 'sem-map-utils:name) objects)))
+		(t  (publish-pose  (slot-value (nth index geom-list) 'sem-map-utils:pose) :id counter)
+       )))
+    (remove-duplicates  objects)))
 
 (defun compare-distance-of-objects (obj_position pose param)
   (let*((vector (cl-transforms:origin pose))
@@ -193,7 +224,7 @@
         (y-ge (cl-transforms:y ge-vector))
         (z-ge (cl-transforms:z ge-vector))
         (test NIL))
-    (if (> param (sqrt (+ (square (- x-vec x-ge))
+    (if (>= param (sqrt (+ (square (- x-vec x-ge))
                           (square (- y-vec y-ge))
                           (square (- z-vec z-ge)))))
      (setf test T)
@@ -203,12 +234,12 @@
 
 (defun visualize-plane (num)
   (let* ((temp '()))
-    (loop for jindex from 5 to num
-          do(loop for smart from 0 to 30
-                  do(loop for mass from 1 to 41 
+    (loop for jindex from 1 to num
+          do(loop for smart from 0 to 5
+                  do(loop for mass from 1 to 21 
                    do  (let*((new-point (get-gesture->relative-genius
                                           (cl-transforms:make-3d-vector
-                                            jindex  (- mass 11) (- smart 15)))))
+                                            jindex  (- mass 11)(- smart 5)))))
                                  (setf temp (cons new-point temp))))))
                  (reverse temp))) 
 
@@ -1013,3 +1044,12 @@ quadrotor, so the rotation is on y-axis"
              (square (- z-vec z-ge)))))))
     
 ;; first quaternion of camera-pose aftwards location-designator resolution
+
+(defun copy-hash-table (hash-table)
+                 (let ((ht (make-hash-table
+                            :test 'equal
+                            :size (hash-table-size hash-table))))
+                   (loop for key being each hash-key of hash-table
+                         using (hash-value value)
+                         do (setf (gethash key ht) value)
+                            finally (return ht))))

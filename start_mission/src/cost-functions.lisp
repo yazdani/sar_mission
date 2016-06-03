@@ -184,17 +184,18 @@
 
 
 (defun get-gesture->relative-genius (gesture-vec) 
-  (let*((pose (cl-transforms-stamped:make-pose-stamped "genius_link" 0.0
+  (let*((pose (cl-transforms-stamped:make-pose-stamped "human" 0.0
                                                         gesture-vec
-                                                        (cl-transforms:make-quaternion 0 0 -1 1))))
+                                                        (cl-transforms:make-identity-rotation)))) 
+                                                        ;(cl-transforms:make-quaternion 0 0 -1 1))))
     (cl-transforms-stamped:pose-stamped->pose  (cl-tf:transform-pose *tf* :pose pose :target-frame "map"))))
 
-(defun compare-distance-of-objects (genius_position pose param)
-  (let*((vector (cl-transforms:origin pose))
+(defun compare-distance-of-objects (obj-pose genius-pose param)
+  (let*((vector (cl-transforms:origin genius-pose))
         (x-vec (cl-transforms:x vector))
         (y-vec (cl-transforms:y vector))
         (z-vec (cl-transforms:z vector))
-        (ge-vector (cl-transforms:origin genius_position))
+        (ge-vector (cl-transforms:origin obj-pose))
         (x-ge (cl-transforms:x ge-vector))
         (y-ge (cl-transforms:y ge-vector))
         (z-ge (cl-transforms:z ge-vector))

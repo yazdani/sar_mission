@@ -40,6 +40,7 @@
                cram-bullet-reasoning-designators
 	       cl-tf
                cram-semantic-map-designators
+	       cmd_mission-srv
                alexandria)
   :components
   ((:module "src"
