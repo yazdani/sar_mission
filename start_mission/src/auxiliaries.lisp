@@ -1060,4 +1060,21 @@ quadrotor, so the rotation is on y-axis"
    ret))
 
 
+(defun create-local-tf-publisher (robot-pose)
+  (let*((pub (cl-tf:make-transform-broadcaster)))
+(cl-tf:send-static-transforms pub 1.0 "quadpose" (cl-transforms-stamped:make-transform-stamped "map" "new_quad_pose" (roslisp:ros-time) (cl-transforms:origin robot-pose) (cl-transforms:orientation robot-pose)))))
+
+(defun remove-local-tf-publisher (thread)
+  (when (sb-thread:thread-alive-p thread)
+    (handler-case
+        (prog1 t (sb-thread:terminate-thread thread))
+      (error () nil))))
+
+(defun visibility-of-object (robot-pose object-pose)
+ 
+  (let*((thread  (create-local-tf-publisher robot-pose))
+	(pose (cl-transforms:transform->pose (tf:lookup-transform *tf* "map" "new_quad_pose")))
+	(result (look-at-object-x pose object-pose)))
+    (remove-local-tf-publisher thread)
+result))
 
