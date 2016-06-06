@@ -32,6 +32,9 @@
 (defun start-scenario ()
   (roslisp-utilities:startup-ros))
 
+;;
+;; SERVICE IN ORDER TO ASK FOR ALL OBJECTS INSIDE THE SEMMAP
+;;
  (defun start_all_objects ()
    (service-call-one))
 
@@ -43,11 +46,16 @@
   (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:all_objs (all)
-    (format t "robot ~a~%" all)
-(let*((vec '()))
-  (setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name "haha jetzt funktionierts 2") (cons (roslisp:make-msg "cmd_mission/Subgoal" :name "haha jetzt funktionierts") vec)))
+  (format t "robot ~a~%" all)
+  (let*((vec '())
+	(liste (get-obj-list)))
+    (dotimes(index (length liste))
+      do(setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name (nth index liste)) vec)))
   (roslisp:make-response :result_all (reverse vec))))
 
+;;
+;; SERVICE TO ASK FOR SALIENT OBJECTS INSIDE THE SEMMAP
+;;
  (defun start_salient_objects ()
    (service-call-two))
 
@@ -60,10 +68,15 @@
 
 (roslisp:def-service-callback cmd_mission-srv:salient_objs (sal)
   (format t "robot ~a~%" sal)
-(let*((vec '()))
-  (setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name "haha jetzt funktionierts 2") (cons (roslisp:make-msg "cmd_mission/Subgoal" :name "haha jetzt funktionierts") vec)))
+(let*((vec '())
+      (liste (get-objs-infrontof-human)))
+  (dotimes(index (length liste))
+    do(setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name (nth index liste)) vec)))
   (roslisp:make-response :result_salient (reverse vec))))
- 
+
+;;
+;; SERVICE FOR CHECKING RELATION OF TWO OBJECTS IN A SPATIAL CONTEXT
+;; 
 
  (defun start_checking_spatial_objects ()
    (service-call-three))
@@ -76,6 +89,4 @@
   (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:check_msg (property obj1 obj2)
- ;;(roslisp:make-message 'bool :result_check 0)
-  (roslisp:make-response :result_check 0)
-)
+  (roslisp:make-response :result_check (checking-property obj1 obj2 property)))
