@@ -85,7 +85,6 @@
                          
         ;(defun get-objects-closer-human (geom-objects param genius-pose)
 
-(defun checking-relation-between-objs (obj1 obj2 relation))
 ;;
 ;; Getting the biggest object inside the map
 ;;
@@ -109,8 +108,6 @@
              (t ())))))
     name))
 
-(defun get-map-geoms (map)
-  )
 ;;
 ;; Getting the smallest object inside the map
 ;;
@@ -1053,3 +1050,14 @@ quadrotor, so the rotation is on y-axis"
                          using (hash-value value)
                          do (setf (gethash key ht) value)
                             finally (return ht))))
+
+(defun get-direction-based-on-human (vec)
+  (let*((humanpose  (cl-transforms:transform->pose (human-relative-map-pose)))
+        (pose (cl-transforms-stamped:make-pose-stamped "human" 0.0
+                                                            vec
+                                                             (cl-transforms:orientation humanpose)))
+      (ret (cl-transforms-stamped:pose-stamped->pose  (cl-tf:transform-pose *tf* :pose pose :target-frame "map"))))
+   ret))
+
+
+
