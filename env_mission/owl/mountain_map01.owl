@@ -7,28 +7,17 @@
 <!DOCTYPE rdf:RDF [ 
   <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
   <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-  <!ENTITY srdl2 "http://knowrob.org/kb/srdl2.owl#" >
-  <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
   <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" >
   <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
   <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-  <!ENTITY srdl2-comp "http://knowrob.org/kb/srdl2-comp.owl#" >
-  <!ENTITY srdl2-cap "http://knowrob.org/kb/srdl2-cap.owl#" >
-  <!ENTITY qudt-unit "http://qudt.org/vocab/unit#" >
-  <!ENTITY iai-map "http://knowrob.org/kb/IAI-alpine.owl#" >
 ]>
 
 <rdf:RDF xmlns="http://knowrob.org/kb/IAI-alpine.owl#"
   xml:base="http://knowrob.org/kb/IAI-alpine.owl"
   xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-  xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
-  xmlns:srdl2="http://knowrob.org/kb/srdl2.owl#"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
   xmlns:owl="http://www.w3.org/2002/07/owl#"
-  xmlns:srdl2-cap="http://knowrob.org/kb/srdl2-cap.owl#"
-  xmlns:srdl2-comp="http://knowrob.org/kb/srdl2-comp.owl#"
-  xmlns:qudt-unit="http://qudt.org/vocab/unit#"
   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
 
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Transformation"/>
@@ -52,51 +41,142 @@
 
 <!-- galtelli specific environment class defs -->
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#tree">
-	<rdfs:subClassOf rdf:resource="&knowrob;Tree"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
                 <owl:hasValue rdf:datatype="&xsd;string">package://env_mission/models/tree/meshes/tanne1.dae</owl:hasValue>
             </owl:Restriction>
+        </rdfs:subClassOf>  
+ 	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;heightOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">10.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;depthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">2.5</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;widthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">2.5</owl:hasValue>
+            </owl:Restriction>
         </rdfs:subClassOf>   
   </owl:Class>
 
   <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#bigtree">
-	<rdfs:subClassOf rdf:resource="&knowrob;BigTree"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
                 <owl:hasValue rdf:datatype="&xsd;string">package://env_mission/models/bigtree/meshes/tanne2.dae</owl:hasValue>
             </owl:Restriction>
+        </rdfs:subClassOf>
+ 	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;heightOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">6.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;depthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">3.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;widthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">5.0</owl:hasValue>
+            </owl:Restriction>
         </rdfs:subClassOf>   
   </owl:Class>
 
  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#rock">
-	<rdfs:subClassOf rdf:resource="&knowrob;Rock"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
                 <owl:hasValue rdf:datatype="&xsd;string">package://env_mission/models/rock/meshes/rock.dae</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>   
+ 	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;heightOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.5</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;depthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">2.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;widthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">2.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
   </owl:Class>
 
- <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#alpine">
-	<rdfs:subClassOf rdf:resource="&knowrob;Alpine"/> 
+ <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#mountain">
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
                 <owl:hasValue rdf:datatype="&xsd;string">package://env_mission/models/alpine/meshes/alpine.dae</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>   
+
+ 	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;heightOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">50.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;depthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">10.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;widthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">10.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
   </owl:Class>
 
  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#victim">
-	<rdfs:subClassOf rdf:resource="&knowrob;Victim"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
                 <owl:hasValue rdf:datatype="&xsd;string">package://env_mission/models/victim/meshes/victim.dae</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>  
+ 	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;heightOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;depthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
+            </owl:Restriction>
+        </rdfs:subClassOf>   
+	<rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&knowrob;widthOfObject"/>
+                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>   
   </owl:Class>
@@ -585,6 +665,105 @@
     <knowrob:objectActedOn rdf:resource="&knowrob;tree09"/>
 </owl:NamedIndividual>
 
+<!-- victim01 -->
+
+<owl:NamedIndividual rdf:about="&knowrob;victim01">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#victim"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_victim01">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-19.41 -19.00 0.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionvictim01">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_victim01"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;victim01"/>
+</owl:NamedIndividual>
+
+<!-- victim02 -->
+
+<owl:NamedIndividual rdf:about="&knowrob;victim02">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#victim"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_victim02">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-3.57 0.0 0.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionvictim02">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_victim02"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;victim02"/>
+</owl:NamedIndividual>
+
+<!-- victim03 -->
+
+<owl:NamedIndividual rdf:about="&knowrob;victim03">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#victim"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_victim03">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">16.0 10.0 0.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionvictim03">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_victim03"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;victim03"/>
+</owl:NamedIndividual>
+
+<!-- victim04 -->
+
+<owl:NamedIndividual rdf:about="&knowrob;victim04">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#victim"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_victim04">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-32.0 11.45 0.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionvictim04">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_victim04"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;victim04"/>
+</owl:NamedIndividual>
+
+<!-- victim05 -->
+
+<owl:NamedIndividual rdf:about="&knowrob;victim05">
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#victim"/>
+    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_victim05">
+    <rdf:type rdf:resource="&knowrob;Transformation"/>
+    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
+    <knowrob:translation rdf:datatype="&xsd;string">-41.0 -2.0 0.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionvictim05">
+    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+    <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
+    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_victim05"/>
+    <knowrob:objectActedOn rdf:resource="&knowrob;victim05"/>
+</owl:NamedIndividual>
 
 </rdf:RDF>
 

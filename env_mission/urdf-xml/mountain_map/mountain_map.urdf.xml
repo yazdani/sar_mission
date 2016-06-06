@@ -48,7 +48,11 @@
 <xacro:include filename="./bigtree07.xml"/>
 <xacro:include filename="./bigtree08.xml"/>
 <xacro:include filename="./rock07.xml"/>
-<xacro:include filename="./victim.xml"/>
+<xacro:include filename="./victim01.xml"/>
+<xacro:include filename="./victim02.xml"/>
+<xacro:include filename="./victim03.xml"/>
+<xacro:include filename="./victim04.xml"/>
+<xacro:include filename="./victim05.xml"/>
 <!--xacro:include filename="./genius.xml"/-->
 
 <link name="map_link">
@@ -79,7 +83,11 @@
 <bigtree07/>
 <bigtree08/>
 <rock07/>
-<victim/>
+<victim01/>
+<victim02/>
+<victim03/>
+<victim04/>
+<victim05/>
 <genius/>
 
 </robot>

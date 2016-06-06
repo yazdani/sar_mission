@@ -173,8 +173,33 @@
  <include>
       <name>victim01</name>
       <uri>model://victim</uri>
+      <pose>-19.41 -19.0 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>victim02</name>
+      <uri>model://victim</uri>
       <pose>-3.57 0 0 0 0 0</pose>
     </include>
+
+ <include>
+      <name>victim03</name>
+      <uri>model://victim</uri>
+      <pose>16.0 10.0 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>victim04</name>
+      <uri>model://victim</uri>
+      <pose>-32.0 11.45 0 0 0 0</pose>
+    </include>
+
+ <include>
+      <name>victim05</name>
+      <uri>model://victim</uri>
+      <pose>-41.0 -2.0 0 0 0 0</pose>
+    </include>
+
 
  <include>
       <name>busy_genius</name>
