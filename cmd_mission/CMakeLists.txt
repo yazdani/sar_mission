@@ -59,7 +59,7 @@ add_service_files(
    FILES
    all_objs.srv
    salient_objs.srv
-   check_msg.srv
+   check_objs_relation.srv
    cmd_parser.srv
  )
 
