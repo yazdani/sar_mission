@@ -41,7 +41,7 @@
 (defun service-call-one ()
  (roslisp-utilities:startup-ros :name "start-all-objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
   ;;(roslisp:with-ros-node ("start_all_node" :spin t)
-  (roslisp:register-service "start_all_objs" 'cmd_mission-srv:all_objs)
+  (roslisp:register-service "all_objs" 'cmd_mission-srv:all_objs)
   (roslisp:ros-info (basics-system) "start all service for the msg.")
  (roslisp:spin-until nil 1000))
 
