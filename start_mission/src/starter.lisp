@@ -39,10 +39,12 @@
    (service-call-one))
 
 (defun service-call-one ()
- ; (roslisp-utilities:startup-ros :name "start-all-objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
-(roslisp:with-ros-node ("start_all_node" :spin t)
+ (roslisp-utilities:startup-ros :name "start-all-objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
+  ;;(roslisp:with-ros-node ("start_all_node" :spin t)
   (roslisp:register-service "start_all_objs" 'cmd_mission-srv:all_objs)
-  (roslisp:ros-info (basics-system) "start all service for the msg.")))
+  (roslisp:ros-info (basics-system) "start all service for the msg.")
+ (roslisp:spin-until nil 1000))
+
 
  ; (roslisp:spin-until nil 1000))
 (roslisp:def-service-callback cmd_mission-srv:all_objs (all)
@@ -57,17 +59,18 @@
 ;; SERVICE TO ASK FOR SALIENT OBJECTS INSIDE THE SEMMAP
 ;;
  (defun start_salient_objects ()
+   (format t "start_slient~%")
+   (roslisp-utilities:startup-ros)
    (service-call-two))
 
 (defun service-call-two ()
-
-  (roslisp:with-ros-node ("start_salient_objs" :spin t)
-    (roslisp-utilities:startup-ros :name "start_salient_objs")
+  ;;(roslisp:with-ros-node ("start_salient_objs" :spin t)
+  (roslisp-utilities:startup-ros :name "start_salient_objs")
   ;; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "salient_objs" 'cmd_mission-srv:salient_objs)
-  (roslisp:ros-info (basics-system) "start salient service for the msg.")))
- ; (roslisp:spin-until nil 1000))
+  (roslisp:ros-info (basics-system) "start salient service for the msg.")
+  (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:salient_objs (sal)
   (format t "robot ~a~%" sal)
@@ -85,12 +88,12 @@
    (service-call-three))
 
 (defun service-call-three ()
-  (roslisp:with-ros-node ("start_checking_objs" :spin t)
-  (roslisp-utilities:startup-ros :name "start-checking-objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
+  ;;(roslisp:with-ros-node ("start_checking_objs" :spin t)
+ (roslisp-utilities:startup-ros :name "start-checking-objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "check_msg" 'cmd_mission-srv:check_msg)
-  (roslisp:ros-info (basics-system) "start check service for the msg.")))
- ; (roslisp:spin-until nil 1000))
+  (roslisp:ros-info (basics-system) "start check service for the msg.")
+ (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:check_msg (property obj1 obj2)
   (roslisp:make-response :result_check (checking-property obj1 obj2 property)))
