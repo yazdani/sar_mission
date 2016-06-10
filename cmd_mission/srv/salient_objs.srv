@@ -1,3 +1,3 @@
 string sal
 ---
-cmd_mission/Subgoal[] result_salient
+string[] result_salient

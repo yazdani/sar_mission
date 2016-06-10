@@ -47,11 +47,11 @@
  ; (roslisp:spin-until nil 1000))
 (roslisp:def-service-callback cmd_mission-srv:all_objs (all)
   (format t "robot ~a~%" all)
-  (let*((vec '())
+  (let*(;(vec '())
 	(liste (get-obj-list)))
-    (dotimes(index (length liste))
-      do(setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name (nth index liste)) vec)))
-  (roslisp:make-response :result_all (reverse vec))))
+   ; (dotimes(index (length liste))
+   ;   do(setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name (nth index liste)) vec)))
+  (roslisp:make-response :result_all liste)));(reverse vec))))
 
 ;;
 ;; SERVICE TO ASK FOR SALIENT OBJECTS INSIDE THE SEMMAP
@@ -60,8 +60,9 @@
    (service-call-two))
 
 (defun service-call-two ()
+(roslisp-utilities:startup-ros :name "start_salient_objects")
   (roslisp:with-ros-node ("start_salient_objs_node" :spin t)
-  ;(roslisp-utilities:startup-ros :name "start_salient_objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
+  ;; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "salient_objs" 'cmd_mission-srv:salient_objs)
   (roslisp:ros-info (basics-system) "start salient service for the msg.")))
@@ -69,11 +70,11 @@
 
 (roslisp:def-service-callback cmd_mission-srv:salient_objs (sal)
   (format t "robot ~a~%" sal)
-(let*((vec '())
+(let*(;(vec '())
       (liste (get-objs-infrontof-human)))
-  (dotimes(index (length liste))
-    do(setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name (nth index liste)) vec)))
-  (roslisp:make-response :result_salient (reverse vec))))
+  ;(dotimes(index (length liste))
+   ; do(setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name (nth index liste)) vec)))
+  (roslisp:make-response :result_salient liste)));(reverse vec))))
 
 ;;
 ;; SERVICE FOR CHECKING RELATION OF TWO OBJECTS IN A SPATIAL CONTEXT

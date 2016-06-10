@@ -1,3 +1,3 @@
 string all
 ---
-Subgoal[] result_all
+string[] result_all
