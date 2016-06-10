@@ -70,7 +70,7 @@
 (defun get-objs-infrontof-human ()
 (let*((liste '()))
   (dotimes (index 60)
-   ;; (format t "index ~a~%" index)
+   ; (format t "index ~a~%" index)
     (if (> 5 (length liste))
         (setf liste (objects-next-human index (sem-map-utils:get-semantic-map)))))
       liste))
@@ -157,7 +157,8 @@
          (value NIL))
     ;(swm->intern-tf-remover puber)
     (dotimes (index (length new-liste))
-      do(let*((new-point (nth index new-liste))
+      do; (format t "objects-next-human~%")
+      (let*((new-point (nth index new-liste))
 	      (smarter (+ (* 10 incrementer) index)))
 	  (loop for jndex from 0 to (- (length sem-keys) 1)
 		do(let* ((elem1 (first (get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
@@ -165,12 +166,13 @@
 			 (smarter (+ smarter jndex)))
 		    (setf value
 			  (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)))
+       ; (format t " new.point ~a~%" new-point)
 		    (cond ((equal value T)
 			   (setf elem (append (list (nth jndex sem-keys)) elem))
-			 ;;  (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
+		;	   (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
 			   (remove-duplicates elem)
 			   (return))
-			  (t  ;; (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
+			  (t  ; (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
 			   )))
 		  (setf incrementer (+ incrementer 2)))))
     (reverse (remove-duplicates elem))))
@@ -194,7 +196,7 @@
 
 
 ;;
-;; Getting all the objects close to the rescuer...
+;; Getting all the objects around the rescuer...
 ;;
 (defun get-objects-around-human (geom-objects param genius-pose)
   (let*((geom-list geom-objects)
@@ -232,11 +234,13 @@
 (defun visualize-plane (num)
   (let* ((temp '()))
     (loop for jindex from 1 to num
-          do(loop for smart from 0 to 5
+          do(loop for smart from 0 to 2 ;;5
                   do(loop for mass from 1 to 21 
-                   do  (let*((new-point (get-gesture->relative-genius
+                   do
+                      (let*((new-point (get-gesture->relative-genius
                                           (cl-transforms:make-3d-vector
-                                            jindex  (- mass 11)(- smart 5)))))
+                                            jindex  (- mass 11)(- smart 1))))) ;;5
+                     ;   (format t "new-point ~a~%" new-point)
                                  (setf temp (cons new-point temp))))))
                  (reverse temp))) 
 

@@ -41,7 +41,7 @@
 (defun service-call-one ()
  ; (roslisp-utilities:startup-ros :name "start-all-objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 (roslisp:with-ros-node ("start_all_node" :spin t)
-  (roslisp:register-service "all_objs" 'cmd_mission-srv:all_objs)
+  (roslisp:register-service "start_all_objs" 'cmd_mission-srv:all_objs)
   (roslisp:ros-info (basics-system) "start all service for the msg.")))
 
  ; (roslisp:spin-until nil 1000))
@@ -60,8 +60,9 @@
    (service-call-two))
 
 (defun service-call-two ()
-(roslisp-utilities:startup-ros :name "start_salient_objects")
-  (roslisp:with-ros-node ("start_salient_objs_node" :spin t)
+
+  (roslisp:with-ros-node ("start_salient_objs" :spin t)
+    (roslisp-utilities:startup-ros :name "start_salient_objs")
   ;; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "salient_objs" 'cmd_mission-srv:salient_objs)
@@ -84,7 +85,7 @@
    (service-call-three))
 
 (defun service-call-three ()
-  (roslisp:with-ros-node ("start_checking_objs_node" :spin t)
+  (roslisp:with-ros-node ("start_checking_objs" :spin t)
   (roslisp-utilities:startup-ros :name "start-checking-objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "check_msg" 'cmd_mission-srv:check_msg)
