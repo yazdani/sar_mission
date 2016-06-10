@@ -91,9 +91,9 @@
   ;;(roslisp:with-ros-node ("start_checking_objs" :spin t)
  (roslisp-utilities:startup-ros :name "start-checking-objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
-  (roslisp:register-service "check_msg" 'cmd_mission-srv:check_msg)
+  (roslisp:register-service "check_objs_relation" 'cmd_mission-srv:check_objs_relation)
   (roslisp:ros-info (basics-system) "start check service for the msg.")
  (roslisp:spin-until nil 1000))
 
-(roslisp:def-service-callback cmd_mission-srv:check_msg (property obj1 obj2)
+(roslisp:def-service-callback cmd_mission-srv:check_objs_relation (property obj1 obj2)
   (roslisp:make-response :result_check (checking-property obj1 obj2 property)))
