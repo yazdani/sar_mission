@@ -1,16 +1,17 @@
 <launch>
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">   
+  <!--include file="$(find gazebo_ros)/launch/empty_world.launch">   
     <arg name="world_name" value="$(find env_mission)/worlds/mountain_map.world"/>
     <arg name="paused" value="false"/>
     <arg name="use_sim_time" value="true"/>
     <arg name="gui" value="true"/>
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
-  </include>
+  </include-->
   
   <param name="mountain_description"
 	 command="$(find xacro)/xacro.py '$(find env_mission)/urdf-xml/mountain_map/mountain_map.urdf.xml'"/>
   
+  <!--param name="initial_package" type="string" value="knowrob_map_data" /-->
   <param name="initial_package" type="string" value="knowrob_map_data" />
   <param name="initial_goal" type="string" value="owl_parse('package://env_mission/owl/mountain_map01.owl')" />
   <node name="json_prolog" pkg="json_prolog" type="json_prolog_node" cwd="node" output="screen" />
@@ -39,9 +40,12 @@
     <param name="publish_frequency" value="2"/>
     <remap from="robot_description" to="mountain_description" />
   </node>
+
+<node pkg="start_mission" type="start_salient_objs" name="start_salient_objs" respawn="false" />
   
 <node pkg="start_mission" type="start_all_objs" name="start_all_objs" respawn="false" />
-<node pkg="start_mission" type="start_salient_objs" name="start_salient_objs" respawn="false" />
-<node pkg="start_mission" type="start_checking_objs" name="start_checking_objs" respawn="false" />
+<node pkg="start_mission" type="start_checking_the_objects" name="start_checking_the_objects" respawn="false" />
 
+
+<node pkg="cmd_mission" type="check_object_type.py" name="start_checking_objs" output="screen" />
 </launch>
