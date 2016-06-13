@@ -61,6 +61,7 @@ add_service_files(
    salient_objs.srv
    check_objs_relation.srv
    cmd_parser.srv
+   vector_transform.srv
    internal_relation.srv
  )
 
