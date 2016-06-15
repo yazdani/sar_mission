@@ -60,6 +60,8 @@ add_service_files(
    all_objs.srv
    salient_objs.srv
    check_objs_relation.srv
+   check_obj_property.srv
+   get_obj_type.srv
    cmd_parser.srv
    vector_transform.srv
    internal_relation.srv

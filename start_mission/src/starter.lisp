@@ -39,7 +39,7 @@
    (service-call-one))
 
 (defun service-call-one ()
- (roslisp-utilities:startup-ros :name "start-all-objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
+ (roslisp-utilities:startup-ros :name "start_all_objs");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
   ;;(roslisp:with-ros-node ("start_all_node" :spin t)
   (roslisp:register-service "all_objs" 'cmd_mission-srv:all_objs)
   (roslisp:ros-info (basics-system) "start all service for the msg.")
@@ -84,16 +84,57 @@
 ;; SERVICE FOR CHECKING RELATION OF TWO OBJECTS IN A SPATIAL CONTEXT
 ;; 
 
- (defun start_checking_spatial_objects ()
+ (defun start_checking_relation ()
    (service-call-three))
 
 (defun service-call-three ()
   ;;(roslisp:with-ros-node ("start_checking_objs" :spin t)
- (roslisp-utilities:startup-ros :name "start-checking-objects");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
+ (roslisp-utilities:startup-ros :name "start_checking_relation");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "check_objs_relation" 'cmd_mission-srv:check_objs_relation)
   (roslisp:ros-info (basics-system) "start check service for the msg.")
  (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:check_objs_relation (property obj1 obj2)
-  (roslisp:make-response :result_check (checking-property obj1 obj2 property)))
+  (format t " 1~%")
+(let((result NIL))
+    (format t " 2~%")
+  (if (or (string-equal property "")
+          (string-equal obj1 "")
+          (string-equal obj2 ""))
+      (setf result NIL)
+      (setf result (checking-property obj1 obj2 property)))
+  (roslisp:make-response :result_check result)))
+
+(defun start_checking_property()
+  (service-call-four))
+
+(defun service-call-four ()
+  (roslisp-utilities:startup-ros :name "start_checking_property")
+  (roslisp:register-service "check_obj_property" 'cmd_mission-srv:check_obj_property)
+  (roslisp:ros-info (basics-system) "start check service for the msg.")
+ (roslisp:spin-until nil 1000))
+
+(roslisp:def-service-callback cmd_mission-srv:check_obj_property (name property)
+  (let ((result NIL))
+(if (or (string-equal name "")
+        (string-equal property ""))
+    (setf result NIL)
+    (setf result (checking-obj-property name property)))
+  (roslisp:make-response :result_property result)))
+
+(defun start_getting_type()
+  (service-call-five))
+
+(defun service-call-five ()
+  (roslisp-utilities:startup-ros :name "start_getting_type")
+  (roslisp:register-service "get_obj_type" 'cmd_mission-srv:get_obj_type)
+  (roslisp:ros-info (basics-system) "start check service for the msg.")
+ (roslisp:spin-until nil 1000))
+
+(roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
+  (let ((result NIL))
+    (if (string-equal objname "")
+	(setf result NIL)
+	(setf result (get-elem-type objname)))
+  (roslisp:make-response :result_type result)))

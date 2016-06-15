@@ -29,11 +29,11 @@
 (in-package :start-mission)
 
 (defvar *tf* NIL)
-(defvar *pub* NIL)
+;(defvar *pub* NIL)
 
 (defun init-tf ()
-  (setf *tf* (make-instance 'cl-tf:transform-listener))
-  (setf *pub* (cl-tf:make-transform-broadcaster)))
+  (setf *tf* (make-instance 'cl-tf:transform-listener)))
+ ;; (setf *pub* (cl-tf:make-transform-broadcaster)))
 
 (roslisp-utilities:register-ros-init-function init-tf)
 
@@ -183,10 +183,12 @@
 (list object)))
 
 
-(defun get-gesture->relative-genius (gesture-vec) 
-  (let*((pose (cl-transforms-stamped:make-pose-stamped "human" 0.0
+(defun get-gesture->relative-genius (gesture-vec)
+;  (format t "get-gesture->relative-genius~%")
+  (let*((pose (cl-tf:make-pose-stamped  "human" 0.0
                                                         gesture-vec
-                                                        (cl-transforms:make-identity-rotation)))) 
+                                                        (cl-transforms:make-identity-rotation))))
+ ;   (format t "pose ~a~%" pose)
                                                         ;(cl-transforms:make-quaternion 0 0 -1 1))))
     (cl-transforms-stamped:pose-stamped->pose  (cl-tf:transform-pose *tf* :pose pose :target-frame "map"))))
 

@@ -196,5 +196,11 @@ start-mission start-mission::start_all_objects)
 add_lisp_executable(start_salient_objs
 start-mission start-mission::start_salient_objects)
 
-add_lisp_executable(start_checking_the_objects
-start-mission start-mission::start_checking_spatial_objects)
+add_lisp_executable(start_checking_relation
+start-mission start-mission::start_checking_relation)
+
+add_lisp_executable(start_checking_property
+start-mission start-mission::start_checking_property)
+
+add_lisp_executable(start_getting_type
+start-mission start-mission::start_getting_type)
