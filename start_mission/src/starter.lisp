@@ -103,7 +103,7 @@
           (string-equal obj1 "")
           (string-equal obj2 ""))
       (setf result NIL)
-      (setf result (checking-property obj1 obj2 property)))
+      (setf result (checking-relation obj1 obj2 property)))
   (roslisp:make-response :result_check result)))
 
 (defun start_checking_property()

@@ -23,7 +23,7 @@
     <color rgba="0.1 0.1 0.1 1.0"/>
   </material>
 
-<xacro:include filename="./mountain.xml"/>
+<xacro:include filename="./mountain01.xml"/>
 <xacro:include filename="./bigtree01.xml"/>
 <xacro:include filename="./bigtree02.xml"/>
 <xacro:include filename="./tree01.xml"/>
@@ -58,7 +58,7 @@
 <link name="map_link">
 </link>
 
-<mountain/>
+<mountain01/>
 <bigtree01/>
 <bigtree02/>
 <tree01/>
