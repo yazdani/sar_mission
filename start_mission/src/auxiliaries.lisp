@@ -28,6 +28,26 @@
 
 (in-package :start-mission)
 
+(defvar *cached-colorlist* NIL)
+
+(defun initialize-colorlist ()
+  (if (null *cached-colorlist*)
+      (setf *cached-colorlist* (json-color-query)))
+  *cached-colorlist*)
+
+(defun json-color-query ()
+  (let((sem-keys (hash-table-keys (slot-value (sem-map-utils:get-semantic-map) 'sem-map-utils:parts)))
+       (liste '())
+       (query))
+    (dotimes (index (length sem-keys))
+      (let*((name (format NIL "http://knowrob.org/kb/knowrob.owl#~a" (nth index sem-keys))))
+        (setf query (cdaar (force-ll
+                            (json-prolog:prolog
+                             `("owl_has" ,name
+                                         "http://knowrob.org/kb/knowrob.owl#colorOfObject" ("literal" ("type" ?_ ?s)))))))
+        (setf liste (cons (list (nth index sem-keys)  (remove #\' (symbol-name query))) liste))))
+    (reverse liste)))
+ 
 (defun get-elem-pose (name &optional (sem-map (sem-map-utils::get-semantic-map)))
  (let*((pose NIL)
        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
@@ -61,6 +81,8 @@
          (cond ((string-equal name (nth i sem-keys))
                 (setf type (slot-value (gethash name new-hash)
                                        'cram-semantic-map-utils::type))
+                (if (string-equal type "bigtree")
+                    (setf type "tree"))
                 (return))
                      (t ())))
    type))
@@ -79,8 +101,16 @@
     (if (> 5 (length liste))
         (setf liste (objects-next-human index (sem-map-utils:get-semantic-map)))))
       liste))
-          
-    
+
+
+(defun get-elem-color (name)
+  (initialize-colorlist)
+     (let*((color NIL))
+       (dotimes (index (length *cached-colorlist*))
+         (if (string-equal name (first (nth index *cached-colorlist*))) 
+             (setf color (second (nth index *cached-colorlist*)))))
+       color))
+
    ;;     (sem-hash (copy-hash-table (slot-value map 'sem-map-utils:parts)))
    ;;     (sem-keys (hash-table-keys sem-hash)))
    ;; (loop for index from 0 to (- (length sem-keys) 1)
@@ -1131,9 +1161,15 @@ result))
              (string-equal "red" property)
              (string-equal "yellow" property)
              (string-equal "blue" property)
+             (string-equal "red" property)
+             (string-equal "white" property)
+             (string-equal "darkred" property)
+             (string-equal "darkgreen" property)
+             (string-equal "gray" property)
+             (string-equal "darkgray" property)
              (string-equal "brown" property))
-         (format t "to do in taxonomy~%")
-         (setf result T))
+         (if(string-equal (get-elem-color name) property)
+            (setf result T)))
         ((or (string-equal "victim" property)
              (string-equal "tree" property)
              (string-equal "avalanche" property)
@@ -1143,5 +1179,25 @@ result))
         (t (setf result NIL)))
     result))
          
-             
-
+(defun get-property-list ()
+  (list (list "behind" "relation")
+        (list "left" "relation")
+        (list "in-front-of" "relation")
+        (list "right" "relation")
+        (list "close-to" "relation")
+        (list "small" "property")
+        (list "large" "property")
+        (list "green" "property")
+        (list "darkgreen" "property")
+        (list "gray" "property")
+        (list "darkgray" "property")
+        (list "red" "property")
+        (list "darkred" "property")
+        (list "yellow" "property")
+        (list "white" "property")
+        (list "blue" "property")
+        (list "tree" "property")
+        (list "victim" "property")
+        (list "rock" "property")
+        (list "mountain" "property")))
+                    

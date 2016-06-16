@@ -96,9 +96,7 @@
  (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:check_objs_relation (property obj1 obj2)
-  (format t " 1~%")
 (let((result NIL))
-    (format t " 2~%")
   (if (or (string-equal property "")
           (string-equal obj1 "")
           (string-equal obj2 ""))
@@ -130,7 +128,7 @@
   (roslisp-utilities:startup-ros :name "start_getting_type")
   (roslisp:register-service "get_obj_type" 'cmd_mission-srv:get_obj_type)
   (roslisp:ros-info (basics-system) "start check service for the msg.")
- (roslisp:spin-until nil 1000))
+  (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
   (let ((result NIL))
@@ -138,3 +136,27 @@
 	(setf result NIL)
 	(setf result (get-elem-type objname)))
   (roslisp:make-response :result_type result)))
+
+(defun start_getting_property_list()
+  (service-call-six))
+
+(defun service-call-six ()
+  (roslisp-utilities:startup-ros :name "start_getting_property_list")
+  (roslisp:register-service "get_property_list" 'cmd_mission-srv:get_property_list)
+  (roslisp:ros-info (basics-system) "start check service for the msg.")
+  (roslisp:spin-until nil 1000))
+
+(roslisp:def-service-callback cmd_mission-srv:get_property_list (props)
+  (format t" ~a~%" props)
+  (let ((result NIL)
+        (value (get-property-list))
+        (liste '()))
+        (dotimes(index (length value))
+          (setf liste (cons (roslisp:make-msg "cmd_mission/Subgoal"
+                                              :property (first (nth index value))
+                                              :kind (second (nth index value)))
+                            liste)))
+    (format t" test ~%")
+        (setf result (reverse liste))
+    (format t "~a~%" (vector result))
+        (roslisp:make-response :result_props  result)))
