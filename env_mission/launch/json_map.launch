@@ -34,4 +34,5 @@
 
 <node pkg="start_mission" type="start_checking_relation" name="start_checking_relation" respawn="false" />
 
+<node pkg="start_mission" type="start_salient_objs" name="start_salient_objs" respawn="false" />
 </launch>
