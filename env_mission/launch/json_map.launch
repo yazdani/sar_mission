@@ -32,4 +32,6 @@
     <remap from="robot_description" to="mountain_description" />
   </node>
 
+<node pkg="start_mission" type="start_checking_relation" name="start_checking_relation" respawn="false" />
+
 </launch>
