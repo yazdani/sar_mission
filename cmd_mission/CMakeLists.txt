@@ -66,6 +66,7 @@ add_service_files(
    cmd_parser.srv
    vector_transform.srv
    internal_relation.srv
+   get_obj_size.srv
  )
 
 ## Generate actions in the 'action' folder

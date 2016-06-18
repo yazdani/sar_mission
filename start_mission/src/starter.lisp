@@ -121,21 +121,21 @@
     (setf result (checking-obj-property name property)))
   (roslisp:make-response :result_property result)))
 
-(defun start_getting_type()
-  (service-call-five))
+;; (defun start_getting_type()
+;;   (service-call-five))
 
-(defun service-call-five ()
-  (roslisp-utilities:startup-ros :name "start_getting_type")
-  (roslisp:register-service "get_obj_type" 'cmd_mission-srv:get_obj_type)
-  (roslisp:ros-info (basics-system) "start check service for the msg.")
-  (roslisp:spin-until nil 1000))
+;; (defun service-call-five ()
+;;   (roslisp-utilities:startup-ros :name "start_getting_type")
+;;   (roslisp:register-service "get_obj_type" 'cmd_mission-srv:get_obj_type)
+;;   (roslisp:ros-info (basics-system) "start check service for the msg.")
+;;   (roslisp:spin-until nil 1000))
 
-(roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
-  (let ((result NIL))
-    (if (string-equal objname "")
-	(setf result NIL)
-	(setf result (get-elem-type objname)))
-  (roslisp:make-response :result_type result)))
+;; (roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
+;;   (let ((result NIL))
+;;     (if (string-equal objname "")
+;; 	(setf result NIL)
+;; 	(setf result (get-elem-type objname)))
+;;   (roslisp:make-response :result_type result)))
 
 (defun start_getting_property_list()
   (service-call-six))
@@ -160,3 +160,18 @@
         (setf result (reverse liste))
     (format t "~a~%" (vector result))
         (roslisp:make-response :result_props  result)))
+
+
+(defun start_getting_object_size()
+  (service-call-seven))
+
+(defun service-call-seven ()
+  (roslisp-utilities:startup-ros :name "start_getting_object_size")
+  (roslisp:register-service "get_obj_size" 'cmd_mission-srv:get_obj_type)
+  (roslisp:ros-info (basics-system) "start check service for the msg.")
+  (roslisp:spin-until nil 1000))
+
+(roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
+  (let ((result (checking-object-size objname)))
+        (roslisp:make-response :result_type  result)))
+
