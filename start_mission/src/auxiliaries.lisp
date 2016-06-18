@@ -279,7 +279,7 @@
        (cond ((and T
                    (compare-distance-of-objects (slot-value (nth index geom-list) 'sem-map-utils:pose) genius-pose param))
            (publish-pose  (slot-value (nth index geom-list) 'sem-map-utils:pose) :id counter)
-              (format t "counter ~a~%" counter)
+              ;;(format t "counter ~a~%" counter)
 		       (setf objects (cons (slot-value (nth index geom-list) 'sem-map-utils:name) objects)))
 		(t  (publish-pose  (slot-value (nth index geom-list) 'sem-map-utils:pose) :id counter)
        )))
@@ -407,7 +407,7 @@
         (liste-back (all-points-backs liste-tr))
         ;(value NIL)
         )
-    (format t "tetete~%")
+    ;;(format t "tetete~%")
     (dotimes (jindex (length liste-tr))
       do (dotimes(jo (length sem-keys))
            do(let* ((all (get-bbox-as-aabb (nth jo sem-keys) sem-hash))
@@ -758,7 +758,7 @@
 
 ;;##########################CHECKING THE CALCULATED OBJECT#################################;;
 (defun checking-pointed-object (elem gesture sem-map)
-  (format t "checker-of-pointer~%")
+  ;;(format t "checker-of-pointer~%")
   (let*((sym1 NIL)
         (sym2 NIL)
         (sym NIL))
