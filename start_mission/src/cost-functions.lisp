@@ -354,7 +354,7 @@
          (setf tmp (> (cl-transforms:y (cl-transforms:origin obj1-pose))
                       (cl-transforms:y (cl-transforms:origin obj2-pose)))))
         ((string-equal property "close-to")
-         (if (<= 4 (get-distance obj1-pose obj2-pose))
+         (if (>= 4 (get-distance obj1-pose obj2-pose))
              (setf tmp T)
              (setf tmp NIL))))
     tmp))
