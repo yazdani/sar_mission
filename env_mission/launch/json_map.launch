@@ -35,4 +35,7 @@
 <node pkg="start_mission" type="start_checking_relation" name="start_checking_relation" respawn="false" />
 
 <node pkg="start_mission" type="start_salient_objs" name="start_salient_objs" respawn="false" />
+
+<node pkg="start_mission" type="start_getting_object_size" name="start_getting_object_size" respawn="false" />
+
 </launch>
