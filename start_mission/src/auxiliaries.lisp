@@ -114,12 +114,17 @@
 (let*((liste '())
       (sem-map (sem-map-utils:get-semantic-map))
       (aliste '()))
-  (dotimes (index 60)
+  (dotimes (index 40)
     (if (> 5 (length liste))
-        (setf liste (objects-next-human index sem-map))))
-  (dotimes (in (length liste))
+        (setf liste (objects-next-human index sem-map))
+        (return)))
+  ;; (dotimes (in (length liste))
+  ;;   do(setf aliste (cons (concatenate 'string (nth in liste) " - " (write-to-string (get-distance (get-elem-pose (nth in liste)) (cl-transforms-stamped:transform->pose (human-relative-map-pose))))) aliste)))
+  ;;     (reverse aliste)))
+  
+(dotimes (in (length liste))
     do(setf aliste (cons (concatenate 'string (nth in liste) " - " (write-to-string (get-distance (get-elem-pose (nth in liste)) (cl-transforms-stamped:transform->pose (human-relative-map-pose))))) aliste)))
-      (reverse aliste)))
+(reverse aliste)))
 
 
 (defun get-elem-color (name)
@@ -220,33 +225,33 @@
   (let* ((new-liste (visualize-plane distance))
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
          (sem-keys (hash-table-keys sem-hash))
-         (elem '())
-         (incrementer 1)
-         (value NIL))
+         (elem '()))
+       ;;  (incrementer 1)
+      ;;   (value NIL))
     ;(swm->intern-tf-remover puber)
     (dotimes (index (length new-liste))
       do; (format t "objects-next-human~%")
-      (let*((new-point (nth index new-liste))
-	      (smarter (+ (* 10 incrementer) index)))
+      (let*((new-point (nth index new-liste)))
+	   ;   (smarter (+ (* 10 incrementer) index)))
 	  (dotimes (jndex (length sem-keys))
 		do(let* ((elem1 (first (get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
-             (elem2 (second (get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
-			 (smarter (+ smarter jndex)))
-		    (setf value
-			  (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)))
+             (elem2 (second (get-bbox-as-aabb (nth jndex sem-keys) sem-hash))))
+			; (smarter (+ smarter jndex)))
+		;    (setf value
+	;		  (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)))
      ;;  (format t "  ~a~%" value)
-		    (cond ((equal value T)
+		    (cond ((equal (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)) T)
           (setf elem (append (list (nth jndex sem-keys)) elem))
               ;; (setf elem (cons (concatenate 'string (nth jndex sem-keys) " - " (write-to-string (get-distance (get-elem-pose (nth jndex sem-keys)) (cl-transforms-stamped:transform->pose (human-relative-map-pose))))) elem))
          ;;      (format t "elem ~a~%" elem)
          ;;      (format t " ~a~%"(nth jndex sem-keys))
                
 		;	   (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
-			   (remove-duplicates elem)
+			  ; (remove-duplicates elem)
 			   )
 			  (t  ; (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
-			   )))
-		  (setf incrementer (+ incrementer 2)))))
+			   ))) )))
+		;;  (setf incrementer (+ incrementer 2)))))
     (reverse (remove-duplicates elem))))
 
 ;;
@@ -306,14 +311,16 @@
 (defun visualize-plane (num)
   (let* ((temp '()))
     (loop for jindex from 1 to num
-          do(loop for smart from 0 to 2 ;;5
+         ; do;(loop for smart from 0 to 1 ;;5
                   do(loop for mass from 1 to 21 
                    do
-                      (let*((new-point (get-gesture->relative-genius
-                                          (cl-transforms:make-3d-vector
-                                            jindex  (- mass 11)(- smart 1))))) ;;5
+                  ;;    (let*((new-point (get-gesture->relative-genius
+                   ;;                       (cl-transforms:make-3d-vector
+                    ;;                        jindex  (- mass 11)(- smart 1))))) ;;5
                      ;   (format t "new-point ~a~%" new-point)
-                                 (setf temp (cons new-point temp))))))
+                                 (setf temp (cons (get-gesture->relative-genius
+                                          (cl-transforms:make-3d-vector
+                                            jindex  (- mass 11) 0)) temp))))
                  (reverse temp))) 
 
 
