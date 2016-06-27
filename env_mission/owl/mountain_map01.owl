@@ -40,18 +40,18 @@
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Vector"/>
     <owl:DatatypeProperty rdf:about="&knowrob;pathToCadModel"/>
 
- <owl:Class rdf:about="&knowrob;Animate">
+ <owl:Class rdf:about="&knowrob;animate">
         <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
     </owl:Class>	 
 
- <owl:Class rdf:about="&knowrob;InAnimate">
+ <owl:Class rdf:about="&knowrob;inanimate">
         <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
     </owl:Class>
 
 
 <!-- galtelli specific environment class defs -->
   <owl:Class rdf:about="&knowrob;tree">
-	<rdfs:subClassOf rdf:resource="&knowrob;Animate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;inanimate"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -79,7 +79,7 @@
   </owl:Class>
 
   <owl:Class rdf:about="&knowrob;bigtree">
-	<rdfs:subClassOf rdf:resource="&knowrob;Animate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;inanimate"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -107,7 +107,7 @@
   </owl:Class>
 
  <owl:Class rdf:about="&knowrob;rock">
-	<rdfs:subClassOf rdf:resource="&knowrob;InAnimate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;inanimate"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -135,7 +135,7 @@
   </owl:Class>
 
  <owl:Class rdf:about="&knowrob;mountain">
-	<rdfs:subClassOf rdf:resource="&knowrob;InAnimate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;inanimate"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -164,7 +164,7 @@
   </owl:Class>
 
  <owl:Class rdf:about="&knowrob;victim">
-	<rdfs:subClassOf rdf:resource="&knowrob;Animate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;animate"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -210,18 +210,18 @@
     <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#Vector"/>
     <owl:DatatypeProperty rdf:about="&knowrob;pathToCadModel"/>
 
- <owl:Class rdf:about="&knowrob;Animate">
+ <owl:Class rdf:about="&knowrob;animate">
         <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
     </owl:Class>	 
 
- <owl:Class rdf:about="&knowrob;InAnimate">
+ <owl:Class rdf:about="&knowrob;inanimate">
         <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/>
     </owl:Class>
 
 
 <!-- galtelli specific environment class defs -->
   <owl:Class rdf:about="&knowrob;tree">
-	<rdfs:subClassOf rdf:resource="&knowrob;Animate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;inanimate"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -249,7 +249,7 @@
   </owl:Class>
 
   <owl:Class rdf:about="&knowrob;bigtree">
-	<rdfs:subClassOf rdf:resource="&knowrob;Animate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;inanimate"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -277,7 +277,7 @@
   </owl:Class>
 
  <owl:Class rdf:about="&knowrob;rock">
-	<rdfs:subClassOf rdf:resource="&knowrob;InAnimate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;inanimate"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -305,7 +305,7 @@
   </owl:Class>
 
  <owl:Class rdf:about="&knowrob;mountain">
-	<rdfs:subClassOf rdf:resource="&knowrob;InAnimate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;inanimate"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -334,7 +334,7 @@
   </owl:Class>
 
  <owl:Class rdf:about="&knowrob;victim">
-	<rdfs:subClassOf rdf:resource="&knowrob;Animate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;animate"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
