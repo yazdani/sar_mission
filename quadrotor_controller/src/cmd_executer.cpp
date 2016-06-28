@@ -55,9 +55,9 @@ geometry_msgs::Twist end_twist;
        
     ROS_INFO(" Come Up Hector! ");
 
- if(now_z < new_z)
+ if(now_z <= new_z)
       {
-	while(now_z < new_z)
+	while(now_z <= new_z)
 	  {
 	    tw.linear.z = 0.6;
 	    publisher.publish(tw);
@@ -70,31 +70,16 @@ geometry_msgs::Twist end_twist;
 	tw.linear.x = 0;
 	tw.linear.y = 0;
 	publisher.publish(tw);
-      }// else if(now_z > new_z)
-      // {
-      // 	while(now_z > new_z)
-      // 	  {
-      // 	    std::cout << "hahaww" << std::endl;
-      // 	    tw.linear.z = -0.2;
-      // 	    publisher.publish(tw);
-      // 	    ros::Duration(1.0).sleep();
-      // 	    gms_c.call(getmodelstate);
-      // 	    now_z =  getmodelstate.response.pose.position.z;
-      // 	  }
-	
-      // 	ros::Duration(1.0).sleep();
-      // 	tw.linear.z = 0;
-      // 	tw.linear.x = 0;
-      // 	tw.linear.y = 0;
-      // 	publisher.publish(tw);
-      // }
+      }
 
- if(now_x < new_x)
+ if(now_x <= new_x)
       {
 	  ROS_INFO(" Move Hector! ");
-	while(now_x < new_x)
+	while(now_x <= new_x)
 	  {
-	    tw.linear.x = 0.2;
+	    ROS_INFO_STREAM(now_x);
+	    ROS_INFO_STREAM(new_x);
+	    tw.linear.x = 0.5;
 	    publisher.publish(tw);
 	    ros::Duration(1.0).sleep();
 	    gms_c.call(getmodelstate);
@@ -111,7 +96,10 @@ geometry_msgs::Twist end_twist;
 	  {
 	    while(now_x > new_x)
 	      {
-		tw.linear.x = -0.1;
+	  ROS_INFO(" Perfect! ");
+	    ROS_INFO_STREAM(now_x);
+	    ROS_INFO_STREAM(new_x);
+		tw.linear.x = -0.5;
 		publisher.publish(tw);
 		ros::Duration(1.0).sleep();
 		gms_c.call(getmodelstate);
@@ -125,11 +113,14 @@ geometry_msgs::Twist end_twist;
 	    publisher.publish(tw);
 	  }
 
-    if(now_y < new_y)
+    if(now_y <= new_y)
       {
-	while(now_y < new_y)
+	while(now_y <= new_y)
 	  {
-	    tw.linear.y = 0.2;
+	    ROS_INFO(" Perfect123! ");
+	    ROS_INFO_STREAM(now_y);
+	    ROS_INFO_STREAM(new_y);
+	    tw.linear.y = 0.5;
 	    publisher.publish(tw);
 	    ros::Duration(1.0).sleep();
 	    gms_c.call(getmodelstate);
@@ -144,7 +135,10 @@ geometry_msgs::Twist end_twist;
       {
 	while(now_y > new_y)
 	  {
-	    tw.linear.y = -0.2;
+	    ROS_INFO(" Perfect123456! ");
+	    ROS_INFO_STREAM(now_y);
+	    ROS_INFO_STREAM(new_y);
+	    tw.linear.y = -0.5;
 	    publisher.publish(tw);
 	    ros::Duration(1.0).sleep();
 	    gms_c.call(getmodelstate);
@@ -159,7 +153,13 @@ geometry_msgs::Twist end_twist;
       }
   ROS_INFO(" Move down! ");
 
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw); 
 
+  res.reply = "done";
   std::cout << "Well it worked" << std::endl;
   return true;
 }
