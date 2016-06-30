@@ -39,7 +39,7 @@
           </contact>
         </surface>
       </collision>
-      <visual name="victim_visual">
+      <visual name="pylon_visual">
         <geometry>
           <mesh>
             <uri>model://pylon/meshes/pylon.dae</uri>

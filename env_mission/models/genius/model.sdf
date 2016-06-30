@@ -39,7 +39,7 @@
           </contact>
         </surface>
       </collision>
-      <visual name="victim_visual">
+      <visual name="genius_visual">
         <geometry>
           <mesh>
             <uri>model://genius/meshes/genius.dae</uri>

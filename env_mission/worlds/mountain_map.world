@@ -230,6 +230,12 @@
     </include>
 
  <include>
+      <name>rock04</name>
+      <uri>model://rock</uri>
+      <pose>-17.02 -19.06 0 0 0 0</pose>
+    </include>
+
+ <include>
       <name>rock05</name>
       <uri>model://rock</uri>
       <pose>-32.99 3.96 0 0 0 0</pose>
