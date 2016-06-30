@@ -281,7 +281,7 @@
  <include>
       <name>victim03</name>
       <uri>model://victim</uri>
-      <pose>-9.0 -9.1 0.56</pose>
+      <pose>-9.5 -10.0 0 0 0 0</pose>
     </include>
 
 
@@ -292,7 +292,6 @@
  </include>
 
  <include>
-<<<<<<< HEAD
    <name>pylon02</name>
    <uri>model://pylon</uri>
    <pose>-15.0 10.0 0 0 0 0</pose>
@@ -341,39 +340,6 @@
    <uri>model://brokepylon</uri>
    <pose>-9.0 -12.0 0 0 0 0</pose>
  </include>
-
-
-=======
-      <name>victim01</name>
-      <uri>model://victim</uri>
-      <pose>-19.41 -19.0 0 0 0 0</pose>
-    </include>
-
- <include>
-      <name>victim02</name>
-      <uri>model://victim</uri>
-      <pose>-3.57 0 0 0 0 0</pose>
-    </include>
->>>>>>> f1e0b94fd4e82ece48adae00317da1f20be48d03
-
- <include>
-      <name>victim03</name>
-      <uri>model://victim</uri>
-      <pose>16.0 10.0 0 0 0 0</pose>
-    </include>
-
- <include>
-      <name>victim04</name>
-      <uri>model://victim</uri>
-      <pose>-32.0 11.45 0 0 0 0</pose>
-    </include>
-
- <include>
-      <name>victim05</name>
-      <uri>model://victim</uri>
-      <pose>-41.0 -2.0 0 0 0 0</pose>
-    </include>
-
 
  <include>
       <name>busy_genius</name>
