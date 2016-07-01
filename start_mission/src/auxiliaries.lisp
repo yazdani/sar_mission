@@ -44,7 +44,7 @@
         (setf query (cdaar (force-ll
                             (json-prolog:prolog
                              `("owl_has" ,name
-                                         "http://knowrob.org/kb/knowrob.owl#colorOfObject" ("literal" ("type" ?_ ?s)))))))
+                                         "http://knowrob.org/kb/knowrob.owl#hasColor" ("literal" ("type" ?_ ?s)))))))
         (setf liste (cons (list (nth index sem-keys)  (remove #\' (symbol-name query))) liste))))
     (reverse liste)))
  
@@ -129,17 +129,35 @@
       (sem-map (sem-map-utils:get-semantic-map))
       (aliste '()))
   (dotimes (index 40)
-    (if (> 8 (length liste))
-        (setf liste (objects-next-human index sem-map))
+    (if (>= 10 (length liste))
+        (setf liste (get-elems-infrontof-human index)) ;;(objects-next-human index sem-map))
         (return)))
+  (reverse liste)))
   ;; (dotimes (in (length liste))
   ;;   do(setf aliste (cons (concatenate 'string (nth in liste) " - " (write-to-string (get-distance (get-elem-pose (nth in liste)) (cl-transforms-stamped:transform->pose (human-relative-map-pose))))) aliste)))
   ;;     (reverse aliste)))
   
-(dotimes (in (length liste))
-    do(setf aliste (cons (concatenate 'string (nth in liste) " - " (write-to-string (get-distance (get-elem-pose (nth in liste)) (cl-transforms-stamped:transform->pose (human-relative-map-pose))))) aliste)))
-(reverse aliste)))
+;; (dotimes (in (length liste))
+;;     do(setf aliste (cons (concatenate 'string (nth in liste) " - " (write-to-string (get-distance (get-elem-pose (nth in liste)) (cl-transforms-stamped:transform->pose (human-relative-map-pose))))) aliste)))
+;;(reverse aliste)))
 
+
+(defun get-all-elems-with-local-tf ()
+  (format t "get-all-elems-with-local-tf ~%")
+  (let* ((sem-map (sem-map-utils:get-semantic-map))
+         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
+         (sem-keys (hash-table-keys sem-hash))
+         (semm-hash (copy-hash-table sem-hash))
+         (new-hash (make-hash-table))
+         (pub NIL)(pose NIL)(obj-pub NIL)(obj-pose NIL))
+    (dotimes (index (length sem-keys))
+      (setf name (format NIL "~a_link" (nth index sem-keys)))
+
+      (setf obj-pose (cl-transforms-stamped:transform->pose (cl-tf:lookup-transform *tf* "human" name)))
+  
+      (setf (gethash (nth index sem-keys) new-hash) obj-pose))
+
+    (copy-hash-table new-hash)))
 
 (defun get-elem-color (name)
   (initialize-colorlist)
@@ -257,6 +275,8 @@ result))
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
          (sem-keys (hash-table-keys sem-hash))
          (elem '()))
+   ; (format t "teeeest ~%")
+    (setf smarter 0)
        ;;  (incrementer 1)
       ;;   (value NIL))
     ;(swm->intern-tf-remover puber)
@@ -267,20 +287,20 @@ result))
 	  (dotimes (jndex (length sem-keys))
 		do(let* ((elem1 (first (get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
              (elem2 (second (get-bbox-as-aabb (nth jndex sem-keys) sem-hash))))
-			; (smarter (+ smarter jndex)))
+		  (setf smarter (+ smarter jndex))
 		;    (setf value
 	;		  (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)))
-        (format t "  ~a~%" (nth jndex sem-keys))
+    ;    (format t "  ~a~%" (nth jndex sem-keys))
 		    (cond ((equal (semantic-map-costmap::inside-aabb elem1 elem2 (cl-transforms:origin new-point)) T)
           (setf elem (append (list (nth jndex sem-keys)) elem))
               ;; (setf elem (cons (concatenate 'string (nth jndex sem-keys) " - " (write-to-string (get-distance (get-elem-pose (nth jndex sem-keys)) (cl-transforms-stamped:transform->pose (human-relative-map-pose))))) elem))
          ;;      (format t "elem ~a~%" elem)
          ;;      (format t " ~a~%"(nth jndex sem-keys))
                
-		;	   (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
+		   (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
 			  ; (remove-duplicates elem)
 			   )
-			  (t  ; (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
+			  (t   (location-costmap::publish-point (cl-transforms:origin new-point) :id smarter)
 			   ))) )))
 		;;  (setf incrementer (+ incrementer 2)))))
     (reverse (remove-duplicates elem))))
@@ -340,6 +360,7 @@ result))
 
 
 (defun visualize-plane (num)
+  (format t "visualize-plane ~%")
   (let* ((temp '()))
     (loop for jindex from 1 to num
          ; do;(loop for smart from 0 to 1 ;;5
@@ -348,7 +369,7 @@ result))
                   ;;    (let*((new-point (get-gesture->relative-genius
                    ;;                       (cl-transforms:make-3d-vector
                     ;;                        jindex  (- mass 11)(- smart 1))))) ;;5
-                     ;   (format t "new-point ~a~%" new-point)
+                       
                                  (setf temp (cons (get-gesture->relative-genius
                                           (cl-transforms:make-3d-vector
                                             jindex  (- mass 11) 0)) temp))))
@@ -1174,15 +1195,15 @@ quadrotor, so the rotation is on y-axis"
    ret))
 
 
-;; (defun create-local-tf-publisher (robot-pose)
-;;   (let*((pub (cl-tf:make-transform-broadcaster)))
-;; (cl-tf:send-static-transforms pub 1.0 "quadpose" (cl-transforms-stamped:make-transform-stamped "map" "new_quad_pose" (roslisp:ros-time) (cl-transforms:origin robot-pose) (cl-transforms:orientation robot-pose)))))
+(defun create-local-tf-publisher (robot-pose name)
+   (let*((pub (cl-tf:make-transform-broadcaster)))
+ (cl-tf:send-static-transforms pub 1.0 "quadpose" (cl-transforms-stamped:make-transform-stamped "map" name (roslisp:ros-time) (cl-transforms:origin robot-pose) (cl-transforms:orientation robot-pose)))))
 
-;; (defun remove-local-tf-publisher (thread)
-;;   (when (sb-thread:thread-alive-p thread)
-;;     (handler-case
-;;         (prog1 t (sb-thread:terminate-thread thread))
-;;       (error () nil))))
+(defun remove-local-tf-publisher (thread)
+  (when (sb-thread:thread-alive-p thread)
+    (handler-case
+        (prog1 t (sb-thread:terminate-thread thread))
+      (error () nil))))
 
 ;; (defun visibility-of-object (robot-pose object-pose)
  
@@ -1192,28 +1213,33 @@ quadrotor, so the rotation is on y-axis"
 ;;     (remove-local-tf-publisher thread)
 ;; result))
 
-(defun get-all-elems-with-local-tf ()
+(defun get-elems-infrontof-human (num)
   (let* ((sem-map (sem-map-utils:get-semantic-map))
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
          (sem-keys (hash-table-keys sem-hash))
-         (semm-hash (copy-hash-table sem-hash))
-         (new-hash (make-hash-table))
-         (pub NIL)(pose NIL)(obj-pub NIL)(obj-pose NIL))
+         (poses '()) (dist NIL) (liste '())
+         (pub NIL)(obj-pub NIL)(obj-pose NIL) (obj-map NIL))
+    
     (dotimes (index (length sem-keys))
-     ;;(setf pub (cl-tf:make-transform-broadcaster))
-    ;;  (setf pose (slot-value (gethash (nth index sem-keys) semm-hash) 'sem-map-utils:pose))
-     ;; (format t "get-all-elems4~%")
-          (setf name (format NIL "~a_link" (nth index sem-keys)))
-     ;; (setf obj-pub (cl-tf:send-static-transforms pub 1.0 (nth index sem-keys) (cl-transforms-stamped:make-transform-stamped "map" name (roslisp:ros-time) (cl-transforms:origin pose) (cl-transforms:orientation pose))))
-      ;;(format t "objs-oub ~a~%" obj-pub)
-      ;;  (format t "get-all-elems99~%")
-      (setf obj-pose (cl-transforms-stamped:transform->pose (cl-tf:lookup-transform *tf* "human" name)))
-     ;; (format t "get-all-elems6~%")
-      (setf (gethash (nth index sem-keys) new-hash) obj-pose))
-     ;; (format t "get-all-elems5~%")
-     ;; (remove-local-tf-publisher obj-pub))
-   ;; (format t "get-all-elems5~%")
-    (copy-hash-table new-hash)))
+      (if (or (string-equal (nth index sem-keys) "human01")
+              (string-equal (nth index sem-keys)  "human02")
+              (string-equal (nth index sem-keys)  "human03"))
+          ()
+          (setf liste (cons (nth index sem-keys) liste))))
+    (dotimes (index (length liste))
+;;     (setf pub (cl-tf:make-transform-broadcaster))
+;;     (setf obj-pub (cl-tf:send-static-transforms pub 1.0 "pose" (cl-transforms-stamped:make-transform-stamped "map" (nth index sem-keys) (roslisp:ros-time) (cl-transforms:origin (get-elem-pose (nth index sem-keys))) (cl-transforms:orientation (get-elem-pose (nth index sem-keys))))))
+      (setf obj-pose (cl-transforms-stamped:transform->pose (cl-tf:lookup-transform *tf* "human" (format NIL "~a_link" (nth index liste)))))
+         (setf obj-pose2 (cl-transforms-stamped:transform->pose (cl-tf:lookup-transform *tf* "map" (format NIL "~a_link" (nth index liste)))))
+     
+;;        (setf obj-map (cl-transforms-stamped:transform->pose (cl-tf:lookup-transform *tf* "map" (nth index sem-keys))))
+      (setf dist (get-distance (cl-transforms:transform->pose (human-relative-map-pose)) obj-pose2))
+      (if (and (>= num dist)
+               (plusp (cl-transforms:x (cl-transforms:origin obj-pose))))
+                (setf poses (cons (format NIL "~a - ~a"(nth index liste) dist) poses))))
+    ;;  (remove-local-tf-publisher obj-pub))
+       poses))
+
 
 (defun checking-obj-property (name property)
   (let((result NIL))

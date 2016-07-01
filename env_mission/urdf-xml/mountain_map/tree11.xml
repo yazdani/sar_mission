@@ -5,26 +5,26 @@ xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
 xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
-<macro name="victim01">
+<macro name="tree11">
 
-<joint name="victim01_joint" type="fixed">
-<origin xyz="-3.57 0.0 0.0" rpy="0 0 0"/>
+<joint name="tree11_joint" type="fixed">
+<origin xyz="-4.99 0.99 0" rpy="0 0 0"/>
 <parent link="map_link"/>
-<child link="victim01_link"/>
+<child link="tree11_link"/>
 </joint>
 
-<link name="victim01_link">
+<link name="tree11_link">
 <visual>
-<!--origin xyz="-3.57 0.0 0.0 " rpy="0 0 0"/-->
+<!--origin xyz="0.0 0.0 0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://env_mission/models/victim/meshes/victim.dae"/>
+<mesh filename="package://env_mission/models/tree/meshes/tanne1.dae"/>
 </geometry>
-<material name="Red"/>
+<material name="Green"/>
 </visual>
 <collision>
-<!--origin xyz="-3.57 0.0 0.0 " rpy="0 0 0"/-->
+<!--origin xyz="19.02 10.99 0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://env_mission/models/victim/meshes/victim.stl"/>
+<mesh filename="package://env_mission/models/tree/meshes/tanne1.stl"/>
 </geometry>
 </collision>
 </link>

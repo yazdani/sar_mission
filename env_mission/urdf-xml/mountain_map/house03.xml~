@@ -8,7 +8,7 @@ xmlns:xacro="http://www.ros.org/wiki/xacro">
 <macro name="victim01">
 
 <joint name="victim01_joint" type="fixed">
-<origin xyz="-3.57 0.0 0.0" rpy="0 0 0"/>
+<origin xyz="-19.41 -19.0 0.0" rpy="0 0 0"/>
 <parent link="map_link"/>
 <child link="victim01_link"/>
 </joint>

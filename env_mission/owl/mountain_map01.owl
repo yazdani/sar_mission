@@ -199,27 +199,6 @@
         </rdfs:subClassOf> 
   </owl:Class>
 
-  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#human">
-	<rdfs:subClassOf rdf:resource="&knowrob;Human"/> 
-      	<rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob;heightOfObject"/>
-                <owl:hasValue rdf:datatype="&xsd;double">1.2</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>   
-	<rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob;depthOfObject"/>
-                <owl:hasValue rdf:datatype="&xsd;double">1.1</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf>   
-	<rdfs:subClassOf>
-            <owl:Restriction>
-                <owl:onProperty rdf:resource="&knowrob;widthOfObject"/>
-                <owl:hasValue rdf:datatype="&xsd;double">1.0</owl:hasValue>
-            </owl:Restriction>
-        </rdfs:subClassOf> 
-  </owl:Class>
 
  <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#smallbigtree">
 	<rdfs:subClassOf rdf:resource="&knowrob;Tree"/> 
@@ -250,7 +229,7 @@
   </owl:Class>
 
  <owl:Class rdf:about="&knowrob;rock">
-	<rdfs:subClassOf rdf:resource="&knowrob;inanimate"/> 
+	<rdfs:subClassOf rdf:resource="&knowrob;Rock"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -1446,72 +1425,6 @@
     <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
     <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_victim01"/>
     <knowrob:objectActedOn rdf:resource="&knowrob;victim01"/>
-</owl:NamedIndividual>
-
-<!-- human01 -->
-<owl:NamedIndividual rdf:about="&knowrob;human01">
-    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#human"/>
-    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
-    <knowrob:hasColor rdf:datatype="&xsd;string">blue</knowrob:hasColor>
-    <knowrob:isAlive rdf:datatype="&xsd;string">animate</knowrob:isAlive>
-    <knowrob:isLiving rdf:datatype="&xsd;string">house</knowrob:isLiving>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="&knowrob;Transformation_human01">
-    <rdf:type rdf:resource="&knowrob;Transformation"/>
-    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
-    <knowrob:translation rdf:datatype="&xsd;string">2.5 28.5 0.0</knowrob:translation>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionhuman01">
-    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-    <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
-    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_human01"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;human01"/>
-</owl:NamedIndividual>
-
-<!-- human02 -->
-<owl:NamedIndividual rdf:about="&knowrob;human02">
-    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#human"/>
-    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
-    <knowrob:hasColor rdf:datatype="&xsd;string">red</knowrob:hasColor>
-    <knowrob:isAlive rdf:datatype="&xsd;string">animate</knowrob:isAlive>
-    <knowrob:isLiving rdf:datatype="&xsd;string">house</knowrob:isLiving>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="&knowrob;Transformation_human02">
-    <rdf:type rdf:resource="&knowrob;Transformation"/>
-    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
-    <knowrob:translation rdf:datatype="&xsd;string">-23.0 10.0 0.0</knowrob:translation>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionhuman02">
-    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-    <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
-    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_human02"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;human02"/>
-</owl:NamedIndividual>
-
-<!-- human03 -->
-<owl:NamedIndividual rdf:about="&knowrob;human03">
-    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#human"/>
-    <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
-    <knowrob:hasColor rdf:datatype="&xsd;string">blue</knowrob:hasColor>
-    <knowrob:isAlive rdf:datatype="&xsd;string">animate</knowrob:isAlive>
-    <knowrob:isLiving rdf:datatype="&xsd;string">house</knowrob:isLiving>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="&knowrob;Transformation_human03">
-    <rdf:type rdf:resource="&knowrob;Transformation"/>
-    <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
-    <knowrob:translation rdf:datatype="&xsd;string">29.0 3.0 0.0</knowrob:translation>
-</owl:NamedIndividual>
-
-<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionhuman03">
-    <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
-    <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
-    <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_human03"/>
-    <knowrob:objectActedOn rdf:resource="&knowrob;human03"/>
 </owl:NamedIndividual>
 
 <!-- victim02 -->

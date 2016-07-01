@@ -5,26 +5,26 @@ xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
 xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 
-<macro name="victim05">
+<macro name="pylon02">
 
-<joint name="victim05_joint" type="fixed">
-<origin xyz="-41.0 -2.0 0.0" rpy="0 0 0"/>
+<joint name="pylon02_joint" type="fixed">
+<origin xyz="-15.0 10.0 0.0" rpy="0 0 0"/>
 <parent link="map_link"/>
-<child link="victim05_link"/>
+<child link="pylon02_link"/>
 </joint>
 
-<link name="victim05_link">
+<link name="pylon02_link">
 <visual>
 <!--origin xyz="-3.57 0.0 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://env_mission/models/victim/meshes/victim.dae"/>
+<mesh filename="package://env_mission/models/pylon/meshes/pylon.dae"/>
 </geometry>
-<material name="Red"/>
+<material name="Grey"/>
 </visual>
 <collision>
 <!--origin xyz="-3.57 0.0 0.0 " rpy="0 0 0"/-->
 <geometry>
-<mesh filename="package://env_mission/models/victim/meshes/victim.stl"/>
+<mesh filename="package://env_mission/models/pylon/meshes/pylon.dae"/>
 </geometry>
 </collision>
 </link>

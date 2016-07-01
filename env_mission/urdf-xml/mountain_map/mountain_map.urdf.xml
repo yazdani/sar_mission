@@ -23,71 +23,139 @@
     <color rgba="0.1 0.1 0.1 1.0"/>
   </material>
 
-<xacro:include filename="./mountain01.xml"/>
+<xacro:include filename="./mountain.xml"/>
 <xacro:include filename="./bigtree01.xml"/>
 <xacro:include filename="./bigtree02.xml"/>
-<xacro:include filename="./tree01.xml"/>
-<xacro:include filename="./tree02.xml"/>
-<xacro:include filename="./tree03.xml"/>
-<xacro:include filename="./rock01.xml"/>
-<xacro:include filename="./tree04.xml"/>
-<xacro:include filename="./tree05.xml"/>
-<xacro:include filename="./rock02.xml"/>
-<xacro:include filename="./rock03.xml"/>
-<xacro:include filename="./rock04.xml"/>
 <xacro:include filename="./bigtree03.xml"/>
 <xacro:include filename="./bigtree04.xml"/>
 <xacro:include filename="./bigtree05.xml"/>
-<xacro:include filename="./rock05.xml"/>
-<xacro:include filename="./rock06.xml"/>
+<xacro:include filename="./bigtree06.xml"/>
+<xacro:include filename="./bigtree07.xml"/>
+<xacro:include filename="./bigtree08.xml"/>
+
+<xacro:include filename="./tree01.xml"/>
+<xacro:include filename="./tree02.xml"/>
+<xacro:include filename="./tree03.xml"/>
+<xacro:include filename="./tree04.xml"/>
+<xacro:include filename="./tree05.xml"/>
 <xacro:include filename="./tree06.xml"/>
 <xacro:include filename="./tree07.xml"/>
 <xacro:include filename="./tree08.xml"/>
 <xacro:include filename="./tree09.xml"/>
-<xacro:include filename="./bigtree06.xml"/>
-<xacro:include filename="./bigtree07.xml"/>
-<xacro:include filename="./bigtree08.xml"/>
+<xacro:include filename="./tree10.xml"/>
+<xacro:include filename="./tree11.xml"/>
+<xacro:include filename="./tree12.xml"/>
+<xacro:include filename="./tree13.xml"/>
+<xacro:include filename="./tree14.xml"/>
+
+<xacro:include filename="./smallbigtree01.xml"/>
+<xacro:include filename="./smallbigtree02.xml"/>
+<xacro:include filename="./smallbigtree03.xml"/>
+
+<xacro:include filename="./smalltree01.xml"/>
+<xacro:include filename="./smalltree02.xml"/>
+<xacro:include filename="./smalltree03.xml"/>
+<xacro:include filename="./smalltree04.xml"/>
+
+<xacro:include filename="./rock01.xml"/>
+<xacro:include filename="./rock02.xml"/>
+<xacro:include filename="./rock03.xml"/>
+<xacro:include filename="./rock04.xml"/>
+<xacro:include filename="./rock05.xml"/>
+<xacro:include filename="./rock06.xml"/>
 <xacro:include filename="./rock07.xml"/>
+
+<xacro:include filename="./hugerock01.xml"/>
+<xacro:include filename="./hugerock02.xml"/>
+<xacro:include filename="./hugerock03.xml"/>
+
 <xacro:include filename="./victim01.xml"/>
 <xacro:include filename="./victim02.xml"/>
 <xacro:include filename="./victim03.xml"/>
-<xacro:include filename="./victim04.xml"/>
-<xacro:include filename="./victim05.xml"/>
+
+<xacro:include filename="./pylon01.xml"/>
+<xacro:include filename="./pylon02.xml"/>
+<xacro:include filename="./pylon03.xml"/>
+<xacro:include filename="./redpylon01.xml"/>
+<xacro:include filename="./redpylon02.xml"/>
+<xacro:include filename="./bluepylon01.xml"/>
+<xacro:include filename="./bluepylon02.xml"/>
+<xacro:include filename="./brokepylon01.xml"/>
+<xacro:include filename="./brokepylon02.xml"/>
+
+<xacro:include filename="./house01.xml"/>
+<xacro:include filename="./house02.xml"/>
+<xacro:include filename="./house03.xml"/>
+
 <!--xacro:include filename="./genius.xml"/-->
 
 <link name="map_link">
 </link>
 
-<mountain01/>
+<mountain/>
 <bigtree01/>
 <bigtree02/>
-<tree01/>
-<tree02/>
-<tree03/>
-<rock01/>
-<tree04/>
-<tree05/>
-<rock02/>
-<rock03/>
-<rock04/>
 <bigtree03/>
 <bigtree04/>
 <bigtree05/>
-<rock05/>
-<rock06/>
+<bigtree06/>
+<bigtree07/>
+<bigtree08/>
+
+<tree01/>
+<tree02/>
+<tree03/>
+<tree04/>
+<tree05/>
 <tree06/>
 <tree07/>
 <tree08/>
 <tree09/>
-<bigtree06/>
-<bigtree07/>
-<bigtree08/>
+<tree10/>
+<tree11/>
+<tree12/>
+<tree13/>
+<tree14/>
+
+<smallbigtree01/>
+<smallbigtree02/>
+<smallbigtree03/>
+
+<smalltree01/>
+<smalltree02/>
+<smalltree03/>
+<smalltree04/>
+
+<rock01/>
+<rock02/>
+<rock03/>
+<rock04/>
+<rock05/>
+<rock06/>
 <rock07/>
+
+<hugerock01/>
+<hugerock02/>
+<hugerock03/>
+
 <victim01/>
 <victim02/>
 <victim03/>
-<victim04/>
-<victim05/>
+
+<pylon01/>
+<pylon02/>
+<pylon03/>
+<redpylon01/>
+<redpylon02/>
+<bluepylon01/>
+<bluepylon02/>
+<brokepylon01/>
+<brokepylon02/>
+
+<house01/>
+<house02/>
+<house03/>
+
 <genius/>
 
 </robot>
