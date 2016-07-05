@@ -59,7 +59,7 @@ geometry_msgs::Twist end_twist;
       {
 	while(now_z <= new_z)
 	  {
-	    tw.linear.z = 0.6;
+	    tw.linear.z = 0.8;
 	    publisher.publish(tw);
 	    ros::Duration(1.0).sleep();
 	    gms_c.call(getmodelstate);
@@ -79,7 +79,7 @@ geometry_msgs::Twist end_twist;
 	  {
 	    ROS_INFO_STREAM(now_x);
 	    ROS_INFO_STREAM(new_x);
-	    tw.linear.x = 0.5;
+	    tw.linear.x = 0.7;
 	    publisher.publish(tw);
 	    ros::Duration(1.0).sleep();
 	    gms_c.call(getmodelstate);
@@ -99,7 +99,7 @@ geometry_msgs::Twist end_twist;
 	  ROS_INFO(" Perfect! ");
 	    ROS_INFO_STREAM(now_x);
 	    ROS_INFO_STREAM(new_x);
-		tw.linear.x = -0.5;
+		tw.linear.x = -0.7;
 		publisher.publish(tw);
 		ros::Duration(1.0).sleep();
 		gms_c.call(getmodelstate);
@@ -120,7 +120,7 @@ geometry_msgs::Twist end_twist;
 	    ROS_INFO(" Perfect123! ");
 	    ROS_INFO_STREAM(now_y);
 	    ROS_INFO_STREAM(new_y);
-	    tw.linear.y = 0.5;
+	    tw.linear.y = 0.7;
 	    publisher.publish(tw);
 	    ros::Duration(1.0).sleep();
 	    gms_c.call(getmodelstate);
@@ -138,7 +138,7 @@ geometry_msgs::Twist end_twist;
 	    ROS_INFO(" Perfect123456! ");
 	    ROS_INFO_STREAM(now_y);
 	    ROS_INFO_STREAM(new_y);
-	    tw.linear.y = -0.5;
+	    tw.linear.y = -0.7;
 	    publisher.publish(tw);
 	    ros::Duration(1.0).sleep();
 	    gms_c.call(getmodelstate);
@@ -159,7 +159,7 @@ geometry_msgs::Twist end_twist;
   tw.linear.y = 0;
   publisher.publish(tw); 
 
-  res.reply = "done";
+  res.reply = "Task Execution completed";
   std::cout << "Well it worked" << std::endl;
   return true;
 }
