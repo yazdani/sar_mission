@@ -57,19 +57,20 @@ find_package(catkin REQUIRED COMPONENTS
 add_service_files(
    FILES
    cmd_srv.srv
+   scan_reg.srv
 )
 
 ## Generate actions in the 'action' folder
-#add_action_files(
-#  DIRECTORY action
-#  FILES
-#  cmdVel.action
-#)
+# add_action_files(
+#   DIRECTORY action
+#   FILES
+#   cmdVel.action
+# )
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
  DEPENDENCIES
-   actionlib_msgs geometry_msgs
+   actionlib_msgs geometry_msgs std_msgs
  )
 
 ################################################
@@ -129,11 +130,14 @@ include_directories(
 #add_executable(cmdVel_controller src/cmdVel_controller.cpp)
 #add_executable(cmdVel_follower src/cmdVel_follower.cpp)
 add_executable(cmd_executer src/cmd_executer.cpp)
+add_executable(scan_region src/scan_region.cpp)
+
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(quadrotor_controller_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 #add_dependencies(cmdVel_controller ${quadrotor_controller_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(cmd_executer quadrotor_controller_gencpp)
+add_dependencies(scan_region quadrotor_controller_gencpp)
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(quadrotor_controller_node
 #   ${catkin_LIBRARIES}
@@ -145,6 +149,7 @@ add_dependencies(cmd_executer quadrotor_controller_gencpp)
 #  ${catkin_LIBRARIES})
 
 target_link_libraries(cmd_executer ${catkin_LIBRARIES})
+target_link_libraries(scan_region ${catkin_LIBRARIES})
 #############
 ## Install ##
 #############
