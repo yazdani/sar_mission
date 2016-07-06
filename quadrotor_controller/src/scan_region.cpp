@@ -50,8 +50,8 @@ geometry_msgs::Twist end_twist;
     double now_y =  getmodelstate.response.pose.position.y;
     double now_z =  getmodelstate.response.pose.position.z;
     
-    new_x = 27;
-    new_y = -15;
+    new_x = 25;
+    new_y = -10;
     new_z = 10;
 
     ros::Rate r(1);
@@ -172,9 +172,8 @@ geometry_msgs::Twist end_twist;
 	publisher.publish(tw);
 
   /// second
-    new_x = -25;
-    new_y = -15;
-    new_z = 10;
+    new_x = -17;
+    new_y = -19;
 if(now_x <= new_x)
       {
 	  ROS_INFO(" Move Hector! ");
@@ -268,9 +267,8 @@ if(now_x <= new_x)
 	publisher.publish(tw);
 
   ///third
-    new_x = -25;
-    new_y = 5;
-    new_z = 13;
+    new_x = -15;
+    new_y = 7;
 if(now_x <= new_x)
       {
 	  ROS_INFO(" Move Hector! ");
@@ -363,9 +361,10 @@ if(now_x <= new_x)
 	tw.linear.y = 0;
 	publisher.publish(tw);
   ////fourth
-  new_x = 25;
-  new_y = 5;
-  new_z = 13;if(now_x <= new_x)
+  new_x = -41;
+  new_y = 3;
+  
+  if(now_x <= new_x)
       {
 	  ROS_INFO(" Move Hector! ");
 	while(now_x <= new_x)
@@ -457,9 +456,9 @@ if(now_x <= new_x)
 	tw.linear.y = 0;
 	publisher.publish(tw);
   ///fifth
-  new_x = 25;
-  new_y = 22;
-  new_z = 13;
+  new_x = -15;
+  new_y = 18;
+
 if(now_x <= new_x)
       {
 	  ROS_INFO(" Move Hector! ");
@@ -552,9 +551,103 @@ if(now_x <= new_x)
 	tw.linear.y = 0;
 	publisher.publish(tw);
   ///sixth
-  new_x = -25;
-  new_y = 22;
-  new_z = 13;
+  new_x = 2.5;
+  new_y = 28;
+ 
+if(now_x <= new_x)
+      {
+	  ROS_INFO(" Move Hector! ");
+	while(now_x <= new_x)
+	  {
+	    ROS_INFO_STREAM(now_x);
+	    ROS_INFO_STREAM(new_x);
+	    tw.linear.x = 0.7;
+	    publisher.publish(tw);
+	    ros::Duration(1.0).sleep();
+	    gms_c.call(getmodelstate);
+	    now_x =  getmodelstate.response.pose.position.x;
+	  }
+	
+	ros::Duration(2.0).sleep();
+	tw.linear.z = 0;
+	tw.linear.x = 0;
+	tw.linear.y = 0;
+	publisher.publish(tw);
+      }
+	else if(now_x > new_x)
+	  {
+	    while(now_x > new_x)
+	      {
+	  ROS_INFO(" Perfect! ");
+	    ROS_INFO_STREAM(now_x);
+	    ROS_INFO_STREAM(new_x);
+		tw.linear.x = -0.7;
+		publisher.publish(tw);
+		ros::Duration(1.0).sleep();
+		gms_c.call(getmodelstate);
+		now_x =  getmodelstate.response.pose.position.x;
+	      }
+	    ros::Duration(2.0).sleep();
+	    tw.linear.z = 0;
+	    tw.linear.x = 0;
+	    tw.linear.y = 0;
+	    publisher.publish(tw);
+
+	  }
+ 
+	ros::Duration(2.0).sleep();
+	tw.linear.z = 0;
+	tw.linear.x = 0;
+	tw.linear.y = 0;
+	publisher.publish(tw);
+
+    if(now_y <= new_y)
+      {
+	while(now_y <= new_y)
+	  {
+	    ROS_INFO(" Perfect123! ");
+	    ROS_INFO_STREAM(now_y);
+	    ROS_INFO_STREAM(new_y);
+	    tw.linear.y = 0.7;
+	    publisher.publish(tw);
+	    ros::Duration(1.0).sleep();
+	    gms_c.call(getmodelstate);
+	    now_y =  getmodelstate.response.pose.position.y;
+	  }
+	ros::Duration(2.0).sleep();
+	tw.linear.z = 0;
+	tw.linear.x = 0;
+	tw.linear.y = 0;
+	publisher.publish(tw);
+      }else if(now_y > new_y)
+      {
+	while(now_y > new_y)
+	  {
+	    ROS_INFO(" Perfect123456! ");
+	    ROS_INFO_STREAM(now_y);
+	    ROS_INFO_STREAM(new_y);
+	    tw.linear.y = -0.7;
+	    publisher.publish(tw);
+	    ros::Duration(1.0).sleep();
+	    gms_c.call(getmodelstate);
+	    now_y =  getmodelstate.response.pose.position.y;
+	  }
+	ros::Duration(2.0).sleep();
+	tw.linear.z = 0;
+	tw.linear.x = 0;
+	tw.linear.y = 0;
+	publisher.publish(tw); 
+      }
+  ROS_INFO(" Move down! ");
+
+	ros::Duration(2.0).sleep();
+	tw.linear.z = 0;
+	tw.linear.x = 0;
+	tw.linear.y = 0;
+	publisher.publish(tw);
+	///seventh
+    new_x = 29;
+    new_y = 3;
 if(now_x <= new_x)
       {
 	  ROS_INFO(" Move Hector! ");
@@ -647,10 +740,10 @@ if(now_x <= new_x)
 	tw.linear.y = 0;
 	publisher.publish(tw);
 
-  ///seventh
-  new_x = safe_x;
-  new_y = safe_y;
-  new_z = safe_z;
+  ///eighth
+  new_x = 13;
+  new_y = 0;
+  new_z = 2.5;
 
 if(now_x <= new_x)
       {

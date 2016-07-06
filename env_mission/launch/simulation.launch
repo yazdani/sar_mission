@@ -8,8 +8,8 @@
     <arg name="debug" value="false"/>
   </include>
 
-  <!--include file="$(find env_mission)/launch/spawn_quadrotor.launch" /-->
+  <include file="$(find env_mission)/launch/spawn_quadrotor_with_asus.launch" />
   <include file="$(find env_mission)/launch/json_map.launch" />
 <node pkg="quadrotor_controller" type="cmd_executer" name="cmd_executer" respawn="false" />
-
+<node pkg="quadrotor_controller" type="scan_region" name="scan_region" respawn="false" />
 </launch>
