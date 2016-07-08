@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
   cram_semantic_map_designators
   roslisp
   cmd_mission
+  actionlib
 )
 
 ## System dependencies are found with CMake's conventions
