@@ -12,6 +12,10 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation
 )
+find_package(cmake_modules REQUIRED)
+find_package(Eigen3 REQUIRED)
+
+
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -112,8 +116,8 @@ catkin_package( CATKIN_DEPENDS actionlib actionlib_msgs geometry_msgs roscpp std
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-  ${catkin_INCLUDE_DIRS}
-)
+  ${catkin_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIRS})
+
 
 ## Declare a C++ library
 # add_library(quadrotor_controller
@@ -131,13 +135,15 @@ include_directories(
 #add_executable(cmdVel_follower src/cmdVel_follower.cpp)
 add_executable(cmd_executer src/cmd_executer.cpp)
 add_executable(scan_region src/scan_region.cpp)
-
+#add_executable(laser_scan_data src/laser_scan_data.py)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(quadrotor_controller_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 #add_dependencies(cmdVel_controller ${quadrotor_controller_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(cmd_executer quadrotor_controller_gencpp)
 add_dependencies(scan_region quadrotor_controller_gencpp)
+#add_dependencies(laser_scan_data quadrotor_controller_gencpp)
+
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(quadrotor_controller_node
 #   ${catkin_LIBRARIES}
@@ -150,6 +156,7 @@ add_dependencies(scan_region quadrotor_controller_gencpp)
 
 target_link_libraries(cmd_executer ${catkin_LIBRARIES})
 target_link_libraries(scan_region ${catkin_LIBRARIES})
+#target_link_libraries(laser_scan_data ${catkin_LIBRARIES})
 #############
 ## Install ##
 #############
