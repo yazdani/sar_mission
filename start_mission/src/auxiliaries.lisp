@@ -97,6 +97,30 @@
                      (t ())))
    type))
 
+(defun direction-symbol (sym)
+  (intern (string-upcase sym) "KEYWORD"))
+
+(defun get-human-elem-pose (object-name)
+  (setf cram-tf:*fixed-frame* "human")
+(cl-transforms-stamped:transform->pose (cl-tf:lookup-transform *tf* "human" (format NIL "~a_link" object-name))))
+
+(defun get-desig-resolution (action preposition objname)
+(let*((desig (make-designator :location `((,(direction-symbol preposition) ,objname))))
+      (result NIL)
+      (cam (cam-depth-tf-transform))
+      (temp NIL)
+      (tmp NIL))
+  (setf result (reference desig))
+  ;;(location-costmap:publish-pose (cl-transforms-stamped:pose-stamped->pose result) :id 0)
+  (setf temp (look-at-object-x (cl-transforms:make-pose (cl-transforms:origin (cl-transforms-stamped:pose-stamped->pose result)) (cl-transforms:orientation (cl-transforms:transform->pose cam)))  (get-human-elem-pose objname)))
+ ;; (location-costmap:publish-pose temp :id 1)
+(setf cram-tf:*fixed-frame* "/map")
+(setf tmp (cl-transforms-stamped:make-pose-stamped "human"
+                                         0.0 (cl-transforms:origin temp)
+                                         (cl-transforms:orientation temp)))
+(cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose tmp :target-frame "map"))))
+  ;; (cl-transforms:make-pose (cl-transforms-stamped:origin result) (cl-transforms:orientation (look-at-object-x (cl-transforms-stamped:stamped-transform->pose-stamped (cam-depth-tf-transform)) (cl-transforms-stamped:pose-stamped->pose result))))))
+
 (defun checking-object-size (name)
   (let*((type (get-elem-type name))
         (large (calculate-big-object type))
@@ -341,6 +365,20 @@ result))
        )))
     (remove-duplicates  objects)))
 
+(defun get-geom-objects (geom-objects param object-pose)
+  (let*((geom-list geom-objects)
+	(objects NIL))
+    (loop while (/= (length geom-list) 0) 
+	  do(cond ((and T
+			(compare-distance-of-objects (slot-value (car geom-list) 'sem-map-utils:pose) object-pose param))
+            ;; (format t "name ~a~%"  (slot-value (car geom-list) 'sem-map-utils:name))
+		   (setf objects
+			 (append objects (list (first geom-list))))
+		   (setf geom-list (cdr geom-list)))
+		  (t (setf geom-list (cdr geom-list)))))
+objects))
+
+
 (defun compare-distance-of-objects (obj_position pose param)
   (let*((vector (cl-transforms:origin pose))
         (x-vec (cl-transforms:x vector))
@@ -517,7 +555,7 @@ result))
              (reverse elem)))
 
 (defun human-relative-map-pose ()
-  (tf:lookup-transform *tf* "map" "human"))
+  (cl-transforms:transform->pose (tf:lookup-transform *tf* "map" "human")))
 
 (defun list-values (num point)
   (let*((zet 1.0)
@@ -1030,7 +1068,7 @@ result))
 ;;####### CHECKING THE VISIBILITY OF QUADCOPTER #######;;
 
 (defun cam-depth-tf-transform ()
-  (cl-transforms-stamped:lookup-transform *tf* "map" "camera_depth_frame"))
+  (cl-transforms-stamped:lookup-transform *tf* "human" "camera_depth_frame"))
 
 (defun cam-rgb-tf-transform ()
   (cl-transforms-stamped:lookup-transform *tf* "map" "camera_rgb_frame"))
@@ -1134,7 +1172,7 @@ quadrotor, so the rotation is on x-axis"
   (let* ((obj-point-in-camera (cl-transforms:v-
                                (cl-transforms:origin object-pose)
                                (cl-transforms:origin camera-pose)))
-         (x-axis (cl-transforms:make-3d-vector 1 0 0 ))
+         (x-axis (cl-transforms:make-3d-vector 1 0 0))
          (angle (acos (/ (cl-transforms:dot-product
                           obj-point-in-camera x-axis)
                          (cl-transforms:v-norm obj-point-in-camera))))

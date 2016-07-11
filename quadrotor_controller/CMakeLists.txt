@@ -62,6 +62,7 @@ add_service_files(
    FILES
    cmd_srv.srv
    scan_reg.srv
+   cmd_points.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -135,6 +136,8 @@ include_directories(
 #add_executable(cmdVel_follower src/cmdVel_follower.cpp)
 add_executable(cmd_executer src/cmd_executer.cpp)
 add_executable(scan_region src/scan_region.cpp)
+add_executable(cmd_pose src/cmd_pose.cpp)
+add_executable(cmd_points src/cmd_points.cpp)
 #add_executable(laser_scan_data src/laser_scan_data.py)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -142,6 +145,8 @@ add_executable(scan_region src/scan_region.cpp)
 #add_dependencies(cmdVel_controller ${quadrotor_controller_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 add_dependencies(cmd_executer quadrotor_controller_gencpp)
 add_dependencies(scan_region quadrotor_controller_gencpp)
+add_dependencies(cmd_pose quadrotor_controller_gencpp)
+add_dependencies(cmd_points quadrotor_controller_gencpp)
 #add_dependencies(laser_scan_data quadrotor_controller_gencpp)
 
 ## Specify libraries to link a library or executable target against
@@ -156,6 +161,8 @@ add_dependencies(scan_region quadrotor_controller_gencpp)
 
 target_link_libraries(cmd_executer ${catkin_LIBRARIES})
 target_link_libraries(scan_region ${catkin_LIBRARIES})
+target_link_libraries(cmd_pose ${catkin_LIBRARIES})
+target_link_libraries(cmd_points ${catkin_LIBRARIES})
 #target_link_libraries(laser_scan_data ${catkin_LIBRARIES})
 #############
 ## Install ##

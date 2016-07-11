@@ -175,3 +175,22 @@
   (let ((result (checking-object-size objname)))
         (roslisp:make-response :result_type  result)))
 
+(defun start_getting_reasoning_on_pose()
+  (service-call-eight))
+
+(defun service-call-eight ()
+  (roslisp-utilities:startup-ros :name "start_getting_reasoning_on_pose")
+  (roslisp:register-service "get_reason_pose" 'cmd_mission-srv:get_reason_pose)
+  (roslisp:ros-info (basics-system) "start check service for the msg.")
+  (roslisp:spin-until nil 1000))
+
+(roslisp:def-service-callback cmd_mission-srv:get_reason_pose (act prep objname)
+  (let*((result (get-desig-resolution act prep objname))
+        (schetring NIL))
+     (setf schetring (concatenate 'string (write-to-string (cl-transforms:x (cl-transforms:origin result))) ","
+                        (write-to-string (cl-transforms:y (cl-transforms:origin result))) ","
+                    (write-to-string (cl-transforms:z (cl-transforms:origin result))) ","
+                        (write-to-string (cl-transforms:x (cl-transforms:orientation result))) ","
+                  (write-to-string (cl-transforms:y (cl-transforms:orientation result))) ","
+                      (write-to-string (cl-transforms:z (cl-transforms:orientation result))) ","
+                      (write-to-string (cl-transforms:w (cl-transforms:orientation result)))))                      (roslisp:make-response :result_pose schetring)))

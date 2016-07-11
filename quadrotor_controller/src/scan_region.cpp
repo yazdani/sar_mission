@@ -30,7 +30,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   double new_y;
   double new_z;
   
-  ROS_INFO("IS EXECUTED");
+  ROS_INFO("Start controller");
   publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
   gms_c = nh_.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
   getmodelstate.request.model_name="quadrotor";
@@ -46,17 +46,16 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   double now_x =  getmodelstate.response.pose.position.x;
   double now_y =  getmodelstate.response.pose.position.y;
   double now_z =  getmodelstate.response.pose.position.z;
-  
+  double temp = 0.0;
   ros::Rate r(1);
   bool success = true;
   publisher.publish(tw);
   ros::Duration(2.0).sleep();
   
+  ROS_INFO("Hector is starting its motors!");
   
-  ROS_INFO(" Come Up Hector! ");
-  
-  new_x = 13;
-  new_y = 10;
+  new_x = 7;
+  new_y = -24.5;
   new_z = 11;
   
   if(now_z <= new_z)
@@ -75,13 +74,15 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       tw.linear.y = 0;
       publisher.publish(tw);
     }
-  // First position at rock
-  std::cout << "first";
+ 
+  //first position
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
 	{
-	  tw.linear.x = 0.7;
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
@@ -94,100 +95,34 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       tw.linear.y = 0;
       publisher.publish(tw);
     }
-  else if(now_x > new_x)
+  else
     {
-      while(now_x > new_x)
-	      {
-		tw.linear.x = -0.7;
-		publisher.publish(tw);
-		ros::Duration(1.0).sleep();
-		gms_c.call(getmodelstate);
-		now_x =  getmodelstate.response.pose.position.x;
-	      }
+      temp = getmodelstate.response.pose.orientation.z;
+      
+      while(temp <= 0.95)
+	{
+	  tw.angular.z = 0.2;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  temp = getmodelstate.response.pose.orientation.z;
+	}
+      
       ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
+      tw.angular.z = 0;
       publisher.publish(tw);
       
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
+      while(now_x > new_x)
 	{
-	  tw.linear.y = 0.7;
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
+	  now_x =  getmodelstate.response.pose.position.x;
 	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z >= 6)
-    {
-      while(now_z >= 6)
-	{
-	  tw.linear.z = -0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
-      ros::Duration(1.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-
-  // Second Position house
-  std::cout << "second";
-  new_x = 29;
-  new_y = 3;
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z <= 11)
-    {
-      while(now_z <= 11)
-	{
-	  tw.linear.z = 0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
+      
       ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
@@ -195,296 +130,65 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       publisher.publish(tw);
     }
   
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	      {
-		tw.linear.x = -0.7;
-		publisher.publish(tw);
-		ros::Duration(1.0).sleep();
-		gms_c.call(getmodelstate);
-		now_x =  getmodelstate.response.pose.position.x;
-	      }
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-      
-    }
-  
-  ros::Duration(2.0).sleep();
+  ros::Duration(1.0).sleep();
   tw.linear.z = 0;
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
-  
+    
   if(now_y <= new_y)
     {
       while(now_y <= new_y)
 	{
-	  tw.linear.y = 0.7;
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
 	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z >= 8)
-    {
-      while(now_z >= 8)
-	{
-	  tw.linear.z = -0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
 	}
       ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw);
-    }
-  
-  // Third Position
-  std::cout <<"third";
-  new_x = 25;
-  new_y = -10;
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z <= 11)
+    }else
     {
-      while(now_z <= 11)
+      while(now_y > new_y)
 	{
-	  tw.linear.z = 0.5;
+          ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
+	  now_y =  getmodelstate.response.pose.position.y;
+	} 
       ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  tw.linear.x = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
       publisher.publish(tw); 
     }
   
-  ros::Duration(2.0).sleep();
+  ros::Duration(1.0).sleep();
   tw.linear.z = 0;
   tw.linear.x = 0;
   tw.linear.y = 0;
-  publisher.publish(tw);
+  publisher.publish(tw);     
   
-  std::cout << "fourth";
-  //Fourth Position
-  new_x = -7;
-  new_y = -13;
-  
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  tw.linear.x = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-      
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-
-  std::cout << "fifth";
-  // Fifth position
-  new_x = -7.6;
+  new_x = -16;
   new_y = -26;
   
+  //second position
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
 	{
-	  tw.linear.x = 0.7;
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
@@ -497,79 +201,20 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       tw.linear.y = 0;
       publisher.publish(tw);
     }
-  else if(now_x > new_x)
+  else
     {
       while(now_x > new_x)
 	{
-	  tw.linear.x = -0.7;
+	  ROS_INFO(" Perfect! saasdada");
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
 	  now_x =  getmodelstate.response.pose.position.x;
 	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
       
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z >= 6)
-    {
-      while(now_z >= 6)
-	{
-	  tw.linear.z = -0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
       ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
@@ -577,565 +222,47 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       publisher.publish(tw);
     }
   
-  std::cout << "sixth";
-   // Sixth
-  new_x = -17;
-  new_y = -19;
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z <= 11)
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  if(now_y <= new_y)
     {
-      while(now_z <= 11)
+      while(now_y <= new_y)
 	{
-	  tw.linear.z = 0.5;
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
+	  now_y =  getmodelstate.response.pose.position.y;
 	}
       ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw);
-    }
-  
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  tw.linear.x = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
+    }else
     {
       while(now_y > new_y)
 	{
-	  tw.linear.y = -0.7;
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
 	  now_y =  getmodelstate.response.pose.position.y;
 	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z >= 5)
-    {
-      while(now_z >= 5)
-	{
-	  tw.linear.z = -0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
+      
       ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  std::cout << "seventh";
-  // Seventh Position
-  new_x = -9.5;
-  new_y = -10;
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z <= 11)
-    {
-      while(now_z <= 11)
-	{
-	  tw.linear.z = 0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
-      ros::Duration(1.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  tw.linear.x = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-      
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
       publisher.publish(tw); 
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  std::cout << "eighth";
-  //Eighth Position
-  new_x = -3;
-  new_y = -2;
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  tw.linear.x = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-      
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  std::cout << "tenth";
-  // NINETH Position
-  new_x = -21;
-  new_y = 1;
-  
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  tw.linear.x = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-      
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-   std::cout << "eleventh";
-  // Tenth Position
-  new_x = -41;
-  new_y = 3;
-  
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  tw.linear.x = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-      
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  std::cout <<"twelve";
-  // ELEVENTH Position rock
-  new_x = 2.5;
-  new_y = 28.5;
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  tw.linear.x = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-      
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
-   std::cout << "thirdtenth";
-  ROS_INFO(" Move down! ");
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z >= 6)
-    {
-      while(now_z >= 6)
-	{
-	  tw.linear.z = -0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
     }
   ros::Duration(1.0).sleep();
   tw.linear.z = 0;
@@ -1143,266 +270,48 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);
   
-  std::cout << "fourthen";
-  // Twelve Position
-  new_x = 13;
-  new_y = 10;
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z <= 11)
-    {
-      while(now_z <= 11)
-	{
-	  tw.linear.z = 0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
-      ros::Duration(1.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  
+  new_x = -17;
+  new_y = -13;
+  //third position
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
 	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  tw.linear.x = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);  
-    }
- 
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z <= 8)
-    {
-      while(now_z <= 8)
-	{
-	  tw.linear.z = -0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
-      ros::Duration(1.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  std::cout << "fiftenth";
-  // THIRDTEN POSITION 
-  new_x = -15;
-  new_y = 19;
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z <= 11)
-    {
-      while(now_z <= 11)
-	{
-	  tw.linear.z = 0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
-      ros::Duration(1.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  tw.linear.x = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-      
-    }
-  
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  
-  if(now_y <= new_y)
-    {
-      while(now_y <= new_y)
-	{
-	  tw.linear.y = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }else if(now_y > new_y)
-    {
-      while(now_y > new_y)
-	{
-	  tw.linear.y = -0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_y =  getmodelstate.response.pose.position.y;
-	}
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw); 
-    }
- 
-  ros::Duration(2.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  publisher.publish(tw);
-  std::cout <<"sixtenth";
-  // Fourtenth Position
-  new_x = 2.5;
-  new_y = 28.5;
-  if(now_x <= new_x)
-    {
-      while(now_x <= new_x)
-	{
-	  tw.linear.x = 0.7;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_x =  getmodelstate.response.pose.position.x;
-	}
-      
-      ros::Duration(2.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  else if(now_x > new_x)
-    {
-      while(now_x > new_x)
-	{
-	  ROS_INFO(" Perfect! ");
 	  ROS_INFO_STREAM(now_x);
 	  ROS_INFO_STREAM(new_x);
-	  tw.linear.x = -0.7;
+	  tw.linear.x = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
 	  now_x =  getmodelstate.response.pose.position.x;
 	}
+      
       ros::Duration(2.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw);
-      
     }
-  
-  ros::Duration(2.0).sleep();
+  else
+    {
+      while(now_x > new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  ros::Duration(1.0).sleep();
   tw.linear.z = 0;
   tw.linear.x = 0;
   tw.linear.y = 0;
@@ -1412,86 +321,54 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
     {
       while(now_y <= new_y)
 	{
-	  tw.linear.y = 0.7;
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
 	  now_y =  getmodelstate.response.pose.position.y;
 	}
-      ros::Duration(2.0).sleep();
+      ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw);
-    }else if(now_y > new_y)
+    }else
     {
       while(now_y > new_y)
 	{
-	  tw.linear.y = -0.7;
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
 	  now_y =  getmodelstate.response.pose.position.y;
 	}
-      ros::Duration(2.0).sleep();
+      ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw); 
     }
   
-  ros::Duration(2.0).sleep();
+  ros::Duration(1.0).sleep();
   tw.linear.z = 0;
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
   
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z <= 8)
-    {
-      while(now_z <= 8)
-	{
-	  tw.linear.z = -0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
-      ros::Duration(1.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  std::cout <<"sevententh";
-  // Fifthtenth Position
-  new_x = 13;
-  new_y = -1;
-  new_z = 2.5;
-  
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z <= 11)
-    {
-      while(now_z <= 11)
-	{
-	  tw.linear.z = 0.5;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
-	}
-      ros::Duration(1.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
-  
+  new_x = 31;
+  new_y = -12;
+  //fourth        
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
 	{
-	  tw.linear.x = 0.7;
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
@@ -1504,25 +381,27 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       tw.linear.y = 0;
       publisher.publish(tw);
     }
-  else if(now_x > new_x)
+  else
     {
       while(now_x > new_x)
 	{
-	  tw.linear.x = -0.7;
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
 	  now_x =  getmodelstate.response.pose.position.x;
 	}
-      ros::Duration(2.0).sleep();
+      
+      ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw);
-      
     }
   
-  ros::Duration(2.0).sleep();
+  ros::Duration(1.0).sleep();
   tw.linear.z = 0;
   tw.linear.x = 0;
   tw.linear.y = 0;
@@ -1532,13 +411,15 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
     {
       while(now_y <= new_y)
 	{
-	  tw.linear.y = 0.7;
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
 	  now_y =  getmodelstate.response.pose.position.y;
 	}
-      ros::Duration(2.0).sleep();
+      ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
@@ -1547,31 +428,846 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
     {
       while(now_y > new_y)
 	{
-	  tw.linear.y = -0.7;
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
 	  now_y =  getmodelstate.response.pose.position.y;
 	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw); 
+    }
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  new_x = 29.99;
+  new_y = 3.0;
+  //fourth position        
+  if(now_x <= new_x)
+    {
+      while(now_x <= new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
       ros::Duration(2.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  else
+    {
+      while(now_x > new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  if(now_y <= new_y)
+    {
+      while(now_y <= new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else
+    {
+      while(now_y > new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw); 
+    }   
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  new_x = -38;
+  new_y = 1.0;
+  
+  //fifth position        
+  if(now_x <= new_x)
+    {
+      while(now_x <= new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(2.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  else
+    {
+      while(now_x > new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  if(now_y <= new_y)
+    {
+      while(now_y <= new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else
+    {
+      while(now_y > new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw); 
+    }
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  new_x = -39;
+  new_y = 13;
+  //sixth position        
+  if(now_x <= new_x)
+    {
+      while(now_x <= new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(2.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  else
+    {
+      while(now_x > new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  if(now_y <= new_y)
+    {
+      while(now_y <= new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else
+    {
+      while(now_y > new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw); 
     }
   
-  ros::Duration(2.0).sleep();
+  ros::Duration(1.0).sleep();
   tw.linear.z = 0;
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
   
-  now_z =  getmodelstate.response.pose.position.z;
+  new_x = 24.49;
+  new_y = 15;
+  //seventh position
+  if(now_x <= new_x)
+    {
+      while(now_x <= new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(2.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  else
+    {
+      while(now_x > new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  if(now_y <= new_y)
+    {
+      while(now_y <= new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else
+    {
+      while(now_y > new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw); 
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  new_x = -15;
+  new_y = 19;
+  //eigth position
+  if(now_x <= new_x)
+    {
+      while(now_x <= new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(2.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  else
+    {
+      while(now_x > new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  if(now_y <= new_y)
+    {
+      while(now_y <= new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else
+    {
+      while(now_y > new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw); 
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  new_x = 7.49;
+  new_y = 17;
+  //nineth position        
+  if(now_x <= new_x)
+    {
+      while(now_x <= new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(2.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  else
+    {
+      while(now_x > new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  if(now_y <= new_y)
+    {
+      while(now_y <= new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else
+    {
+      while(now_y > new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw); 
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  new_x = 8;
+  new_y = 29;
+  //eleventh position        
+  if(now_x <= new_x)
+    {
+      while(now_x <= new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(2.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  else
+    {
+      while(now_x > new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  if(now_y <= new_y)
+    {
+      while(now_y <= new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else
+    {
+      while(now_y > new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw); 
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  new_x = -4;
+  new_y = 31;
+  //twelveth position
+  if(now_x <= new_x)
+    {
+      while(now_x <= new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(2.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  else
+    {
+      while(now_x > new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  if(now_y <= new_y)
+    {
+      while(now_y <= new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else
+    {
+      while(now_y > new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw); 
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  new_x = 11;
+  new_y = -2;
+  //thirdtenth position
+  if(now_x <= new_x)
+    {
+      while(now_x <= new_x)
+	{
+	  ROS_INFO_STREAM(now_x);
+	  ROS_INFO_STREAM(new_x);
+	  tw.linear.x = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_x =  getmodelstate.response.pose.position.x;
+	}
+      
+      ros::Duration(2.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else{
+    while(now_x > new_x)
+      {
+	ROS_INFO_STREAM(now_x);
+	ROS_INFO_STREAM(new_x);
+	tw.linear.x = 0.6;
+	publisher.publish(tw);
+	ros::Duration(1.0).sleep();
+	gms_c.call(getmodelstate);
+	now_x =  getmodelstate.response.pose.position.x;
+      }
+    
+    ros::Duration(1.0).sleep();
+    tw.linear.z = 0;
+    tw.linear.x = 0;
+    tw.linear.y = 0;
+    publisher.publish(tw);
+  }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  
+  if(now_y <= new_y)
+    {
+      while(now_y <= new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = -0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else
+    {
+      while(now_y > new_y)
+	{
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw); 
+    }
+  
+  ros::Duration(1.0).sleep();
+  tw.linear.z = 0;
+  tw.linear.x = 0;
+  tw.linear.y = 0;
+  publisher.publish(tw);
+  ROS_INFO(" Move down! ");
+  
   if(now_z >= 2)
     {
       while(now_z >= 2)
 	{
-	  tw.linear.z = -0.5;
+	  tw.linear.z = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
@@ -1583,12 +1279,11 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       tw.linear.y = 0;
       publisher.publish(tw);
     }
-  
   ros::Duration(1.0).sleep();
   tw.linear.z = 0;
   tw.linear.x = 0;
   tw.linear.y = 0;
-  publisher.publish(tw); 
+  publisher.publish(tw);
   
   
   res.reply = "Task Execution completed";

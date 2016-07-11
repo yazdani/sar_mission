@@ -9,6 +9,9 @@
   <arg name="x" default="0.0"/>
   <arg name="y" default="0.0"/>
   <arg name="z" default="0.3"/>
+  <arg name="roll" default="0.0"/>
+  <arg name="pitch" default="0.0"/>
+  <arg name="yaw" default="0.0"/>
 
   <arg name="use_ground_truth_for_tf" default="true" />
   <arg name="use_ground_truth_for_control" default="true" />
@@ -31,6 +34,9 @@
            -x $(arg x)
            -y $(arg y)
            -z $(arg z)
+           -roll 10
+           -pitch 0
+           -yaw 0
            -model $(arg name)"
         respawn="false" output="screen"/>
 

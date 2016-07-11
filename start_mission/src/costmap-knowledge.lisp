@@ -29,10 +29,10 @@
 (in-package :start-mission)
 
 (def-fact-group costmap-metadata ()
-   (<- (costmap-size 400 500))
-  (<- (costmap-origin -10 -100))
-  (<- (costmap-resolution 0.95))
-  (<- (costmap-padding 0.3)))
+   (<- (costmap-size 100 100))
+  (<- (costmap-origin -50 -50))
+  (<- (costmap-resolution 0.45))
+  (<- (costmap-padding 0.1)))
 
 (desig::disable-location-validation-function 'btr-desig::validate-designator-solution)
 (desig::disable-location-validation-function 'btr-desig::check-ik-solution)

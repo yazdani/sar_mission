@@ -38,4 +38,6 @@
 
 <node pkg="start_mission" type="start_getting_object_size" name="start_getting_object_size" respawn="false" />
 
+<node pkg="start_mission" type="start_getting_reasoning_on_pose" name="start_getting_reasoning_on_pose" respawn="false" />
+
 </launch>
