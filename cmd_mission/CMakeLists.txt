@@ -67,6 +67,8 @@ add_service_files(
    vector_transform.srv
    internal_relation.srv
    get_obj_size.srv
+   get_reason_pose.srv
+   send_instruction.srv
  )
 
 ## Generate actions in the 'action' folder
