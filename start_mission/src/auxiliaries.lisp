@@ -112,13 +112,14 @@
       (tmp NIL))
   (setf result (reference desig))
   ;;(location-costmap:publish-pose (cl-transforms-stamped:pose-stamped->pose result) :id 0)
-  (setf temp (look-at-object-x (cl-transforms:make-pose (cl-transforms:origin (cl-transforms-stamped:pose-stamped->pose result)) (cl-transforms:orientation (cl-transforms:transform->pose cam)))  (get-human-elem-pose objname)))
+  (setf cram-tf:*fixed-frame* "map")
+  (setf temp (look-at-object-x (cl-transforms:make-pose (cl-transforms:origin (cl-transforms-stamped:pose-stamped->pose result)) (cl-transforms:orientation (cl-transforms:transform->pose cam)))  (get-elem-pose objname)))
  ;; (location-costmap:publish-pose temp :id 1)
-(setf cram-tf:*fixed-frame* "/map")
+
 (setf tmp (cl-transforms-stamped:make-pose-stamped "human"
                                          0.0 (cl-transforms:origin temp)
                                          (cl-transforms:orientation temp)))
-(cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose tmp :target-frame "map"))))
+(cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose tmp :target-frame "world"))))
   ;; (cl-transforms:make-pose (cl-transforms-stamped:origin result) (cl-transforms:orientation (look-at-object-x (cl-transforms-stamped:stamped-transform->pose-stamped (cam-depth-tf-transform)) (cl-transforms-stamped:pose-stamped->pose result))))))
 
 (defun checking-object-size (name)
