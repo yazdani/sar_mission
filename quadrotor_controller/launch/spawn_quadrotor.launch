@@ -2,7 +2,7 @@
 
 <launch>
   <arg name="name" default="quadrotor"/>
-  <arg name="model" default="$(find hector_quadrotor_description)/urdf/quadrotor.gazebo.xacro"/>
+  <arg name="model" default="$(find quadrotor_controller)/urdf/quadrotor.gazebo.xacro"/>
   <arg name="tf_prefix" default="$(optenv ROS_NAMESPACE)"/>
   <arg name="controller_definition" default="$(find hector_quadrotor_controller)/launch/controller.launch"/>
 
