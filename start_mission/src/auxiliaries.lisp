@@ -29,6 +29,7 @@
 (in-package :start-mission)
 
 (defvar *cached-colorlist* NIL)
+(defvar *puby* NIL)
 
 (defun initialize-colorlist ()
   (if (null *cached-colorlist*)
@@ -111,15 +112,31 @@
       (temp NIL)
       (tmp NIL))
   (setf result (reference desig))
-  ;;(location-costmap:publish-pose (cl-transforms-stamped:pose-stamped->pose result) :id 0)
-  (setf cram-tf:*fixed-frame* "map")
-  (setf temp (look-at-object-x (cl-transforms:make-pose (cl-transforms:origin (cl-transforms-stamped:pose-stamped->pose result)) (cl-transforms:orientation (cl-transforms:transform->pose cam)))  (get-elem-pose objname)))
- ;; (location-costmap:publish-pose temp :id 1)
+ (if (equal *puby* NIL)
+     ()
+  (remove-local-tf-publisher *puby*))
 
+  ;;(location-costmap:publish-pose (cl-transforms-stamped:pose-stamped->pose result) :id 10)
+ 
+  (setf temp (look-at-object-x (cl-transforms:make-pose (cl-transforms:origin (cl-transforms-stamped:pose-stamped->pose result)) (cl-transforms:orientation (cl-transforms:transform->pose cam)))  (get-human-elem-pose objname)))
+ ;; (format t "temp ~a~%" temp)
+;; (location-costmap:publish-pose temp :id 14)
 (setf tmp (cl-transforms-stamped:make-pose-stamped "human"
                                          0.0 (cl-transforms:origin temp)
-                                         (cl-transforms:orientation temp)))
-(cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose tmp :target-frame "world"))))
+                                        (cl-transforms:orientation temp)))
+;;(location-costmap:publish-pose tmp :id 12)
+(setf tom (cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose tmp :target-frame "map")))
+(setf *puby* (create-local-tf-publisher tom "test"))
+ ;; (format t "tom ~a~%" tom)
+;;(location-costmap:publish-pose tom :id 13)
+;;(setf tom1 (cl-transforms:make-pose (cl-transforms:origin tom) (cl-transforms:orientation tmp)))
+ ;; (format t "tom1 ~a~%" tom1)
+;;  (format t "tmp ~a~%" tmp)
+ ;;(setf cram-tf:*fixed-frame* "map")
+;;(location-costmap:publish-pose tom1 :id 12)
+tom)) 
+;;(cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose tmp :target-frame "world"))))
+
   ;; (cl-transforms:make-pose (cl-transforms-stamped:origin result) (cl-transforms:orientation (look-at-object-x (cl-transforms-stamped:stamped-transform->pose-stamped (cam-depth-tf-transform)) (cl-transforms-stamped:pose-stamped->pose result))))))
 
 (defun checking-object-size (name)
@@ -1181,7 +1198,8 @@ quadrotor, so the rotation is on x-axis"
                     x-axis obj-point-in-camera))
          (res-quaternion (cl-transforms:q*
                           (cl-transforms:axis-angle->quaternion rot-axis angle)
-                          (cl-transforms:axis-angle->quaternion x-axis (/ pi 2)))))
+                          (cl-transforms:axis-angle->quaternion x-axis (* pi 2) ))));;(/ pi 2)))))
+    ;;res-quaternion))
     (cl-transforms:make-pose (cl-transforms:origin camera-pose) res-quaternion)))
 
 
