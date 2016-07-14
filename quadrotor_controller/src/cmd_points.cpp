@@ -35,7 +35,7 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
   
   geometry_msgs::Twist tw;
   publisher.publish(tw);
-  ros::Duration(5.0).sleep();
+  ros::Duration(2.0).sleep();
   
   gms_c.call(getmodelstate);
   double now_x =  getmodelstate.response.pose.position.x;
@@ -47,8 +47,15 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
   double new_z = req.z;
   double vel_x = req.qx;
   double vel_y = req.qy;
-  double vel_z = req.qz;
-  double vel_w = req.qw;
+  double new_qz = req.qz ;
+    if(new_qz >= 0)
+      {
+	new_qz = new_qz - 0.04;
+      }else
+      {
+	new_qz = new_qz + 0.04;
+      }
+  double new_qw = req.qw;
   double vel_qz = 0.0;
   ROS_INFO_STREAM("new_x");
   ROS_INFO_STREAM(new_x);
@@ -56,20 +63,18 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
   ROS_INFO_STREAM(new_y);
   ROS_INFO_STREAM("new_z");
   ROS_INFO_STREAM(new_z);
-  ROS_INFO_STREAM("vel_z");
-  ROS_INFO_STREAM(vel_z);
   ROS_INFO_STREAM("temp");
   ROS_INFO_STREAM(temp);
   ros::Rate r(1);
   bool success = true;
   publisher.publish(tw);
-  ros::Duration(2.0).sleep();
+  ros::Duration(1.0).sleep();
   
 
 
   ROS_INFO("Start task execution ");
 
-  ROS_INFO_STREAM("NOW_Z is going down");
+  ROS_INFO_STREAM("NOW_Z is going up");
 
   if(now_z <= 11)
     {
@@ -90,11 +95,11 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
   ROS_INFO_STREAM("Rotate on Z-AXIS");
   gms_c.call(getmodelstate);
   temp = getmodelstate.response.pose.orientation.z;
-  if(temp <= 0.95 && temp >= 0)
+  if(temp <= 0.95)
     {
-      while(temp <= 0.95)
+      while(temp <= 0.91)
 	{
-	  tw.angular.z = 0.2;
+	  tw.angular.z = -0.3;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
@@ -103,11 +108,11 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
       ros::Duration(2.0).sleep();
       tw.angular.z = 0;
       publisher.publish(tw);
-    }else{
+    }/*else{
     ROS_INFO_STREAM("TEEEEST");
     while(temp > -0.95)
       {
-	tw.angular.z = -0.2;
+	tw.angular.z = 0.25;
 	publisher.publish(tw);
 	ros::Duration(1.0).sleep();
 	gms_c.call(getmodelstate);
@@ -117,7 +122,7 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
     tw.angular.z = 0;
     publisher.publish(tw);
   }
-
+     */
   ROS_INFO_STREAM("NOW_X is moving");
   gms_c.call(getmodelstate);
   now_x =  getmodelstate.response.pose.position.x;
@@ -203,7 +208,7 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
       publisher.publish(tw); 
     }
   
-  ros::Duration(1.0).sleep();
+  ros::Duration(2.0).sleep();
   tw.linear.z = 0;
   tw.linear.x = 0;
   tw.linear.y = 0;
@@ -211,102 +216,78 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
   gms_c.call(getmodelstate);
 
   temp = getmodelstate.response.pose.orientation.z;
-  ROS_INFO_STREAM("temp-start");
-  ROS_INFO_STREAM(temp);
-  ROS_INFO_STREAM("vel-z");
-  ROS_INFO_STREAM(vel_z);
-  if(vel_w > 0)
-    {
-      vel_qz = vel_z;
-    }else
-    {
-      vel_qz = vel_z;
-    }
-  if(temp <= vel_qz)
-    {
-      while(temp <= vel_qz)
-	{
-	  tw.angular.z = 0.1;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  temp = getmodelstate.response.pose.orientation.z;
-	  ROS_INFO_STREAM("tgrgremp-looking");
-	  ROS_INFO_STREAM(temp);
-	  ROS_INFO_STREAM("vel_z");
-	  ROS_INFO_STREAM(vel_z);
-	  ROS_INFO_STREAM("vel_qz");
-	  ROS_INFO_STREAM(vel_qz);
+ 
+  gms_c.call(getmodelstate);
+  
 
-	}
+  if(getmodelstate.response.pose.orientation.z > new_qz)
+   {
+ 
+  	 while(getmodelstate.response.pose.orientation.z > new_qz)
+	   {
+	     ROS_INFO_STREAM("TEST");
+	     ROS_INFO_STREAM(getmodelstate.response.pose.orientation.z);
+	     ROS_INFO_STREAM(new_qz);
+	     
+	     tw.angular.z = 0.1;
+	     publisher.publish(tw);
+	     ros::Duration(1.0).sleep();
+	     gms_c.call(getmodelstate);
+	   }
       
-      ros::Duration(2.0).sleep();
-      tw.angular.z = 0;
-      publisher.publish(tw);
-      ROS_INFO_STREAM("temp");
-      ROS_INFO_STREAM(temp);
-      ROS_INFO_STREAM("vel-qz");
-      ROS_INFO_STREAM(vel_qz);
-    }else{
-    while(temp > vel_qz)
-      {
-	tw.angular.z = -0.1;
-	publisher.publish(tw);
-	ros::Duration(1.0).sleep();
-	gms_c.call(getmodelstate);
-	temp = getmodelstate.response.pose.orientation.z;
-	ROS_INFO_STREAM("tewrewemp");
-	ROS_INFO_STREAM(temp);
- ROS_INFO_STREAM("vel_z");
-	  ROS_INFO_STREAM(vel_z);
-	ROS_INFO_STREAM("vel_qz");
-	ROS_INFO_STREAM(vel_qz);
-	ROS_INFO_STREAM("vel_w");
-	ROS_INFO_STREAM(vel_w);
-	ROS_INFO_STREAM("model state w");
-	ROS_INFO_STREAM(getmodelstate.response.pose.orientation.w);
-      }
-
-    ros::Duration(2.0).sleep();
-    tw.angular.z = 0;
-    publisher.publish(tw);
-    ROS_INFO_STREAM("tem3232323p");
-    ROS_INFO_STREAM(temp);
- ROS_INFO_STREAM("vel_z");
-	  ROS_INFO_STREAM(vel_z);
-    ROS_INFO_STREAM("vel_qz");
-    ROS_INFO_STREAM(vel_qz);
-  }
-  ROS_INFO_STREAM("vel_qz");
-  ROS_INFO_STREAM( vel_qz);
-  ros::Duration(1.0).sleep();
-  tw.linear.z = 0;
-  tw.linear.x = 0;
-  tw.linear.y = 0;
-  tw.angular.z = 0;
-  publisher.publish(tw); 
-  now_z =  getmodelstate.response.pose.position.z;
-  if(now_z > 5)
+	 ros::Duration(2.0).sleep();
+	 tw.angular.z = 0;
+	 publisher.publish(tw);
+   }else
     {
-      while(now_z > 7)
-	{
-	  tw.linear.z = -0.6;
+	  while(getmodelstate.response.pose.orientation.z < new_qz)
+	    {
+	      ROS_INFO_STREAM("TEST1");
+	      
+	      ROS_INFO_STREAM(getmodelstate.response.pose.orientation.z);
+	      ROS_INFO_STREAM(new_qz);
+	      tw.angular.z = -0.1;
+	      publisher.publish(tw);
+	      ros::Duration(1.0).sleep();
+	      gms_c.call(getmodelstate);
+	    }
+	  
+	  ros::Duration(2.0).sleep();
+	  tw.angular.z = 0;
 	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  now_z =  getmodelstate.response.pose.position.z;
 	}
-      ros::Duration(1.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-    }
+
      ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw);
+	  gms_c.call(getmodelstate);
+
+
+      while(getmodelstate.response.pose.position.z > 5)
+	{
+
+	  ROS_INFO_STREAM(getmodelstate.response.pose.position.z);
+	  ROS_INFO_STREAM(new_qz);
+	  
+	  tw.linear.z = -0.3;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      publisher.publish(tw);
+   
+
+  ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+
   res.repl = "Task Execution completed";
   return true;
 }
