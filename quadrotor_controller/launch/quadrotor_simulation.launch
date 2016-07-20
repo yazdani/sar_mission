@@ -5,7 +5,7 @@
 <node pkg="quadrotor_controller" type="cmd_points" name="cmd_points" respawn="false" />
 <node pkg="quadrotor_controller" type="scan_region" name="scan_region" respawn="false" />
 
-  <!--node type="laser_scan_assembler" pkg="laser_assembler" name="my_laser_assembler">
+  <node type="laser_scan_assembler" pkg="laser_assembler" name="my_laser_assembler">
     <remap from="scan" to="quad_scan"/>
     <param name="max_scans" type="int" value="800" />
     <param name="fixed_frame" type="string" value="map" />
@@ -24,7 +24,7 @@
     <remap from="cloud" to="my_cloud_in"/>
     <param name="max_clouds" type="int" value="800" />
     <param name="fixed_frame" type="string" value="map" />
-  </node-->
+  </node>
 
 
  <!--node type="laser_scan_data" pkg="quadrotor_controller" name="laser_scan_data" respawn="false"/-->
