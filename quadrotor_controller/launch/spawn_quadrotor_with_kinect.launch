@@ -3,8 +3,8 @@
 <launch>
    <arg name="name" default="quadrotor"/>
    <arg name="tf_prefix" default="$(optenv ROS_NAMESPACE)"/>
-   <arg name="x" default="0.0"/>
-   <arg name="y" default="0.0"/>
+   <arg name="x" default="11.0"/>
+   <arg name="y" default="-2.0"/>
    <arg name="z" default="0.3"/>
 
    <arg name="use_ground_truth_for_tf" default="true"/>
@@ -14,7 +14,7 @@
 
    <include file="$(find quadrotor_controller)/launch/spawn_quadrotor.launch">
      <arg name="name" default="$(arg name)"/>
-     <arg name="model" value="$(find hector_quadrotor_description)/urdf/quadrotor_with_kinect.gazebo.xacro"/>
+     <arg name="model" value="$(find quadrotor_controller)/urdf/quadrotor_with_kinect.gazebo.xacro"/>
      <arg name="tf_prefix" default="$(arg tf_prefix)"/>
      <arg name="x" default="$(arg x)"/>
      <arg name="y" default="$(arg y)"/>

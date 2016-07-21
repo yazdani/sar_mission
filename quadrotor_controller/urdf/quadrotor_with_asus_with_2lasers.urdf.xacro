@@ -17,7 +17,7 @@
     </xacro:hokuyo_utm30lx-->
     
     <!-- Asus Xiton Live Pro -->
-    <xacro:include filename="$(find quadrotor_controller)/urdf/asus_camera.urdf.xacro" />
+    <xacro:include filename="$(find quadrotor_controller)/urdf/kinect_camera.urdf.xacro" />
     <xacro:asus_camera name="camera" parent="base_link">
       <origin xyz="0.1 0.0 -0.05" rpy="0 1.5 0"/>
     </xacro:asus_camera>

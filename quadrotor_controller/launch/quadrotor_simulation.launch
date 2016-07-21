@@ -1,6 +1,6 @@
 <launch>
 
- <include file="$(find quadrotor_controller)/launch/spawn_quadrotor_with_asus_with_laser.launch" />
+ <include file="$(find quadrotor_controller)/launch/spawn_quadrotor_with_kinect.launch" />
 
 <node pkg="quadrotor_controller" type="cmd_points" name="cmd_points" respawn="false" />
 <node pkg="quadrotor_controller" type="scan_region" name="scan_region" respawn="false" />

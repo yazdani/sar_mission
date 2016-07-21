@@ -3,11 +3,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:property name="M_PI" value="3.1415926535897931" />
   
-    <!--
-     The asus_camera_model macro only adds the model, it does not also add
-     the openni gazebo plugin. See the 'asus_camera' macro below for that
-    -->
-    <xacro:macro name="asus_camera_model" params="name parent *origin">
+    <xacro:macro name="kinect_camera_model" params="name parent *origin">
       <joint name="${name}_joint" type="fixed">
         <xacro:insert_block name="origin" />
         <parent link="${parent}"/>
@@ -15,36 +11,23 @@
       </joint>
       
       <link name="${name}_link">
-        <inertial>
-          <mass value="0.200" />
-          <origin xyz="0 0 0" rpy="0 0 0" />
-          <inertia ixx="5.8083e-4" ixy="0" ixz="0" iyy="3.0833e-5" iyz="0" izz="5.9083e-4" />
-        </inertial>
+        <xacro:inertial_sphere mass="0.01" diameter="0.07" />
         <visual>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://hector_sensors_description/meshes/asus_camera/asus_camera_simple.dae"/>
+            <mesh filename="package://hector_sensors_description/meshes/kinect_camera/kinect_camera_simple.dae"/>
           </geometry>
         </visual>
-       <!--        
-       <collision>
-          <origin xyz="0 0 0" rpy="0 0 0" />
-          <geometry>
-            <box size="0.035 0.185 0.025"/>
-          </geometry>
-        </collision>
-        -->
         <collision>
           <origin xyz="0 0 0" rpy="0 0 0" />
           <geometry>
-            <mesh filename="package://hector_sensors_description/meshes/asus_camera/asus_camera_simple.dae"/>
+            <mesh filename="package://hector_sensors_description/meshes/kinect_camera/kinect_camera_simple.stl"/>
           </geometry>
         </collision>
-
       </link>
 
       <joint name="${name}_depth_joint" type="fixed">
-        <origin xyz="0.0 0.049 0.0" rpy="0 0 0" />
+        <origin xyz="0.0 -0.02 0.0" rpy="0 0 0" />
         <parent link="${name}_link" />
         <child link="${name}_depth_frame"/>
       </joint>
@@ -60,7 +43,7 @@
       <link name="${name}_depth_optical_frame"/>
 
       <joint name="${name}_rgb_joint" type="fixed">
-        <origin xyz="0.0 0.022 0.0" rpy="0 0 0" />
+        <origin xyz="0.0 -0.0125 0.0" rpy="0 0 0" />
         <parent link="${name}_link" />
         <child link="${name}_rgb_frame"/>
       </joint>
@@ -74,31 +57,27 @@
       </joint>
 
       <link name="${name}_rgb_optical_frame"/>
+
     </xacro:macro>
 
-    <!--
-     The asus_camera macro only adds the model, and also adds
-     the openni gazebo plugin.
-    -->
-    <xacro:macro name="asus_camera" params="name parent *origin">
-      <xacro:asus_camera_model name="${name}" parent="${parent}">
+    <xacro:macro name="kinect_camera" params="name parent *origin">
+      <xacro:kinect_camera_model name="${name}" parent="${parent}">
         <xacro:insert_block name="origin" />
-      </xacro:asus_camera_model>
-  
-      <!-- ASUS Xtion PRO camera for simulation -->
+      </xacro:kinect_camera_model>
+      
       <gazebo reference="${name}_depth_frame">
         <sensor type="depth" name="${name}">
           <update_rate>500</update_rate>
           <camera>
-            <horizontal_fov>${62.8 * M_PI/180.0}</horizontal_fov>
-	    <!-- ${62.8 * M_PI/180.0} -->
+            <horizontal_fov>1.9</horizontal_fov>
+	    <!-- ${60 * M_PI/180.0} -->
             <image>
               <format>R8G8B8</format>
               <width>1540</width>
-              <height>6080</height>
+              <height>3580</height>
             </image>
             <clip>
-              <near>1</near>
+              <near>2</near>
               <far>100</far>
             </clip>
           </camera>
