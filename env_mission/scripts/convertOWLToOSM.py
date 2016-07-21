@@ -50,9 +50,15 @@ with open(path+"/"+outFile,'a') as o:
                 lon = float(y)/radius*180.0/math.pi/math.cos(lat_home_rad)+12.241426
                 o.write(" <node id=\""+str(index+111111111)+"\" lat=\""+str(lat)+"\" lon=\""+str(lon)+"\" version=\"1\" changeset=\""+str(440330+index)+"\" user=\"me\" uid=\""+str(6871+index)+"\" visible=\"true\" timestamp=\""+now.isoformat()+"\">\n")
             if lines[index+1].split("#")[1].split("\"")[0]:
-                o.write("    <tag k=\"natural\" v=\""+ lines[index+1].split("#")[1].split("\"")[0]+"\"/>\n")
+                if "victim" is lines[index+1].split("#")[1].split("\"")[0]:
+                    o.write("    <tag k=\"person\" v=\""+ lines[index+1].split("#")[1].split("\"")[0]+"\"/>\n")
+                else:
+                    o.write("    <tag k=\"natural\" v=\""+ lines[index+1].split("#")[1].split("\"")[0]+"\"/>\n")
             elif lines[index+1].split(";")[1].split("\"")[0]:
-                o.write("    <tag k=\"natural\" v=\""+ lines[index+1].split("#")[1].split("\"")[0]+"\"/>\n")
+                if "victim" is lines[index+1].split(";")[1].split("\"")[0]:
+                    o.write("    <tag k=\"person\" v=\""+ lines[index+1].split("#")[1].split("\"")[0]+"\"/>\n")
+                else:
+                    o.write("    <tag k=\"natural\" v=\""+ lines[index+1].split("#")[1].split("\"")[0]+"\"/>\n")
             o.write(" </node>\n")
             
         index = index +1
