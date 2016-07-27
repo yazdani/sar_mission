@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="OpenStreetMap server">
+ <bounds minlat="0.00" minlon="0.00" maxlat="0.00" maxlon="0.0"/>
+ <node id="111111001" lat="44.1534572813" lon="12.2415061256" version="1" changeset="2026" user="me" uid="1026" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="bigtree"/>
+ </node>
+
+ <node id="111111002" lat="44.1533855329" lon="12.2416133764" version="1" changeset="2048" user="me" uid="1048" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="bigtree"/>
+ </node>
+
+ <node id="111111003" lat="44.1530896604" lon="12.2414383751" version="1" changeset="2070" user="me" uid="1070" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="bigtree"/>
+ </node>
+
+ <node id="111111004" lat="44.153017912" lon="12.2415383758" version="1" changeset="2092" user="me" uid="1092" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="bigtree"/>
+ </node>
+
+ <node id="111111005" lat="44.1529371951" lon="12.2414383751" version="1" changeset="2114" user="me" uid="1114" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="bigtree"/>
+ </node>
+
+ <node id="111111006" lat="44.1531883145" lon="12.241707252" version="1" changeset="2137" user="me" uid="1137" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="bigtree"/>
+ </node>
+
+ <node id="111111007" lat="44.1531434717" lon="12.2416633767" version="1" changeset="2159" user="me" uid="1159" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="bigtree"/>
+ </node>
+
+ <node id="111111008" lat="44.1530945931" lon="12.2416383765" version="1" changeset="2181" user="me" uid="1181" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="bigtree"/>
+ </node>
+
+ <node id="111111009" lat="44.1534485818" lon="12.241563376" version="1" changeset="2208" user="me" uid="1208" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111010" lat="44.1534483128" lon="12.2416133764" version="1" changeset="2230" user="me" uid="1230" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111011" lat="44.1534214071" lon="12.2415883762" version="1" changeset="2252" user="me" uid="1252" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111012" lat="44.1533406902" lon="12.2412578738" version="1" changeset="2274" user="me" uid="1274" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111013" lat="44.1532729776" lon="12.24141975" version="1" changeset="2296" user="me" uid="1296" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="biggesttree"/>
+ </node>
+
+ <node id="111111014" lat="44.1529820378" lon="12.2416258765" version="1" changeset="2318" user="me" uid="1318" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111015" lat="44.1530358491" lon="12.2416258765" version="1" changeset="2340" user="me" uid="1340" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111016" lat="44.1531255346" lon="12.2416008763" version="1" changeset="2362" user="me" uid="1362" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111017" lat="44.1531793459" lon="12.2416383765" version="1" changeset="2384" user="me" uid="1384" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111018" lat="44.1531794356" lon="12.2412634988" version="1" changeset="2406" user="me" uid="1406" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111019" lat="44.1532332469" lon="12.2414383751" version="1" changeset="2429" user="me" uid="1429" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111020" lat="44.1535058909" lon="12.2413009991" version="1" changeset="2451" user="me" uid="1451" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111021" lat="44.153255758" lon="12.2418510031" version="1" changeset="2473" user="me" uid="1473" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111022" lat="44.153278" lon="12.2416885019" version="1" changeset="2495" user="me" uid="1495" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="tree"/>
+ </node>
+
+ <node id="111111023" lat="44.153228673" lon="12.2412697489" version="1" changeset="2520" user="me" uid="1520" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="smalltree"/>
+ </node>
+
+ <node id="111111024" lat="44.1532062516" lon="12.2413009991" version="1" changeset="2542" user="me" uid="1542" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="smalltree"/>
+ </node>
+
+ <node id="111111025" lat="44.1532062516" lon="12.2412634988" version="1" changeset="2564" user="me" uid="1564" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="smalltree"/>
+ </node>
+
+ <node id="111111026" lat="44.1531120818" lon="12.2415072506" version="1" changeset="2586" user="me" uid="1586" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="smalltree"/>
+ </node>
+
+ <node id="111111027" lat="44.1532600629" lon="12.2414510002" version="1" changeset="2611" user="me" uid="1611" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="smallbigtree"/>
+ </node>
+
+ <node id="111111028" lat="44.1532510943" lon="12.2414510002" version="1" changeset="2633" user="me" uid="1633" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="smallbigtree"/>
+ </node>
+
+ <node id="111111029" lat="44.1533640084" lon="12.2414503752" version="1" changeset="2655" user="me" uid="1655" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="smallbigtree"/>
+ </node>
+
+ <node id="111111030" lat="44.1533945912" lon="12.2415505009" version="1" changeset="2680" user="me" uid="1680" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="rock"/>
+ </node>
+
+ <node id="111111031" lat="44.15315253" lon="12.2412004984" version="1" changeset="2702" user="me" uid="1702" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="rock"/>
+ </node>
+
+ <node id="111111032" lat="44.1531252656" lon="12.2412183735" version="1" changeset="2724" user="me" uid="1724" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="rock"/>
+ </node>
+
+ <node id="111111033" lat="44.1531253553" lon="12.2411877483" version="1" changeset="2747" user="me" uid="1747" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="rock"/>
+ </node>
+
+ <node id="111111034" lat="44.1529821275" lon="12.2414755004" version="1" changeset="2769" user="me" uid="1769" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="rock"/>
+ </node>
+
+ <node id="111111035" lat="44.152892442" lon="12.2415187507" version="1" changeset="2790" user="me" uid="1790" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="rock"/>
+ </node>
+
+ <node id="111111036" lat="44.1532421258" lon="12.2414697503" version="1" changeset="2811" user="me" uid="1811" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="rock"/>
+ </node>
+
+ <node id="111111037" lat="44.1534753081" lon="12.2413759996" version="1" changeset="2837" user="me" uid="1837" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="hugerock"/>
+ </node>
+
+ <node id="111111038" lat="44.1531253553" lon="12.2411877483" version="1" changeset="2858" user="me" uid="1858" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="hugerock"/>
+ </node>
+
+ <node id="111111039" lat="44.1532102874" lon="12.2411009976" version="1" changeset="2879" user="me" uid="1879" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="hugerock"/>
+ </node>
+
+ <node id="111111040" lat="44.1532459823" lon="12.241426" version="1" changeset="2903" user="me" uid="1903" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="person" v="victim"/>
+ </node>
+
+ <node id="111111041" lat="44.1529102894" lon="12.2414635003" version="1" changeset="2924" user="me" uid="1924" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="person" v="victim"/>
+ </node>
+
+ <node id="111111042" lat="44.1531927988" lon="12.2413009991" version="1" changeset="2945" user="me" uid="1945" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="person" v="victim"/>
+ </node>
+
+ <node id="111111043" lat="44.1530448177" lon="12.2414885005" version="1" changeset="2969" user="me" uid="1969" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="pylon"/>
+ </node>
+
+ <node id="111111044" lat="44.1531434717" lon="12.2415510009" version="1" changeset="2990" user="me" uid="1990" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="pylon"/>
+ </node>
+
+ <node id="111111045" lat="44.1532241887" lon="12.2411759982" version="1" changeset="3011" user="me" uid="2011" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="pylon"/>
+ </node>
+
+ <node id="111111046" lat="44.1531434717" lon="12.2413384994" version="1" changeset="3036" user="me" uid="2036" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="redpylon"/>
+ </node>
+
+ <node id="111111047" lat="44.1533856226" lon="12.2413384994" version="1" changeset="3058" user="me" uid="2058" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="redpylon"/>
+ </node>
+
+ <node id="111111048" lat="44.1532331572" lon="12.2416260015" version="1" changeset="3083" user="me" uid="2083" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="bluepylon"/>
+ </node>
+
+ <node id="111111049" lat="44.1531165661" lon="12.2414009998" version="1" changeset="3104" user="me" uid="2104" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="bluepylon"/>
+ </node>
+
+ <node id="111111050" lat="44.1531165661" lon="12.2414009998" version="1" changeset="3128" user="me" uid="2128" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="brokepylon"/>
+ </node>
+
+ <node id="111111051" lat="44.153197283" lon="12.2412759989" version="1" changeset="3149" user="me" uid="2149" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="brokepylon"/>
+ </node>
+
+ <node id="111111052" lat="44.1533004214" lon="12.2417822526" version="1" changeset="3174" user="me" uid="2174" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="house"/>
+ </node>
+
+ <node id="111111053" lat="44.1530717233" lon="12.2415510009" version="1" changeset="3195" user="me" uid="2195" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="house"/>
+ </node>
+
+ <node id="111111054" lat="44.1535469668" lon="12.2414635003" version="1" changeset="3216" user="me" uid="2216" visible="true" timestamp="2016-07-27T17:52:25.331857">
+    <tag k="natural" v="house"/>
+ </node>
+
+</osm>
