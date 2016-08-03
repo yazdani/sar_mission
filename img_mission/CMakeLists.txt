@@ -13,6 +13,8 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   OpenCV REQUIRED
   message_generation
+  roscpp
+  image_transport
 )
 
 
@@ -107,7 +109,8 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
  INCLUDE_DIRS include
- CATKIN_DEPENDS cv_bridge std_msgs
+ CATKIN_DEPENDS cv_bridge std_msgs 
+ DEPENDS OpenCV
 )
 
 ###########
@@ -119,6 +122,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -140,12 +144,18 @@ include_directories(
 # add_executable(${PROJECT_NAME}
 #   src/spawn_image.cpp)
 ## Declare a C++ executable
-add_executable(spawn_image src/spawn_image.cpp)
-target_link_libraries(spawn_image ${catkin_LIBRARIES})
-add_dependencies(spawn_image img_mission_generate_messages_cpp)
-add_executable(publish_image src/publish_image.cpp)
-target_link_libraries(publish_image ${catkin_LIBRARIES})
-add_dependencies(publish_image img_mission_generate_messages_cpp)
+
+
+add_executable(show_image src/show_image.cpp)
+target_link_libraries(show_image ${catkin_LIBRARIES})
+add_dependencies(show_image img_mission_generate_messages_cpp)
+add_executable(store_image src/store_image.cpp)
+target_link_libraries(store_image ${catkin_LIBRARIES})
+add_dependencies(store_image img_mission_generate_messages_cpp)
+add_executable(pub_img src/pub_img.cpp)
+target_link_libraries(pub_img  ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} opencv_core
+  opencv_highgui)
+add_dependencies(pub_img img_mission_generate_messages_cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(img_mission_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
