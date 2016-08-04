@@ -36,7 +36,8 @@ bool check(img_mission::returnString::Request  &req,
   ROS_INFO_STREAM(test);
   image = imread(test,CV_LOAD_IMAGE_COLOR);//imread(test,IMREAD_COLOR);  
   ROS_INFO_STREAM("test");
-  // cv::namedWindow( "Display Image", WINDOW_AUTOSIZE );
+  cv::namedWindow( "Display Image", WINDOW_NORMAL );
+  cv::resizeWindow("Display Image",200,200);
   ROS_INFO_STREAM("test1");
 
   //  ROS_INFO_STREAM(image);
@@ -51,9 +52,10 @@ bool check(img_mission::returnString::Request  &req,
  
   ROS_INFO_STREAM("test3");
   imshow("Display Image",image);
-  ROS_INFO_STREAM("test3");
-  cv::waitKey();
-  res.result = "Spawn Image!";
+  ROS_INFO_STREAM("test34");
+  cv::waitKey(1000);
+  destroyWindow("Display Image");
+  res.result = "Spawned Image!";
   indexy = 1;
 
   return true;

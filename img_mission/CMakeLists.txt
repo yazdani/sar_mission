@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(img_mission)
-
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
@@ -11,14 +10,13 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   sensor_msgs
-  OpenCV REQUIRED
   message_generation
   roscpp
   image_transport
 )
 
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+find_package(OpenCV REQUIRED)
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
 
@@ -153,8 +151,7 @@ add_executable(store_image src/store_image.cpp)
 target_link_libraries(store_image ${catkin_LIBRARIES})
 add_dependencies(store_image img_mission_generate_messages_cpp)
 add_executable(pub_img src/pub_img.cpp)
-target_link_libraries(pub_img  ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} opencv_core
-  opencv_highgui)
+target_link_libraries(pub_img  ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 add_dependencies(pub_img img_mission_generate_messages_cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
