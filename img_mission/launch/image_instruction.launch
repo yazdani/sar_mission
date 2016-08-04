@@ -1,0 +1,6 @@
+<launch>
+
+<node pkg="img_mission" type="show_image" name="show_image" respawn="false" />
+<node pkg="img_mission" type="store_image" name="store_image" respawn="false" />
+
+</launch>
