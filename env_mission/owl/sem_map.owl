@@ -1,0 +1,129 @@
+<?xml version="1.0"?> 
+
+<!DOCTYPE rdf:RDF [
+  <!ENTITY owl "http://www.w3.org/2002/07/owl#" > 
+  <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" > 
+  <!ENTITY knowrob "http://knowrob.org/kb/knowrob.owl#" > 
+  <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" > 
+  <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" > 
+]>
+
+<rdf:RDF xmlns="http://knowrob.org/kb/IAI-alpine.owl#"
+  xml:base="http://knowrob.org/kb/IAI-alpine.owl"
+  xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xmlns:owl="http://www.w3.org/2002/07/owl#"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+
+  <owl:Ontology rdf:about="http://knowrob.org/kb/IAI-alpine.owl">
+    <owl:imports rdf:resource="package://env_mission/owl/mountain_ontology.owl"/>
+  </owl:Ontology>
+
+<!-- tree2-->
+<owl:NamedIndividual rdf:about="&knowrob;tree2">
+     <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#tree"/>
+     <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
+     <knowrob:hasColor rdf:datatype="&xsd;string">darkgreen</knowrob:hasColor>
+     <knowrob:isAlive rdf:datatype="&xsd;string">inanimate</knowrob:isAlive>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_tree2">
+     <rdf:type rdf:resource="&knowrob;Transformation"/>
+     <knowrob:quaternion rdf:datatype="&xsd;string">2.2 3.2 4.2</knowrob:quaternion>
+     <knowrob:translation rdf:datatype="&xsd;string">1.23 24.56 4.5 1.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptiontree2">
+     <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+     <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
+     <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_tree2"/>
+     <knowrob:objectActedOn rdf:resource="&knowrob;tree2"/>
+</owl:NamedIndividual>
+
+<!-- tree2-->
+<owl:NamedIndividual rdf:about="&knowrob;tree2">
+     <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#tree"/>
+     <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
+     <knowrob:hasColor rdf:datatype="&xsd;string">darkgreen</knowrob:hasColor>
+     <knowrob:isAlive rdf:datatype="&xsd;string">inanimate</knowrob:isAlive>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_tree2">
+     <rdf:type rdf:resource="&knowrob;Transformation"/>
+     <knowrob:quaternion rdf:datatype="&xsd;string">2.2 3.2 4.2</knowrob:quaternion>
+     <knowrob:translation rdf:datatype="&xsd;string">1.23 24.56 4.5 1.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptiontree2">
+     <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+     <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
+     <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_tree2"/>
+     <knowrob:objectActedOn rdf:resource="&knowrob;tree2"/>
+</owl:NamedIndividual>
+
+<!-- tree2-->
+<owl:NamedIndividual rdf:about="&knowrob;tree2">
+     <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#tree"/>
+     <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
+     <knowrob:hasColor rdf:datatype="&xsd;string">darkgreen</knowrob:hasColor>
+     <knowrob:isAlive rdf:datatype="&xsd;string">inanimate</knowrob:isAlive>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_tree2">
+     <rdf:type rdf:resource="&knowrob;Transformation"/>
+     <knowrob:quaternion rdf:datatype="&xsd;string">2.2 3.2 4.2</knowrob:quaternion>
+     <knowrob:translation rdf:datatype="&xsd;string">1.23 24.56 4.5 1.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptiontree2">
+     <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+     <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
+     <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_tree2"/>
+     <knowrob:objectActedOn rdf:resource="&knowrob;tree2"/>
+</owl:NamedIndividual>
+
+<!-- tree2-->
+<owl:NamedIndividual rdf:about="&knowrob;tree2">
+     <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#tree"/>
+     <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
+     <knowrob:hasColor rdf:datatype="&xsd;string">darkgreen</knowrob:hasColor>
+     <knowrob:isAlive rdf:datatype="&xsd;string">inanimate</knowrob:isAlive>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_tree2">
+     <rdf:type rdf:resource="&knowrob;Transformation"/>
+     <knowrob:quaternion rdf:datatype="&xsd;string">2.2 3.2 4.2</knowrob:quaternion>
+     <knowrob:translation rdf:datatype="&xsd;string">1.23 24.56 4.5 1.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptiontree2">
+     <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+     <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
+     <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_tree2"/>
+     <knowrob:objectActedOn rdf:resource="&knowrob;tree2"/>
+</owl:NamedIndividual>
+
+
+<!-- victim1-->
+<owl:NamedIndividual rdf:about="&knowrob;victim1">
+     <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#victim"/>
+     <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
+     <knowrob:hasColor rdf:datatype="&xsd;string">darkgreen</knowrob:hasColor>
+     <knowrob:isAlive rdf:datatype="&xsd;string">inanimate</knowrob:isAlive>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;Transformation_victim1">
+     <rdf:type rdf:resource="&knowrob;Transformation"/>
+     <knowrob:quaternion rdf:datatype="&xsd;string">2.2 3.2 4.2</knowrob:quaternion>
+     <knowrob:translation rdf:datatype="&xsd;string">1.23 24.56 4.5 1.0</knowrob:translation>
+</owl:NamedIndividual>
+
+<owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionvictim1">
+     <rdf:type rdf:resource="&knowrob;SemanticMapPerception"/>
+     <knowrob:startTime rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#timepoint_0"/>
+     <knowrob:eventOccursAt rdf:resource="&knowrob;Transformation_victim1"/>
+     <knowrob:objectActedOn rdf:resource="&knowrob;victim"/>
+</owl:NamedIndividual>
+</rdf:RDF>

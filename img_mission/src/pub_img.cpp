@@ -54,56 +54,34 @@ int main(int argc, char **argv)
   return 0;
 }
 */
-#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
-//#include <opencv2/highgui.hpp>
-#include <opencv2/highgui.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include <iostream>
-#include <string>
-//! [includes]
-#include "opencv2/objdetect.hpp" 
-#include <opencv2/opencv.hpp>
-#include <cv_bridge/cv_bridge.h>
-//! [namespace]
-using namespace cv;
-//! [namespace]
 
+using namespace cv;
 using namespace std;
 
 int main( int argc, char** argv )
 {
-    //! [load]
-    String imageName( "/home/yazdani/work/ros/indigo/catkin_ws/src/sar_mission/img_mission/imgs/HappyFish.jpg" ); // by default
-    if( argc > 1)
+  std::cout<<"BLA HLA"<<std::endl;
+    if( argc != 2)
     {
-        imageName = argv[1];
+     cout <<" Usage: display_image ImageToLoadAndDisplay" << endl;
+     return -1;
     }
-    //! [load]
-    cout <<  imageName << std::endl ;
-    //! [mat]
-    cv::Mat image;
-    //! [mat]
 
-    //! [imread]
-    image = cv::imread( imageName, CV_LOAD_IMAGE_COLOR); // Read the file
-    //! [imread]
+    Mat image;
+    image = imread(argv[1], CV_LOAD_IMAGE_COLOR);   // Read the file
 
-    if( image.empty() )                      // Check for invalid input
+    if(! image.data )                              // Check for invalid input
     {
         cout <<  "Could not open or find the image" << std::endl ;
         return -1;
     }
-     cout <<  "tetetetetest" << std::endl ;
-    namedWindow( "Display window", WINDOW_AUTOSIZE ); // Create a window for display.
-    //! [window]
+    std::cerr<<image.rows<<std::endl;
+    //    namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for display.
+    imshow("asd", image );                   // Show our image inside it.
 
-    //! [imshow]
-    cout <<  "tetetetetessssst" << std::endl ;
-     imshow( "Display window", image      );                // Show our image inside it.
-    //! [imshow]
-
-    //! [wait]
-    waitKey(0); // Wait for a keystroke in the window
-    //! [wait]
+    waitKey(0);                                          // Wait for a keystroke in the window
     return 0;
 }
