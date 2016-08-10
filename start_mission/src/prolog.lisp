@@ -90,6 +90,11 @@
      ?costmap)
     (adjust-map ?costmap ?object-pose ?object-name))
 
+  (<- (prepositions ?desig ?pose ?costmap)
+      (desig-prop ?desig (:to ?object-name))
+      (lisp-fun get-human-elem-pose ?object-name ?object-pose)
+      (adjust-map ?costmap ?object-pose ?object-name))
+
 (<- (adjust-map ?costmap ?object-pose ?object-name)
   (semantic-map-costmap::semantic-map-objects ?all-objects)
   (lisp-fun get-elem-pose ?object-name ?pose)
