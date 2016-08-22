@@ -14,6 +14,8 @@
 #include "img_mission/returnString.h"
 #include <stdlib.h> 
 #include <ros/package.h>
+#include <unistd.h>
+#include <signal.h>
 
 using namespace std;
 using namespace cv;
@@ -30,15 +32,13 @@ bool check(img_mission::returnString::Request  &req,
 	   img_mission::returnString::Response &res)
 {  
   std::string path = ros::package::getPath("img_mission") + "/imgs/";
-  ROS_INFO_STREAM(path);
+  // ROS_INFO_STREAM(path);
   const string test = path+req.goal;
   cv::Mat image,  gray_image;
-  ROS_INFO_STREAM(test);
   image = imread(test,CV_LOAD_IMAGE_COLOR);//imread(test,IMREAD_COLOR);  
-  ROS_INFO_STREAM("test");
-  cv::namedWindow( "Display Image", WINDOW_NORMAL );
-  cv::resizeWindow("Display Image",200,200);
-  ROS_INFO_STREAM("test1");
+  
+  cv::namedWindow( "Image", WINDOW_NORMAL);
+  cv::resizeWindow("Image",300,350);
 
   //  ROS_INFO_STREAM(image);
     if( !image.data)                      // Check for invalid input
@@ -46,17 +46,18 @@ bool check(img_mission::returnString::Request  &req,
         cout <<  "Could not open or find the image" << std::endl ;
         return false;
     }
- 
-  ROS_INFO_STREAM("test2");
+  imshow("Image",image);
+  cv::waitKey(5000);
 
- 
-  ROS_INFO_STREAM("test3");
-  imshow("Display Image",image);
-  ROS_INFO_STREAM("test34");
-  cv::waitKey(1000);
-  destroyWindow("Display Image");
+  destroyAllWindows();//"Image");
+
+  // ugly hack
+  cv::waitKey(1);
+  cv::waitKey(1);
+  cv::waitKey(1);
+  cv::waitKey(1);
+
   res.result = "Spawned Image!";
-  indexy = 1;
 
   return true;
 }
@@ -68,10 +69,7 @@ int main(int argc, char **argv)
   ros::NodeHandle n;
 
   ros::Rate loop_rate(2);
-
   ros::ServiceServer service = n.advertiseService("show_image", check);
-
   ros::spin();
-
   return 0;
 }
