@@ -108,7 +108,7 @@
 (defun get-desig-resolution (action preposition objname)
   (setf tom NIL)
 (if (string-equal preposition "null")
-    (setf tom (get-elem-pose "tree05"))
+    (setf tom (get-elem-pose objname))
     (let*((desig (make-designator :location `((,(direction-symbol preposition) ,objname))))
           (result NIL)
           (cam (cam-depth-tf-transform))
@@ -123,6 +123,7 @@
 							 0.0 (cl-transforms:origin temp)
 							 (cl-transforms:orientation temp)))
       (setf tom (cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose tmp :target-frame "map")))
+      (format t "tom is ~a~%" tom)
       (setf *puby* (create-local-tf-publisher tom "test"))))
   tom)
 
