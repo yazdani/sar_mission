@@ -1,0 +1,33 @@
+<launch>
+
+ <include file="$(find quadrotor_controller)/launch/spawn_quadrotor_with_kinect.launch" />
+
+<!--node pkg="quadrotor_controller" type="cmd_points" name="cmd_points" respawn="false" /-->
+<node pkg="quadrotor_controller" type="scan_region" name="scan_region" respawn="false" />
+<node pkg="quadrotor_controller" type="rotate_cam" name="rotate_cam" respawn="false" />
+<node pkg="quadrotor_controller" type="robot_pose" name="robot_pose" respawn="false" />
+
+  <node type="laser_scan_assembler" pkg="laser_assembler" name="my_laser_assembler">
+    <remap from="scan" to="quad_scan"/>
+    <param name="max_scans" type="int" value="800" />
+    <param name="fixed_frame" type="string" value="map" />
+  </node>
+
+  <node type="point_cloud_assembler" pkg="laser_assembler" name="my_pcl_assembler">
+    <remap from="cloud" to="my_cloud_in"/>
+    <param name="max_clouds" type="int" value="800" />
+    <param name="fixed_frame" type="string" value="map" />
+  </node>
+  <node type="periodic_snapshotter" pkg="laser_assembler" name="periodic_snapshotter"/>
+  
+  <node type="laserscan_to_pointcloud_node" pkg="hector_laserscan_to_pointcloud" name="laserscan_to_pointcloud_node"/>
+
+<node type="point_cloud2_assembler" pkg="laser_assembler" name="my_pcl2_assembler">
+    <remap from="cloud" to="my_cloud_in"/>
+    <param name="max_clouds" type="int" value="800" />
+    <param name="fixed_frame" type="string" value="map" />
+  </node>
+
+
+ <!--node type="laser_scan_data" pkg="quadrotor_controller" name="laser_scan_data" respawn="false"/-->
+</launch>

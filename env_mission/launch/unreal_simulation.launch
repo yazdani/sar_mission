@@ -1,0 +1,14 @@
+<launch>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">   
+    <arg name="world_name" value="$(find env_mission)/worlds/mountain_map.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  <include file="$(find env_mission)/launch/json_map.launch" />
+  <include file="$(find quadrotor_controller)/launch/quadrotor_unreal_simulation.launch" />
+ <include file="$(find img_mission)/launch/image_instruction.launch" />
+</launch>
