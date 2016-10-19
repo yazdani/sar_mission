@@ -350,7 +350,7 @@
  <include>
       <name>busy_genius</name>
       <uri>model://genius</uri>
-      <pose>10 0 0 0 0 17</pose>
+      <pose>10 -10 0 0 0 10</pose>
     </include>
 
  

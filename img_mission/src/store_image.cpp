@@ -22,6 +22,7 @@ static int indexy;
 static int indexi;
 static string kette;
 static int indexer;
+static std_msgs::String ts;
 ros::Subscriber sub;
 
 
@@ -56,7 +57,9 @@ int main(int argc, char **argv)
   ros::NodeHandle n_pub;
   ros::Rate loop_rate(2);
 
-  // ros::Publisher chatter_pub = n_pub.advertise<std_msgs::String>("img_publisher", 1000);
+  ros::Publisher chatter_pub = n_pub.advertise<std_msgs::String>("img_publisher", 1000);
+  ts.data = "";
+	    chatter_pub.publish(ts);
   ros::ServiceServer service = n.advertiseService("store_image", check);
   indexy = 0;
   indexi = 0;
@@ -82,11 +85,11 @@ int main(int argc, char **argv)
 	      loop_rate.sleep();
 	      ros::spinOnce();
 	    }
-	  //std_msgs::String ts;
+	
 	  
 	  
-	  // ts.data = kette;
-	  //  chatter_pub.publish(ts);
+	  ts.data = kette;
+	    chatter_pub.publish(ts);
 	  // ROS_INFO_STREAM(kette);
 	  indexy = 0;
 	  indexi = 0;
