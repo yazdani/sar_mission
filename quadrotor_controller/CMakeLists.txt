@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   message_generation
+  img_mission
 )
 find_package(cmake_modules REQUIRED)
 find_package(Eigen3 REQUIRED)
@@ -75,7 +76,7 @@ add_service_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
  DEPENDENCIES
-   actionlib_msgs geometry_msgs std_msgs
+   actionlib_msgs geometry_msgs std_msgs img_mission
  )
 
 ################################################
@@ -107,7 +108,7 @@ generate_messages(
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package( CATKIN_DEPENDS actionlib actionlib_msgs geometry_msgs roscpp std_msgs)
+catkin_package( CATKIN_DEPENDS actionlib actionlib_msgs geometry_msgs roscpp std_msgs img_mission)
 
 ###########
 ## Build ##

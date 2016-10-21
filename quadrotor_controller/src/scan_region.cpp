@@ -1,8 +1,3 @@
-
-// This node is tasking the robot to scan the area and is taking pictures
-// based on the different positions
-
-
 #include "ros/ros.h"
 #include <ros/package.h>
 #include "quadrotor_controller/scan_reg.h"
@@ -43,11 +38,11 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   double new_x;
   double new_y;
   double new_z;
-  ROS_INFO("Start controller");
+  ROS_INFO_STREAM("Start controller");
   publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
   gms_c = nh_.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
   getmodelstate.request.model_name="quadrotor";
-  cam = nh_cam.serviceClient<img_mission::returnString>("store_image");
+  cam = nh_cam.serviceClient<img_mission::returnString>("/store_image");
   img_mission::returnString retsrv;
   geometry_msgs::Twist tw;
   publisher.publish(tw);
@@ -238,9 +233,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);     
 
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -275,7 +270,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
     {
       while(now_x > new_x)
 	{
-	  ROS_INFO(" Perfect! saasdada");
+	  ROS_INFO_STREAM(" Perfect! saasdada");
 	  ROS_INFO_STREAM(now_x);
 	  ROS_INFO_STREAM(new_x);
 	  tw.linear.x = 0.6;
@@ -386,9 +381,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);     
 
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -532,9 +527,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);     
 
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -633,9 +628,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);
   
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -782,9 +777,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_y = 1.95;
   
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -924,9 +919,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);     
 
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -1070,9 +1065,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);     
 
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -1217,9 +1212,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);     
 
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -1319,9 +1314,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);
  
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -1466,9 +1461,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);     
 
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -1612,9 +1607,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);     
 
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -1759,9 +1754,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);       
 
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -1950,9 +1945,9 @@ new_x = 0;
   publisher.publish(tw);
   //else
   retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -2072,9 +2067,9 @@ new_x = 2.5;
   publisher.publish(tw);
  
  retsrv.request.goal = "take pictures";
-  if (cam.call(ret))
+  if (cam.call(retsrv))
   {
-    ROS_INFO(retsrv.response.result);
+    ROS_INFO_STREAM(retsrv.response.result);
   }
   else
   {
@@ -2174,7 +2169,7 @@ new_x = 2.5;
 
 
   //next pose
-  ROS_INFO(" Move down! ");
+  ROS_INFO_STREAM(" Move down! ");
   
   if(now_z >= 2)
     {
@@ -2208,7 +2203,7 @@ int main(int argc, char **argv)
   ros::init(argc, argv, "start_scan_region_server");
 ros::NodeHandle n;
   ros::ServiceServer service = n.advertiseService("scanRegion", execute);
-  ROS_INFO("Ready to receive information where to fly");
+  ROS_INFO_STREAM("Ready to receive information where to fly");
   ros::spin();
 
   return 0;
