@@ -29,7 +29,7 @@ ros::Subscriber sub;
 void callback(const sensor_msgs::ImageConstPtr& msg)
 {
   std::string path = ros::package::getPath("img_mission") + "/imgs/";
-  cv::imwrite(path+kette,cv_bridge::toCvShare(msg, "rgb8")->image);
+  cv::imwrite(path+kette,cv_bridge::toCvShare(msg, "bgr8")->image);
   cv::waitKey(30);
 }
 
