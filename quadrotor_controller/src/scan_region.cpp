@@ -83,7 +83,18 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       tw.linear.y = 0;
       publisher.publish(tw);
     }
- 
+
+  retsrv.request.goal = "take pictures";
+  if (cam.call(retsrv))
+    {
+      ROS_INFO_STREAM(retsrv.response.result);
+    }
+  else
+    {
+      ROS_ERROR("Failed to call service store image");
+      return 1;
+    }
+
   //first position
   if(now_x <= new_x)
     {
