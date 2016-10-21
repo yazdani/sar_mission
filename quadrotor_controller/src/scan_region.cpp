@@ -1,4 +1,10 @@
+
+// This node is tasking the robot to scan the area and is taking pictures
+// based on the different positions
+
+
 #include "ros/ros.h"
+#include <ros/package.h>
 #include "quadrotor_controller/scan_reg.h"
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/PoseStamped.h>
@@ -9,32 +15,40 @@
 #include <sstream>
 #include <string>
 #include <std_msgs/String.h>
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include <iostream>
 #include <tf/LinearMath/Quaternion.h>
 #include <stdio.h> 
 #include <math.h>
+#include <cstdlib>
+#include "img_mission/returnString.h"
+
+static std_msgs::String ts;
 
 bool execute(quadrotor_controller::scan_reg::Request &req,
 	     quadrotor_controller::scan_reg::Response &res)
 {
   ros::NodeHandle nh;
   ros::NodeHandle nh_;
+  ros::NodeHandle nh_cam;
   ros::ServiceClient gms_c;  
   gazebo_msgs::SetModelState setmodelstate;
   gazebo_msgs::GetModelState getmodelstate; 
   ros::Publisher publisher;
   ros::ServiceClient smsl;
+  ros::ServiceClient cam;
   geometry_msgs::Pose end_pose;
   geometry_msgs::Twist end_twist;
   double new_x;
   double new_y;
   double new_z;
-  
   ROS_INFO("Start controller");
   publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
   gms_c = nh_.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
   getmodelstate.request.model_name="quadrotor";
-  
+  cam = nh_cam.serviceClient<img_mission::returnString>("store_image");
+  img_mission::returnString retsrv;
   geometry_msgs::Twist tw;
   publisher.publish(tw);
   ros::Duration(5.0).sleep();
@@ -52,7 +66,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);
   ros::Duration(2.0).sleep();
   
-  ROS_INFO("Hector is starting its motors!");
+  //S_INFO("Hector is starting its motors!");
   
   new_x = -7.55;
   new_y = -26;
@@ -223,6 +237,16 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
 
   new_x = -17;
   new_y = -19;
@@ -361,6 +385,17 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
+
   new_x = -8;
   new_y = -10;
 
@@ -495,7 +530,18 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);     
-  
+
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
+
   new_x = 25;
   new_y = -10;
   //fourth        
@@ -586,6 +632,17 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);
   
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
+
   new_x = 29.99;
   new_y = 3.0;
   //fifth position        
@@ -724,6 +781,17 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_x = 9.59;
   new_y = 1.95;
   
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
+
   //sixth position        
   if(now_x <= new_x)
     {
@@ -854,6 +922,17 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);     
+
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
 
   new_x = -1.4;
   new_y = 5.0;
@@ -989,6 +1068,17 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);     
+
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
 
   new_x = -16.45;
   new_y = -2.0;
@@ -1126,6 +1216,17 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
+
   new_x = -32.99;
   new_y = 3.96;
   //eigth position
@@ -1216,7 +1317,18 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
-  
+ 
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
+ 
   new_x = 7.49;
   new_y = 17;
   //nineth position        
@@ -1353,6 +1465,17 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
+
   new_x = -42.99;
   new_y = 2.99;
   //eleventh position        
@@ -1487,6 +1610,17 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);     
+
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
 
   new_x = -23;
   new_y = 10;
@@ -1624,6 +1758,16 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);       
 
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
 
   new_x = -15;
   new_y = 18.99;
@@ -1805,7 +1949,16 @@ new_x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
   //else
-
+  retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
   //next pose 
 new_x = 2.5;
   new_y = 28.5;
@@ -1917,7 +2070,17 @@ new_x = 2.5;
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
-
+ 
+ retsrv.request.goal = "take pictures";
+  if (cam.call(ret))
+  {
+    ROS_INFO(retsrv.response.result);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service store image");
+    return 1;
+  }
 //else
 
   new_x = 11;
