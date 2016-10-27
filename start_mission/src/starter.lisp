@@ -28,6 +28,7 @@
 
 (in-package :start-mission)
 
+(defvar *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
 
 (defun start-scenario ()
   (roslisp-utilities:startup-ros))
@@ -45,37 +46,34 @@
   (roslisp:ros-info (basics-system) "start all service for the msg.")
  (roslisp:spin-until nil 1000))
 
-
- ; (roslisp:spin-until nil 1000))
 (roslisp:def-service-callback cmd_mission-srv:all_objs (all)
-  (format t "robot ~a~%" all)
-  (let*(;(vec '())
-	(liste (get-obj-list)))
+ ;;(format t "robot456 ~a~%" all)
+  (let*((liste (get-obj-list)))
    ; (dotimes(index (length liste))
    ;   do(setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name (nth index liste)) vec)))
-  (roslisp:make-response :result_all liste)));(reverse vec))))
+  (roslisp:make-response :result_all liste)))
 
 ;;
 ;; SERVICE TO ASK FOR SALIENT OBJECTS INSIDE THE SEMMAP
 ;;
  (defun start_salient_objects ()
-   (format t "start_slient~%")
+   (format t "start_salient~%")
    (roslisp-utilities:startup-ros)
    (service-call-two))
 
 (defun service-call-two ()
-  ;;(roslisp:with-ros-node ("start_salient_objs" :spin t)
   (roslisp-utilities:startup-ros :name "start_salient_objs")
   ;; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "salient_objs" 'cmd_mission-srv:salient_objs)
+  (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
+
   (roslisp:ros-info (basics-system) "start salient service for the msg.")
   (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:salient_objs (sal)
-  (format t "robot ~a~%" sal)
-(let*(;(vec '())
-      (liste (get-objs-infrontof-human)))
+  (format t "robot-123 ~a~%" sal)
+(let*((liste (get-objs-infrontof-human)))
   ;(dotimes(index (length liste))
    ; do(setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name (nth index liste)) vec)))
   (roslisp:make-response :result_salient liste)));(reverse vec))))
@@ -83,14 +81,13 @@
 ;;
 ;; SERVICE FOR CHECKING RELATION OF TWO OBJECTS IN A SPATIAL CONTEXT
 ;; 
-
- (defun start_checking_relation ()
-   (service-call-three))
+(defun start_checking_relation ()
+  (service-call-three))
 
 (defun service-call-three ()
   ;;(roslisp:with-ros-node ("start_checking_objs" :spin t)
- (roslisp-utilities:startup-ros :name "start_checking_relation");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
-;;  (roslisp:with-ros-node ("getting service node" :spin t)
+  (roslisp-utilities:startup-ros :name "start_checking_relation");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
+  ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "check_objs_relation" 'cmd_mission-srv:check_objs_relation)
   (roslisp:ros-info (basics-system) "start check service for the msg.")
  (roslisp:spin-until nil 1000))
