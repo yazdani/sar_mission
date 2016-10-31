@@ -43,6 +43,7 @@
  (roslisp-utilities:startup-ros :name "start_all_objs");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
   ;;(roslisp:with-ros-node ("start_all_node" :spin t)
   (roslisp:register-service "all_objs" 'cmd_mission-srv:all_objs)
+  (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
   (roslisp:ros-info (basics-system) "start all service for the msg.")
  (roslisp:spin-until nil 1000))
 
@@ -66,8 +67,8 @@
   ;; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
 ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "salient_objs" 'cmd_mission-srv:salient_objs)
-  (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
-
+  (if (null *sem-map*)
+      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
   (roslisp:ros-info (basics-system) "start salient service for the msg.")
   (roslisp:spin-until nil 1000))
 
@@ -89,6 +90,8 @@
   (roslisp-utilities:startup-ros :name "start_checking_relation");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
   ;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "check_objs_relation" 'cmd_mission-srv:check_objs_relation)
+  (if (null *sem-map*)
+      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
   (roslisp:ros-info (basics-system) "start check service for the msg.")
  (roslisp:spin-until nil 1000))
 
@@ -107,6 +110,8 @@
 (defun service-call-four ()
   (roslisp-utilities:startup-ros :name "start_checking_property")
   (roslisp:register-service "check_obj_property" 'cmd_mission-srv:check_obj_property)
+  (if (null *sem-map*)
+  (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
   (roslisp:ros-info (basics-system) "start check service for the msg.")
  (roslisp:spin-until nil 1000))
 
@@ -140,6 +145,8 @@
 (defun service-call-six ()
   (roslisp-utilities:startup-ros :name "start_getting_property_list")
   (roslisp:register-service "get_property_list" 'cmd_mission-srv:get_property_list)
+  (if (null *sem-map*)
+  (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
   (roslisp:ros-info (basics-system) "start check service for the msg.")
   (roslisp:spin-until nil 1000))
 
@@ -165,6 +172,8 @@
 (defun service-call-seven ()
   (roslisp-utilities:startup-ros :name "start_getting_object_size")
   (roslisp:register-service "get_obj_size" 'cmd_mission-srv:get_obj_type)
+  (if (null *sem-map*)
+      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
   (roslisp:ros-info (basics-system) "start check service for the msg.")
   (roslisp:spin-until nil 1000))
 
@@ -178,6 +187,8 @@
 (defun service-call-eight ()
   (roslisp-utilities:startup-ros :name "start_getting_reasoning_on_pose")
   (roslisp:register-service "get_reason_pose" 'cmd_mission-srv:get_reason_pose)
+  (if (null *sem-map*)
+      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
   (roslisp:ros-info (basics-system) "start check service for the msg.")
   (roslisp:spin-until nil 1000))
 

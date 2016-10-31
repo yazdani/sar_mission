@@ -37,7 +37,7 @@
   *cached-colorlist*)
 
 (defun json-color-query ()
-  (let((sem-keys (hash-table-keys (slot-value (sem-map-utils:get-semantic-map) 'sem-map-utils:parts)))
+  (let((sem-keys (hash-table-keys (slot-value *sem-map* 'sem-map-utils:parts)))
        (liste '())
        (query))
     (dotimes (index (length sem-keys))
@@ -61,7 +61,7 @@
    pose))
 
 (defun elem-in-list (name)
-  (let*((sem-map (sem-map-utils:get-semantic-map))
+  (let*((sem-map *sem-map*);(sem-map-utils:get-semantic-map))
         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
         (new-hash (copy-hash-table sem-hash))
         (sem-keys (hash-table-keys sem-hash))
@@ -75,7 +75,7 @@
 
 (defun get-elem-type (name)
  (let*((type NIL)
-       (sem-map (sem-map-utils:get-semantic-map))
+       (sem-map *sem-map*);(sem-map-utils:get-semantic-map))
        (sem-hash (slot-value sem-map 'sem-map-utils:parts))
        (new-hash (copy-hash-table sem-hash))
        (sem-keys (hash-table-keys sem-hash)))
@@ -146,7 +146,7 @@
         
 (defun get-obj-list ()
   (format t "get-obj-list~%")
-  (let*((map (sem-map-utils:get-semantic-map))
+  (let*((map *sem-map*);(sem-map-utils:get-semantic-map))
         (sem-hash (slot-value map 'sem-map-utils:parts)))
     (setf *sem-map* map)
     (format t "get-obj-list2~%")
@@ -179,7 +179,7 @@
 
 (defun get-all-elems-with-local-tf ()
   (format t "get-all-elems-with-local-tf ~%")
-  (let* ((sem-map (sem-map-utils:get-semantic-map))
+  (let* ((sem-map *sem-map*);(sem-map-utils:get-semantic-map))
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
          (sem-keys (hash-table-keys sem-hash))
          (semm-hash (copy-hash-table sem-hash))
@@ -215,7 +215,7 @@
 ;; Getting the biggest object inside the map
 ;;
 (defun calculate-big-object (nom)
-  (let*((sem-map (sem-map-utils:get-semantic-map))
+  (let*((sem-map *sem-map*);;(sem-map-utils:get-semantic-map))
         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
         (new-hash (copy-hash-table sem-hash))
         (sem-keys (hash-table-keys sem-hash))
@@ -252,7 +252,7 @@ result))
 ;; Getting the smallest object inside the map
 ;;
 (defun calculate-small-object (type)
-  (let*((sem-map (sem-map-utils:get-semantic-map))
+  (let*((sem-map *sem-map*);;(sem-map-utils:get-semantic-map))
         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
         (sem-keys (hash-table-keys sem-hash))
         (new-hash (copy-hash-table sem-hash))
