@@ -9,7 +9,7 @@
 ]>
 
 <rdf:RDF xmlns="http://knowrob.org/kb/IAI-alpine.owl#"
-  xml:base="http://knowrob.org/kb/IAI-alpine.owl"
+  xml:base="http://knowrob.org/kb/IAI-alpine.owl#"
   xmlns:knowrob="http://knowrob.org/kb/knowrob.owl#"
   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
@@ -1140,7 +1140,7 @@
 <owl:NamedIndividual rdf:about="&knowrob;Transformation_smallbigtree02">
     <rdf:type rdf:resource="&knowrob;Transformation"/>
     <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
-    <knowrob:translation rdf:datatype="&xsd;string">-3.0 2.0 0.0</knowrob:translation>
+    <knowrob:translation rdf:datatype="&xsd;string">-3.0 -2.0 0.0</knowrob:translation>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionsmallbigtree02">
@@ -1450,7 +1450,7 @@
 
 <!-- victim03 -->
 <owl:NamedIndividual rdf:about="&knowrob;victim03">
-    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#victim"/>
+    <rdf:type rdf:resource="&knowrob;victim"/>
     <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
     <knowrob:hasColor rdf:datatype="&xsd;string">yellow</knowrob:hasColor>
     <knowrob:isAlive rdf:datatype="&xsd;string">animate</knowrob:isAlive>
@@ -1627,7 +1627,7 @@
 <owl:NamedIndividual rdf:about="&knowrob;Transformation_bluepylon01">
     <rdf:type rdf:resource="&knowrob;Transformation"/>
     <knowrob:quaternion rdf:datatype="&xsd;string">1.0 0.0 0.0 0.0</knowrob:quaternion>
-    <knowrob:translation rdf:datatype="&xsd;string">-18.0 -2.0 0.0</knowrob:translation>
+    <knowrob:translation rdf:datatype="&xsd;string">25 5 0.0</knowrob:translation>
 </owl:NamedIndividual>
 
 <owl:NamedIndividual rdf:about="&knowrob;SemanticMapPerceptionbluepylon01">

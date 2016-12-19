@@ -211,7 +211,7 @@ ros::NodeHandle nh;
   publisher.publish(tw);     
   gms_c.call(getmodelstate);
  
-  while(getmodelstate.response.pose.position.z > 7.5)
+  while(getmodelstate.response.pose.position.z > 6.5)
 	{
 
 	  ROS_INFO_STREAM(getmodelstate.response.pose.position.z);

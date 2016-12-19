@@ -140,11 +140,13 @@ add_executable(scan_region src/scan_region.cpp)
 add_executable(robot_pose src/robot_pose.cpp)
 add_executable(rotate_cam src/rotate_cam.cpp)
 add_executable(cmd_points src/cmd_points.cpp)
+add_executable(take_off src/take_off.cpp)
 #add_executable(laser_scan_data src/laser_scan_data.py)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(quadrotor_controller_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 #add_dependencies(cmdVel_controller ${quadrotor_controller_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(take_off quadrotor_controller_gencpp)
 add_dependencies(cmd_executer quadrotor_controller_gencpp)
 add_dependencies(scan_region quadrotor_controller_gencpp)
 #add_dependencies(cmd_pose quadrotor_controller_gencpp)
@@ -162,7 +164,7 @@ add_dependencies(cmd_points quadrotor_controller_gencpp)
 
 #target_link_libraries(cmdVel_follower
 #  ${catkin_LIBRARIES})
-
+target_link_libraries(take_off ${catkin_LIBRARIES})
 target_link_libraries(cmd_executer ${catkin_LIBRARIES})
 target_link_libraries(scan_region ${catkin_LIBRARIES})
 #target_link_libraries(cmd_pose ${catkin_LIBRARIES})
