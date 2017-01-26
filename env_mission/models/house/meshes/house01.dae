@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.75.0 commit date:2015-07-07, commit time:14:56, hash:c27589e</authoring_tool>
     </contributor>
-    <created>2017-01-26T16:41:42</created>
-    <modified>2017-01-26T16:41:42</modified>
+    <created>2017-01-26T17:00:29</created>
+    <modified>2017-01-26T17:00:29</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -26,7 +26,7 @@
               <color sid="diffuse">0.8 0.8 0.8 1</color>
             </diffuse>
             <specular>
-              <color sid="specular">0.0078125 0.0078125 0.0078125 1</color>
+              <color sid="specular">0.00390625 0.00390625 0.00390625 1</color>
             </specular>
             <shininess>
               <float sid="shininess">50</float>
@@ -116,7 +116,7 @@
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="Haus_001" name="Haus_001" type="NODE">
-        <matrix sid="transform">-0.07037112 2.527685 0.006445347 0.109001 1.685109 0.1055002 0.009695913 0.07245939 -0.009418609 -0.01026626 1.686566 1.800043 0 0 0 1</matrix>
+        <matrix sid="transform">-0.07037072 2.527685 0.006445349 0.109001 1.685109 0.1054996 0.009695912 0.07245939 -0.00941861 -0.01026626 1.686566 1.800043 0 0 0 1</matrix>
         <instance_geometry url="#Cube_008-mesh" name="Haus_001">
           <bind_material>
             <technique_common>
@@ -126,7 +126,7 @@
         </instance_geometry>
       </node>
       <node id="Dach_001" name="Dach_001" type="NODE">
-        <matrix sid="transform">-0.07037112 2.527685 0.003222672 0.1139849 1.685109 0.1055002 0.004847954 0.2234984 -0.009418609 -0.01026626 0.8432826 4.325432 0 0 0 1</matrix>
+        <matrix sid="transform">-0.07037072 2.527685 0.003222673 0.1139849 1.685109 0.1054996 0.004847953 0.2234984 -0.009418609 -0.01026626 0.8432826 4.325432 0 0 0 1</matrix>
         <instance_geometry url="#Cube_009-mesh" name="Dach_001">
           <bind_material>
             <technique_common>
