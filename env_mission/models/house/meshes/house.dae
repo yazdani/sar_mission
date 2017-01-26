@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.75.0 commit date:2015-07-07, commit time:14:56, hash:c27589e</authoring_tool>
     </contributor>
-    <created>2017-01-26T16:18:01</created>
-    <modified>2017-01-26T16:18:01</modified>
+    <created>2017-01-26T16:22:22</created>
+    <modified>2017-01-26T16:22:22</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -26,7 +26,7 @@
               <color sid="diffuse">0.8 0.8 0.8 1</color>
             </diffuse>
             <specular>
-              <color sid="specular">0.03125 0.03125 0.03125 1</color>
+              <color sid="specular">0.015625 0.015625 0.015625 1</color>
             </specular>
             <shininess>
               <float sid="shininess">50</float>
@@ -52,7 +52,7 @@
               <color sid="diffuse">0 7.83638e-4 0.64 1</color>
             </diffuse>
             <specular>
-              <color sid="specular">0.03125 0.03125 0.03125 1</color>
+              <color sid="specular">0.015625 0.015625 0.015625 1</color>
             </specular>
             <shininess>
               <float sid="shininess">50</float>
@@ -78,7 +78,7 @@
               <color sid="diffuse">0.64 0.1870555 0.07782213 1</color>
             </diffuse>
             <specular>
-              <color sid="specular">0.03125 0.03125 0.03125 1</color>
+              <color sid="specular">0.015625 0.015625 0.015625 1</color>
             </specular>
             <shininess>
               <float sid="shininess">50</float>
@@ -339,7 +339,7 @@
   <library_visual_scenes>
     <visual_scene id="Scene" name="Scene">
       <node id="Haus_001" name="Haus_001" type="NODE">
-        <matrix sid="transform">1.686507 -0.02249793 0.01015022 0.1140861 -0.01496925 -2.529796 -0.004915143 0.833422 -0.01019348 -0.007237153 1.686568 1.710722 0 0 0 1</matrix>
+        <matrix sid="transform">1.686507 -0.02249793 0.01015022 0.0102144 -0.01496925 -2.529796 -0.004915142 0.09467763 -0.01019348 -0.007237152 1.686568 1.706526 0 0 0 1</matrix>
         <instance_geometry url="#Cube_008-mesh" name="Haus_001">
           <bind_material>
             <technique_common>
@@ -349,7 +349,7 @@
         </instance_geometry>
       </node>
       <node id="Dach_001" name="Dach_001" type="NODE">
-        <matrix sid="transform">1.686507 -0.02249793 0.005075109 0.2658667 -0.01496925 -2.529796 -0.002457571 0.8238178 -0.01019348 -0.007237153 0.8432839 4.236053 0 0 0 1</matrix>
+        <matrix sid="transform">1.686507 -0.02249793 0.005075109 0.161995 -0.01496925 -2.529796 -0.002457571 0.08507341 -0.01019348 -0.007237152 0.8432839 4.231857 0 0 0 1</matrix>
         <instance_geometry url="#Cube_009-mesh" name="Dach_001">
           <bind_material>
             <technique_common>
@@ -359,7 +359,7 @@
         </instance_geometry>
       </node>
       <node id="Cube_002_001" name="Cube_002_001" type="NODE">
-        <matrix sid="transform">0.008448142 -0.007499717 0.00380633 1.728977 -7.49888e-5 -0.843266 -0.00184318 -0.3602349 -5.10617e-5 -0.002412386 0.6324628 1.643843 0 0 0 1</matrix>
+        <matrix sid="transform">0.008448142 -0.007499718 0.00380633 1.625105 -7.49888e-5 -0.8432661 -0.00184318 -1.098979 -5.10617e-5 -0.002412386 0.6324628 1.639647 0 0 0 1</matrix>
         <instance_geometry url="#Cube_011-mesh" name="Cube_002_001">
           <bind_material>
             <technique_common>
@@ -369,7 +369,7 @@
         </instance_geometry>
       </node>
       <node id="Cube_000_001" name="Cube_000_001" type="NODE">
-        <matrix sid="transform">0.01710322 -0.007499717 0.00380633 1.764694 -1.51814e-4 -0.843266 -0.00184318 1.947993 -1.03374e-4 -0.002412386 0.6324628 1.650474 0 0 0 1</matrix>
+        <matrix sid="transform">0.01710322 -0.007499707 0.00380633 1.660822 -1.51814e-4 -0.8432661 -0.00184318 1.209249 -1.03374e-4 -0.002412387 0.6324628 1.646278 0 0 0 1</matrix>
         <instance_geometry url="#Cube_012-mesh" name="Cube_000_001">
           <bind_material>
             <technique_common>
@@ -379,7 +379,7 @@
         </instance_geometry>
       </node>
       <node id="Cube_001_001" name="Cube_001_001" type="NODE">
-        <matrix sid="transform">0.007874968 -0.007499717 0.00380633 -1.514143 -6.99011e-5 -0.843266 -0.00184318 1.27923 -4.75974e-5 -0.002412386 0.6324628 1.845 0 0 0 1</matrix>
+        <matrix sid="transform">0.007874968 -0.007499717 0.00380633 -1.618015 -6.99011e-5 -0.8432661 -0.00184318 0.5404856 -4.75974e-5 -0.002412386 0.6324628 1.840804 0 0 0 1</matrix>
         <instance_geometry url="#Cube_013-mesh" name="Cube_001_001">
           <bind_material>
             <technique_common>
@@ -389,7 +389,7 @@
         </instance_geometry>
       </node>
       <node id="Cube_003_001" name="Cube_003_001" type="NODE">
-        <matrix sid="transform">-2.21007e-4 0.004441906 0.3876292 -0.1012059 -0.02484855 -0.002150519 -0.003440933 -1.673936 -7.10753e-5 0.738028 -0.002343017 0.763857 0 0 0 1</matrix>
+        <matrix sid="transform">-2.21004e-4 0.004441842 0.3876292 -0.2050776 -0.02484855 -0.002150484 -0.003440887 -2.41268 -7.10742e-5 0.738028 -0.002342983 0.7596606 0 0 0 1</matrix>
         <instance_geometry url="#Cube_014-mesh" name="Cube_003_001">
           <bind_material>
             <technique_common>
@@ -400,7 +400,7 @@
         </instance_geometry>
       </node>
       <node id="Cube_004_001" name="Cube_004_001" type="NODE">
-        <matrix sid="transform">-0.004398825 -0.002369921 0.365763 -0.5843833 5.28822e-5 -0.2664713 -0.002295941 -0.6901124 -0.004809828 -7.62337e-4 -0.3345335 4.370368 0 0 0 1</matrix>
+        <matrix sid="transform">-0.004216502 -0.003103444 0.3779582 -0.688255 -2.82539e-5 -0.2664325 -0.009392083 -1.093406 0.004970635 -0.004147045 0.3205619 4.366171 0 0 0 1</matrix>
         <instance_geometry url="#Cube_015-mesh" name="Cube_004_001">
           <bind_material>
             <technique_common>
