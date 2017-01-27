@@ -356,10 +356,16 @@
  
  <include>
    <name>house01</name>
-   <uri>model://house</uri>
-   <pose>2.5 28.5 0 0 0 3</pose>
+   <uri>model://house_broken</uri>
+   <pose>2.5 28.5 0 0 0 0</pose>
  </include>
  
+ <include>
+   <name>victim04</name>
+   <uri>model://victim_house</uri>
+   <pose>2.5 28.5 0.5 0 0 0</pose>
+ </include>
+
  <include>
    <name>house02</name>
    <uri>model://house</uri>

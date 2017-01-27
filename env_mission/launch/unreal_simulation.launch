@@ -13,7 +13,7 @@
 	 command="$(find xacro)/xacro.py '$(find env_mission)/urdf-xml/mountain_map/mountain_map.urdf.xml'"/>
   
   <param name="initial_package" type="string" value="knowrob_sherpa" />
-  <param name="initial_goal" type="string" value="owl_parse('package://env_mission/owl/mountain_map02.owl')" />
+  <param name="initial_goal" type="string" value="owl_parse('package://env_mission/owl/mountain_map03.owl')" />
   <node name="json_prolog" pkg="json_prolog" type="json_prolog_node" cwd="node" output="screen" />
   
  <node pkg="tf" 
@@ -31,7 +31,7 @@
   <node pkg="tf" 
 	type="static_transform_publisher" 
 	name="map_to_human_publisher" 
-	args="10 -7 0 0 0 2 1 map human 200">
+	args="10 -7 0 0 0 2 1 map busy_genius 200">
   </node>
 
   <node pkg="robot_state_chain_publisher" type="state_chain_publisher"
@@ -41,5 +41,6 @@
     <remap from="robot_description" to="mountain_description" />
   </node>
   <include file="$(find quadrotor_controller)/launch/quadrotor_unreal_simulation.launch" />
+
  <include file="$(find img_mission)/launch/image_instruction.launch" />
 </launch>
