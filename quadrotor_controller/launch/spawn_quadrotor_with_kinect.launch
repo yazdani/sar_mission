@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <launch>
-   <arg name="name" default="quadrotor"/>
-   <arg name="tf_prefix" default="$(optenv ROS_NAMESPACE)"/>
+   <arg name="name" default="red_wasp"/>
+   <arg name="tf_prefix" default="red_wasp"/><!--$(optenv ROS_NAMESPACE)"/>-->
    <arg name="x" default="7.0"/>
    <arg name="y" default="-10.0"/>
    <arg name="z" default="0.3"/>
@@ -23,6 +23,5 @@
      <arg name="use_ground_truth_for_control" value="$(arg use_ground_truth_for_control)"/>
      <arg name="use_pose_estimation" value="$(arg use_pose_estimation)"/>
    </include>
-
 </launch>
 

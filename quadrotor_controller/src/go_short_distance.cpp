@@ -18,7 +18,7 @@
 bool executecallback(quadrotor_controller::cmd_points::Request &req,
          quadrotor_controller::cmd_points::Response &res)
 {
-ros::NodeHandle nh;
+  ros::NodeHandle nh;
   ros::NodeHandle nh_;
   ros::ServiceClient gms_c;  
   gazebo_msgs::SetModelState setmodelstate;
@@ -27,7 +27,6 @@ ros::NodeHandle nh;
   ros::ServiceClient smsl;
   geometry_msgs::Pose end_pose;
   geometry_msgs::Twist end_twist;
-  
   ROS_INFO("START HECTOR FOR TASK EXECUTION");
   publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
   gms_c = nh_.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
@@ -42,17 +41,26 @@ ros::NodeHandle nh;
   double now_y =  getmodelstate.response.pose.position.y;
   double now_z =  getmodelstate.response.pose.position.z;
   double temp = getmodelstate.response.pose.orientation.z;
+  double new_x = req.x;
+  double new_y = req.y;
+  double new_z = req.z;
+  double vel_x = req.qx;
+  double vel_y = req.qy;
+  double new_qz = req.qz ;
+  double new_qw = req.qw;
+  double vel_qz = 0.0;
   ros::Rate r(1);
   bool success = true;
   publisher.publish(tw);
   ros::Duration(1.0).sleep();
-
+  
   ROS_INFO("Start task execution ");
-
+  
   ROS_INFO_STREAM("NOW_Z is going up");
   gms_c.call(getmodelstate);
   now_z =  getmodelstate.response.pose.position.z;
   ROS_INFO_STREAM(now_z);
+  
   if(now_z <= 11)
     {
       while(now_z <= 11)
@@ -70,8 +78,13 @@ ros::NodeHandle nh;
       publisher.publish(tw);
     }
   gms_c.call(getmodelstate);
+  
+
   temp = getmodelstate.response.pose.orientation.z;
-  if(temp <= 0.95)
+  ROS_INFO_STREAM("temp: ");
+  ROS_INFO_STREAM(temp);
+  ROS_INFO_STREAM(new_qz);
+ if(temp <= 0.95)
     {
       while(temp <= 0.91)
 	{
@@ -85,7 +98,8 @@ ros::NodeHandle nh;
       tw.angular.z = 0;
       publisher.publish(tw);
     }
-  
+
+
   ROS_INFO_STREAM("NOW_X is moving");
   gms_c.call(getmodelstate);
   now_x =  getmodelstate.response.pose.position.x;
@@ -107,7 +121,8 @@ ros::NodeHandle nh;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw);
-    }else{
+    }
+  else{
     while(now_x > new_x)
       {
 	ROS_INFO_STREAM(now_x);
@@ -177,31 +192,22 @@ ros::NodeHandle nh;
   tw.linear.y = 0;
   publisher.publish(tw);     
   gms_c.call(getmodelstate);
- 
-  while(getmodelstate.response.pose.position.z > 6.5)
+  temp = getmodelstate.response.pose.orientation.z;
+  if(temp <= new_qz)
+    {
+      double iks = new_qz - 0.04;
+      while(temp <= iks)
 	{
-
-	  ROS_INFO_STREAM(getmodelstate.response.pose.position.z);
-	  ROS_INFO_STREAM(new_qz);
-	  
-	  tw.linear.z = -0.3;
+	  tw.angular.z = -0.3;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
+	  temp = getmodelstate.response.pose.orientation.z;
 	}
-      
-      ros::Duration(1.0).sleep();
-      tw.linear.z = 0;
+      ros::Duration(2.0).sleep();
+      tw.angular.z = 0;
       publisher.publish(tw);
-   
-
-  ros::Duration(1.0).sleep();
-      tw.linear.z = 0;
-      tw.linear.x = 0;
-      tw.linear.y = 0;
-      publisher.publish(tw);
-
-
+    }
   res.repl = "Task Execution completed";
   return true;
 }
@@ -210,7 +216,7 @@ int main(int argc, char **argv)
 {
   ros::init(argc, argv, "execute_command_server");
   ros::NodeHandle n;
-  ros::ServiceServer service = n.advertiseService("setRobotPoints", executecallback);
+  ros::ServiceServer service = n.advertiseService("setRobotRelation", executecallback);
   ROS_INFO("Ready to receive information where to fly");
   ros::spin();
   

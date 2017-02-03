@@ -7,6 +7,7 @@
 <node pkg="quadrotor_controller" type="rotate_cam" name="rotate_cam" respawn="false" />
 <node pkg="quadrotor_controller" type="robot_pose" name="robot_pose" respawn="false" />
 <node pkg="quadrotor_controller" type="take_off" name="take_off" respawn="false" />
+<node pkg="quadrotor_controller" type="go_short_distance" name="go_short_distance" respawn="false" />
 
   <node type="laser_scan_assembler" pkg="laser_assembler" name="my_laser_assembler">
     <remap from="scan" to="quad_scan"/>

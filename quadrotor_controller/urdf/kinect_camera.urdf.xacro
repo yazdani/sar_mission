@@ -74,10 +74,10 @@
 	    <!-- ${60 * M_PI/180.0} -->
             <image>
               <format>R8G8B8</format>
-	      <!--width>640</width>
-	      <height>480</height-->
-              <width>1540</width>
-              <height>3580</height>
+	      <width>1540</width>
+	      <height>3580</height>
+              <!--width>1540</width>
+              <height>3580</height-->
             </image>
             <clip>
 	      <!--near>0.05</near>
