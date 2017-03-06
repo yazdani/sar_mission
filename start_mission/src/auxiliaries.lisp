@@ -63,7 +63,7 @@
 (defun elem-in-list (name)
   (let*((sem-map *sem-map*);(sem-map-utils:get-semantic-map))
         (sem-hash (slot-value sem-map 'sem-map-utils:parts))
-        (new-hash (copy-hash-table sem-hash))
+      ;;  (new-hash (copy-hash-table sem-hash))
         (sem-keys (hash-table-keys sem-hash))
         (ret NIL))
     (dotimes (index (length sem-keys))
@@ -115,6 +115,7 @@
           (temp NIL)
           (tmp NIL))
       (setf result (reference desig))
+      (setf cram-tf:*fixed-frame* "map")
       (if (equal *puby* NIL)
           ()
           (remove-local-tf-publisher *puby*))
@@ -123,7 +124,6 @@
 							 0.0 (cl-transforms:origin temp)
 							 (cl-transforms:orientation temp)))
       (setf tom (cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose tmp :target-frame "map")))
-      (format t "tom is ~a~%" tom)
       (setf *puby* (create-local-tf-publisher tom "test"))))
   tom)
 
@@ -144,46 +144,28 @@
     result))
         
         
-(defun get-obj-list ()
-  (format t "get-obj-list~%")
-  (let*((map *sem-map*);(sem-map-utils:get-semantic-map))
+(defun get-all-objects()
+  (let*((map *sem-map*)
         (sem-hash (slot-value map 'sem-map-utils:parts)))
-    (setf *sem-map* map)
-    (format t "get-obj-list2~%")
     (hash-table-keys sem-hash)))
 
 (defun get-objs-with-victim())
 
 (defun get-objs-infrontof-human ()
-  (format t "get_objs_nfrontofhuman~%")
-(let((liste '())
-     (sem-map *sem-map*)
-      (aliste '()))
-  (format t "sem-map ~a~%" *sem-map*)
-  (format t "sem-map123 ~a~%" *sem-map*)
-  (format t "sem-map ~a~%" sem-map)
+(let((liste '()))
   (dotimes (index 40)
     (if (>= 10 (length liste))
-        (setf liste (get-elems-infrontof-human index)) ;;(objects-next-human index sem-map))
+        (setf liste (get-elems-infrontof-human index))
         (return)))
-  (format t "liste ~a~%"liste)
   (reverse liste)))
-  ;; (dotimes (in (length liste))
-  ;;   do(setf aliste (cons (concatenate 'string (nth in liste) " - " (write-to-string (get-distance (get-elem-pose (nth in liste)) (cl-transforms-stamped:transform->pose (human-relative-map-pose))))) aliste)))
-  ;;     (reverse aliste)))
-  
-;; (dotimes (in (length liste))
-;;     do(setf aliste (cons (concatenate 'string (nth in liste) " - " (write-to-string (get-distance (get-elem-pose (nth in liste)) (cl-transforms-stamped:transform->pose (human-relative-map-pose))))) aliste)))
-;;(reverse aliste)))
-
 
 (defun get-all-elems-with-local-tf ()
   (format t "get-all-elems-with-local-tf ~%")
-  (let* ((sem-map *sem-map*);(sem-map-utils:get-semantic-map))
+  (let* ((sem-map *sem-map*)
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
          (sem-keys (hash-table-keys sem-hash))
-         (semm-hash (copy-hash-table sem-hash))
-         (new-hash (make-hash-table))
+        ;; (semm-hash (copy-hash-table sem-hash))
+         (new-hash (make-hash-table))(name NIL)
          (pub NIL)(pose NIL)(obj-pub NIL)(obj-pose NIL))
     (dotimes (index (length sem-keys))
       (setf name (format NIL "~a_link" (nth index sem-keys)))
@@ -900,13 +882,13 @@ objects))
   (let* ((elem NIL)
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
          (sem-keys (hash-table-keys sem-hash))
-         (incrementer 0)
+         (incrementer 0)(value NIL)
          (num (make-list 300))
          (valuable (list-values num vec)))
     (let*((liste (five-down-levels valuable)))
       (dotimes (mo (length liste))
-        do (let*((new-point (nth mo liste))
-                 (smarter (+ (* 10 incrementer) 2)))
+        do (let((new-point (nth mo liste)))
+               ;;  (smarter (+ (* 10 incrementer) 2))
              (dotimes (jndex (length sem-keys))
                do(let* ((elem1 (first (get-bbox-as-aabb (nth jndex sem-keys) sem-hash)))
                         (elem2 (second (get-bbox-as-aabb (nth jndex sem-keys) sem-hash))))
@@ -1079,13 +1061,13 @@ objects))
 ;;####### CHECKING THE VISIBILITY OF QUADCOPTER #######;;
 
 (defun cam-depth-tf-transform ()
-  (cl-transforms-stamped:lookup-transform *tf* "human" "camera_depth_frame"))
+  (cl-transforms-stamped:lookup-transform *tf* "human" "red_wasp/camera_depth_frame"))
 
 (defun cam-rgb-tf-transform ()
-  (cl-transforms-stamped:lookup-transform *tf* "map" "camera_rgb_frame"))
+  (cl-transforms-stamped:lookup-transform *tf* "map" "red_wasp/camera_rgb_frame"))
 
 (defun cam-get-pose->relative-map (vec)
-(let((pose-stmp (cl-transforms-stamped:make-pose-stamped "camera_depth_frame"
+(let((pose-stmp (cl-transforms-stamped:make-pose-stamped "red_wasp/camera_depth_frame"
                                                          0.0 vec
                                                          (cl-transforms:make-identity-rotation))))
   (cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose pose-stmp :target-frame "map"))))
@@ -1264,31 +1246,24 @@ quadrotor, so the rotation is on y-axis"
 ;; result))
 
 (defun get-elems-infrontof-human (num)
-  (format t "num-----------------------~%")
-  (let* ((sem-map *sem-map*);;(sem-map-utils:get-semantic-map))
+  (let* ((sem-map *sem-map*)
          (sem-hash (slot-value sem-map 'sem-map-utils:parts))
          (sem-keys (hash-table-keys sem-hash))
-         (poses '()) (dist NIL) (liste '())
-         (pub NIL)(obj-pub NIL)(obj-pose NIL) (obj-map NIL))
-    (format t "sem-keys ~a~%" sem-keys)
+         (poses '()) (dist NIL) (liste '())(obj-pose2 NIL)
+         (pub NIL)(obj-pose NIL))
     (dotimes (index (length sem-keys))
-      (if (or (string-equal (nth index sem-keys) "human01")
-              (string-equal (nth index sem-keys)  "human02")
-              (string-equal (nth index sem-keys)  "human03"))
-          ()
+      (if (not (or (string-equal (nth index sem-keys) "human01")
+                   (string-equal (nth index sem-keys)  "human02")
+                   (string-equal (nth index sem-keys)  "human03")))
           (setf liste (cons (nth index sem-keys) liste))))
     (dotimes (index (length liste))
-;;     (setf pub (cl-tf:make-transform-broadcaster))
-;;     (setf obj-pub (cl-tf:send-static-transforms pub 1.0 "pose" (cl-transforms-stamped:make-transform-stamped "map" (nth index sem-keys) (roslisp:ros-time) (cl-transforms:origin (get-elem-pose (nth index sem-keys))) (cl-transforms:orientation (get-elem-pose (nth index sem-keys))))))
       (setf obj-pose (cl-transforms-stamped:transform->pose (cl-tf:lookup-transform *tf* "human" (format NIL "~a_link" (nth index liste)))))
          (setf obj-pose2 (cl-transforms-stamped:transform->pose (cl-tf:lookup-transform *tf* "map" (format NIL "~a_link" (nth index liste)))))
-     
-;;        (setf obj-map (cl-transforms-stamped:transform->pose (cl-tf:lookup-transform *tf* "map" (nth index sem-keys))))
       (setf dist (get-distance (human-relative-map-pose) obj-pose2))
       (if (and (>= num dist)
                (plusp (cl-transforms:x (cl-transforms:origin obj-pose))))
                 (setf poses (cons (format NIL "~a - ~a"(nth index liste) dist) poses))))
-    ;;  (remove-local-tf-publisher obj-pub))
+    (setf poses (sort-list poses))
        poses))
 
 
@@ -1347,3 +1322,33 @@ quadrotor, so the rotation is on y-axis"
         (list "rock" "property")
         (list "mountain" "property")))
                     
+
+;;;
+;;;
+;;;Sorting the lists by using two functions
+;;;
+ (defun sort-list (liste)
+   (dotimes (index (length liste))
+                     (setf liste (sorted-lists liste)))
+                   liste)
+
+
+(defun sorted-lists (liste)
+  (let ((sortlist '())
+        (tmp  (first liste)))
+    (loop for index from 1 to (- (length liste) 1)
+          do
+            (let((tmpnum (read-from-string
+                          (second (split-sequence:split-sequence #\- tmp))))
+                 (num (read-from-string
+                            (second (split-sequence:split-sequence #\- (nth index liste)))))
+                 (value (nth index liste)))
+             (cond ((> tmpnum  num)
+                    (setf sortlist (cons value sortlist)))
+                   (t
+                    (setf sortlist (cons tmp sortlist))
+                    (setf tmp value)
+                    (setf tmpnum (read-from-string
+                                  (second (split-sequence:split-sequence #\- tmp))))))))
+    (setf sortlist (cons tmp sortlist))
+    (reverse sortlist)))

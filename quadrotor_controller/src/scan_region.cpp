@@ -41,7 +41,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   ROS_INFO_STREAM("Start controller");
   publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
   gms_c = nh_.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
-  getmodelstate.request.model_name="quadrotor";
+  getmodelstate.request.model_name="red_wasp";
   cam = nh_cam.serviceClient<img_mission::returnString>("/store_image");
   img_mission::returnString retsrv;
   geometry_msgs::Twist tw;

@@ -30,70 +30,57 @@
 
 (defvar *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
 
-(defun start-scenario ()
-  (roslisp-utilities:startup-ros))
-
 ;;
-;; SERVICE IN ORDER TO ASK FOR ALL OBJECTS INSIDE THE SEMMAP
+;; SERVICE TO GET ALL OBJECTS
 ;;
- (defun start_all_objects ()
-   (service-call-one))
 
-(defun service-call-one ()
- (roslisp-utilities:startup-ros :name "start_all_objs");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
-  ;;(roslisp:with-ros-node ("start_all_node" :spin t)
+(defun start_all_objects()
+  (roslisp-utilities:startup-ros)
+  (all-objs-call))
+
+(defun all-objs-call ()
+ (roslisp-utilities:startup-ros :name "start_all_objs"
   (roslisp:register-service "all_objs" 'cmd_mission-srv:all_objs)
   (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
-  (roslisp:ros-info (basics-system) "start all service for the msg.")
- (roslisp:spin-until nil 1000))
+  (roslisp:ros-info (basics-system) "Service 'All Objects' already started.")
+ (roslisp:spin-until nil 1000)))
 
 (roslisp:def-service-callback cmd_mission-srv:all_objs (all)
- ;;(format t "robot456 ~a~%" all)
-  (let*((liste (get-obj-list)))
-   ; (dotimes(index (length liste))
-   ;   do(setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name (nth index liste)) vec)))
+  (let*((liste (get-all-objects)))
   (roslisp:make-response :result_all liste)))
 
 ;;
-;; SERVICE TO ASK FOR SALIENT OBJECTS INSIDE THE SEMMAP
+;; SERVICE TO GET SALIENT OBJECTS INSIDE THE SEMMAP
 ;;
  (defun start_salient_objects ()
-   (format t "start_salient~%")
-   (roslisp-utilities:startup-ros)
-   (service-call-two))
+ ;;  (roslisp-utilities:startup-ros)
+   (salient-objs-call))
 
-(defun service-call-two ()
+(defun salient-objs-call ()
   (roslisp-utilities:startup-ros :name "start_salient_objs")
-  ;; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
-;;  (roslisp:with-ros-node ("getting service node" :spin t)
   (roslisp:register-service "salient_objs" 'cmd_mission-srv:salient_objs)
   (if (null *sem-map*)
       (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
-  (roslisp:ros-info (basics-system) "start salient service for the msg.")
+  (roslisp:ros-info (basics-system) "Service 'Salient Objects' already started.")
   (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:salient_objs (sal)
-  (format t "robot-123 ~a~%" sal)
-(let*((liste (get-objs-infrontof-human)))
-  ;(dotimes(index (length liste))
-   ; do(setf vec (cons (roslisp:make-msg "cmd_mission/Subgoal" :name (nth index liste)) vec)))
-  (roslisp:make-response :result_salient liste)));(reverse vec))))
+  (let*((liste (get-objs-infrontof-human)))
+    (roslisp:make-response :result_salient liste)))
 
 ;;
 ;; SERVICE FOR CHECKING RELATION OF TWO OBJECTS IN A SPATIAL CONTEXT
 ;; 
 (defun start_checking_relation ()
-  (service-call-three))
+  (relation-objs-call))
 
-(defun service-call-three ()
-  ;;(roslisp:with-ros-node ("start_checking_objs" :spin t)
-  (roslisp-utilities:startup-ros :name "start_checking_relation");; :master-uri (roslisp:make-uri "localhost" 11311)  :name "service_node")
-  ;;  (roslisp:with-ros-node ("getting service node" :spin t)
+(defun relation-objs-call ()
+  (roslisp-utilities:startup-ros :name "start_checking_relation")
   (roslisp:register-service "check_objs_relation" 'cmd_mission-srv:check_objs_relation)
   (if (null *sem-map*)
       (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
-  (roslisp:ros-info (basics-system) "start check service for the msg.")
- (roslisp:spin-until nil 1000))
+  (roslisp:ros-info (basics-system) "Service 'Checking Objects Relation' already started.")
+  (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:check_objs_relation (property obj1 obj2)
 (let((result NIL))
@@ -105,14 +92,14 @@
   (roslisp:make-response :result_check result)))
 
 (defun start_checking_property()
-  (service-call-four))
+  (property-checking))
 
-(defun service-call-four ()
+(defun property-checking ()
   (roslisp-utilities:startup-ros :name "start_checking_property")
   (roslisp:register-service "check_obj_property" 'cmd_mission-srv:check_obj_property)
   (if (null *sem-map*)
   (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
-  (roslisp:ros-info (basics-system) "start check service for the msg.")
+  (roslisp:ros-info (basics-system) "Service 'Checking Objects Property' already started.")
  (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:check_obj_property (name property)
@@ -123,73 +110,70 @@
     (setf result (checking-obj-property name property)))
   (roslisp:make-response :result_property result)))
 
-;; (defun start_getting_type()
-;;   (service-call-five))
+ (defun start_getting_type()
+   (getting-object-type))
 
-;; (defun service-call-five ()
-;;   (roslisp-utilities:startup-ros :name "start_getting_type")
-;;   (roslisp:register-service "get_obj_type" 'cmd_mission-srv:get_obj_type)
-;;   (roslisp:ros-info (basics-system) "start check service for the msg.")
-;;   (roslisp:spin-until nil 1000))
+(defun getting-object-type ()
+   (roslisp-utilities:startup-ros :name "start_getting_type")
+   (roslisp:register-service "get_obj_type" 'cmd_mission-srv:get_obj_type)
+   (roslisp:ros-info (basics-system) "Service 'Getting Objects Type' already started.")
+   (roslisp:spin-until nil 1000))
 
-;; (roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
-;;   (let ((result NIL))
-;;     (if (string-equal objname "")
-;; 	(setf result NIL)
-;; 	(setf result (get-elem-type objname)))
-;;   (roslisp:make-response :result_type result)))
+(roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
+  (let ((result NIL))
+    (if (string-equal objname "")
+	(setf result NIL)
+	(setf result (get-elem-type objname)))
+  (roslisp:make-response :result_type result)))
 
 (defun start_getting_property_list()
-  (service-call-six))
+  (getting-property-list))
 
-(defun service-call-six ()
+(defun getting-property-list ()
   (roslisp-utilities:startup-ros :name "start_getting_property_list")
   (roslisp:register-service "get_property_list" 'cmd_mission-srv:get_property_list)
   (if (null *sem-map*)
-  (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
-  (roslisp:ros-info (basics-system) "start check service for the msg.")
+      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
+  (roslisp:ros-info (basics-system) "Service 'Getting Property List' already started.")
   (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:get_property_list (props)
-  (format t" ~a~%" props)
   (let ((result NIL)
         (value (get-property-list))
         (liste '()))
-        (dotimes(index (length value))
-          (setf liste (cons (roslisp:make-msg "cmd_mission/Subgoal"
-                                              :property (first (nth index value))
-                                              :kind (second (nth index value)))
+    (dotimes(index (length value))
+      (setf liste (cons (roslisp:make-msg "cmd_mission/Subgoal"
+                                          :property (first (nth index value))
+                                          :kind (second (nth index value)))
                             liste)))
-    (format t" test ~%")
-        (setf result (reverse liste))
-    (format t "~a~%" (vector result))
-        (roslisp:make-response :result_props  result)))
+    (setf result (reverse liste))
+    (roslisp:make-response :result_props  result)))
 
 
-(defun start_getting_object_size()
-  (service-call-seven))
+;; (defun start_getting_object_size()
+;;   (getting-object-size))
 
-(defun service-call-seven ()
-  (roslisp-utilities:startup-ros :name "start_getting_object_size")
-  (roslisp:register-service "get_obj_size" 'cmd_mission-srv:get_obj_type)
-  (if (null *sem-map*)
-      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
-  (roslisp:ros-info (basics-system) "start check service for the msg.")
-  (roslisp:spin-until nil 1000))
+;; (defun getting-object-size ()
+;;   (roslisp-utilities:startup-ros :name "start_getting_object_size")
+;;   (roslisp:register-service "get_obj_size" 'cmd_mission-srv:get_obj_type)
+;;   (if (null *sem-map*)
+;;       (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
+;;   (roslisp:ros-info (basics-system) "Service 'Getting Object Size' already started.")
+;;   (roslisp:spin-until nil 1000))
 
-(roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
-  (let ((result (checking-object-size objname)))
-        (roslisp:make-response :result_type  result)))
+;; (roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
+;;   (let ((result (checking-object-size objname)))
+;;         (roslisp:make-response :result_type  result)))
 
 (defun start_getting_reasoning_on_pose()
-  (service-call-eight))
+  (getting-reasoning-on-pose))
 
-(defun service-call-eight ()
+(defun getting-reasoning-on-pose ()
   (roslisp-utilities:startup-ros :name "start_getting_reasoning_on_pose")
   (roslisp:register-service "get_reason_pose" 'cmd_mission-srv:get_reason_pose)
   (if (null *sem-map*)
       (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
-  (roslisp:ros-info (basics-system) "start check service for the msg.")
+  (roslisp:ros-info (basics-system) "Service 'Getting Reasoning OnProperty List' already started.")
   (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:get_reason_pose (act prep objname)
