@@ -335,7 +335,6 @@
                                     (0.0d0 ,(float (* std-dev std-dev)))))))
 
 (defun checking-relation (obj1 obj2 property)
-
   (let*((sem-hash (get-all-elems-with-local-tf))
         (obj1-pose (gethash obj1 sem-hash))
         (obj2-pose (gethash obj2 sem-hash))
