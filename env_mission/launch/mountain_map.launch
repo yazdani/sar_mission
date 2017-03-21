@@ -7,7 +7,7 @@
     <arg name="headless" value="false"/>
     <arg name="debug" value="false"/>
   </include>
-
+  <include file="$(find img_mission)/launch/image_instruction.launch" />
   <!--include file="$(find env_mission)/launch/json_map.launch" /-->
   <include file="$(find quadrotor_controller)/launch/quadrotor_simulation.launch" />
   <!--param name="mountain_description"
