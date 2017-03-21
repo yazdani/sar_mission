@@ -28,7 +28,7 @@
 
 (in-package :start-mission)
 
-(defvar *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
+(defvar *sem-map* NIL);;(sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
 
 ;;
 ;; SERVICE TO GET ALL OBJECTS

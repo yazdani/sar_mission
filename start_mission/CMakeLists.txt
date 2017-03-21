@@ -191,11 +191,11 @@ include_directories(
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
-add_lisp_executable(start_all_objs
-start-mission start-mission::start_all_objs)
+add_lisp_executable(start_all_objects
+start-mission start-mission::start_all_objects)
 
-add_lisp_executable(start_salient_objs
-start-mission start-mission::start_salient_objs)
+add_lisp_executable(start_salient_objects
+start-mission start-mission::start_salient_objects)
 
 add_lisp_executable(start_checking_relation
 start-mission start-mission::start_checking_relation)
