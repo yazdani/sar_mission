@@ -1,0 +1,11 @@
+<launch>
+<node pkg="start_mission" type="start_all_objects" name="start_all_objects" respawn="false" />
+ <node pkg="start_mission" type="start_salient_objects" name="start_salient_objects" respawn="false" />
+ <node pkg="start_mission" type="start_checking_relation" name="start_checking_relation" respawn="false" />
+ <node pkg="start_mission" type="start_checking_property" name="start_checking_property" respawn="false" />
+ <node pkg="start_mission" type="start_getting_object_size" name="start_getting_object_size" respawn="false" />
+ <node pkg="start_mission" type="start_getting_property_list" name="start_getting_property_list" respawn="false" />
+  <!--already given in mountain_map.launch -->
+  <node pkg="start_mission" type="start_getting_reasoning_on_pose" name="start_getting_reasoning_on_pose" respawn="false" />
+  <!--node pkg="quadrotor_controller" type="quadrotor_controller" name="quadrotor_simulation" respawn="false" /-->
+</launch>

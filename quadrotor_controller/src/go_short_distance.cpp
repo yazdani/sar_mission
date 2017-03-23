@@ -30,7 +30,7 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
   ROS_INFO("START HECTOR FOR TASK EXECUTION");
   publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
   gms_c = nh_.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
-  getmodelstate.request.model_name="quadrotor";
+  getmodelstate.request.model_name="red_wasp";
   
   geometry_msgs::Twist tw;
   publisher.publish(tw);

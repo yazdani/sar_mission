@@ -21,6 +21,7 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
   ros::NodeHandle nh;
   ros::NodeHandle nh_;
   ros::ServiceClient gms_c;  
+
   gazebo_msgs::SetModelState setmodelstate;
   gazebo_msgs::GetModelState getmodelstate; 
   ros::Publisher publisher;
@@ -246,41 +247,41 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
   if(getmodelstate.response.pose.orientation.w >= 0)
     {
       if(getmodelstate.response.pose.orientation.z > new_qz)
-	{
+  	{
 	  
-	  while(getmodelstate.response.pose.orientation.z > new_qz)
-	    {
-	      ROS_INFO_STREAM("TEST");
-	      ROS_INFO_STREAM(getmodelstate.response.pose.orientation.z);
-	      ROS_INFO_STREAM(new_qz);
+  	  while(getmodelstate.response.pose.orientation.z > new_qz)
+  	    {
+  	      ROS_INFO_STREAM("TEST");
+  	      ROS_INFO_STREAM(getmodelstate.response.pose.orientation.z);
+  	      ROS_INFO_STREAM(new_qz);
 	      
-	      tw.angular.z = -0.2;
-	      publisher.publish(tw);
-	      ros::Duration(1.0).sleep();
-	      gms_c.call(getmodelstate);
-	    }
+  	      tw.angular.z = -0.2;
+  	      publisher.publish(tw);
+  	      ros::Duration(1.0).sleep();
+  	      gms_c.call(getmodelstate);
+  	    }
 	  
-	  ros::Duration(2.0).sleep();
-	  tw.angular.z = 0;
-	  publisher.publish(tw);
-	}else 
-	{	  
-	  while(getmodelstate.response.pose.orientation.z < new_qz)
-	    {
-	      ROS_INFO_STREAM("TEST1");
+  	  ros::Duration(2.0).sleep();
+  	  tw.angular.z = 0;
+  	  publisher.publish(tw);
+  	}else 
+  	{	  
+  	  while(getmodelstate.response.pose.orientation.z < new_qz)
+  	    {
+  	      ROS_INFO_STREAM("TEST1");
 	      
-	      ROS_INFO_STREAM(getmodelstate.response.pose.orientation.z);
-	      ROS_INFO_STREAM(new_qz);
-	      tw.angular.z = 0.2;
-	      publisher.publish(tw);
-	      ros::Duration(1.0).sleep();
-	      gms_c.call(getmodelstate);
-	    }
+  	      ROS_INFO_STREAM(getmodelstate.response.pose.orientation.z);
+  	      ROS_INFO_STREAM(new_qz);
+  	      tw.angular.z = 0.2;
+  	      publisher.publish(tw);
+  	      ros::Duration(1.0).sleep();
+  	      gms_c.call(getmodelstate);
+  	    }
 	  
-	  ros::Duration(2.0).sleep();
-	  tw.angular.z = 0;
-	  publisher.publish(tw);
-	}
+  	  ros::Duration(2.0).sleep();
+  	  tw.angular.z = 0;
+  	  publisher.publish(tw);
+  	}
       
      ros::Duration(1.0).sleep();
       tw.linear.z = 0;
@@ -291,30 +292,30 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
     }else
     {
             if(getmodelstate.response.pose.orientation.w < 0.95)
-	      {
-		while(getmodelstate.response.pose.orientation.w <= 0.95)
-		  {
-		    tw.angular.z = -0.5;
-		    publisher.publish(tw);
-		    ros::Duration(1.0).sleep();
-		    gms_c.call(getmodelstate);
-		  }
-		ros::Duration(2.0).sleep();
-		tw.angular.z = 0;
-		publisher.publish(tw);
-	      }
-	    else{
-	      while(getmodelstate.response.pose.orientation.w >= -0.95)
-		{
-		  tw.angular.z = 0.5;
-		  publisher.publish(tw);
-		  ros::Duration(1.0).sleep();
-		  gms_c.call(getmodelstate);
-		}
-	      ros::Duration(2.0).sleep();
-	      tw.angular.z = 0;
-	      publisher.publish(tw);
-	    }
+  	      {
+  		while(getmodelstate.response.pose.orientation.w <= 0.95)
+  		  {
+  		    tw.angular.z = -0.5;
+  		    publisher.publish(tw);
+  		    ros::Duration(1.0).sleep();
+  		    gms_c.call(getmodelstate);
+  		  }
+  		ros::Duration(2.0).sleep();
+  		tw.angular.z = 0;
+  		publisher.publish(tw);
+  	      }
+  	    else{
+  	      while(getmodelstate.response.pose.orientation.w >= -0.95)
+  		{
+  		  tw.angular.z = 0.5;
+  		  publisher.publish(tw);
+  		  ros::Duration(1.0).sleep();
+  		  gms_c.call(getmodelstate);
+  		}
+  	      ros::Duration(2.0).sleep();
+  	      tw.angular.z = 0;
+  	      publisher.publish(tw);
+  	    }
     }
   
      if(getmodelstate.response.pose.orientation.z > new_qz)
@@ -393,6 +394,7 @@ bool executecallback(quadrotor_controller::cmd_points::Request &req,
       tw.linear.y = 0;
       publisher.publish(tw);
 
+   
   res.repl = "Task Execution completed";
   return true;
 }

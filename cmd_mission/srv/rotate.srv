@@ -1,0 +1,3 @@
+string goal
+---
+geometry_msgs/Pose result

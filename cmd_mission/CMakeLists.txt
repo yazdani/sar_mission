@@ -69,6 +69,7 @@ add_service_files(
    get_obj_size.srv
    get_reason_pose.srv
    send_instruction.srv
+   rotate.srv
  )
 
 ## Generate actions in the 'action' folder

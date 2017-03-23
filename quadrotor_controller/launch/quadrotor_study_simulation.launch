@@ -1,0 +1,10 @@
+<launch>
+
+ <include file="$(find quadrotor_controller)/launch/spawn_quadrotor_with_kinect_study.launch" />
+
+<!--node pkg="quadrotor_controller" type="cmd_points" name="cmd_points" respawn="false" /-->
+
+
+
+ <!--node type="laser_scan_data" pkg="quadrotor_controller" name="laser_scan_data" respawn="false"/-->
+</launch>

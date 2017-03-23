@@ -29,6 +29,7 @@
 (in-package :start-mission)
 
 (defvar *sem-map* NIL);;(sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
+(defvar *obj-name* NIL)
 
 ;;
 ;; SERVICE TO GET ALL OBJECTS
@@ -46,6 +47,7 @@
  (roslisp:spin-until nil 1000)))
 
 (roslisp:def-service-callback cmd_mission-srv:all_objs (all)
+  (format t "all ~a~%" all)
   (let*((liste (get-all-objects)))
   (roslisp:make-response :result_all liste)))
 
@@ -110,21 +112,23 @@
     (setf result (checking-obj-property name property)))
   (roslisp:make-response :result_property result)))
 
- (defun start_getting_type()
-   (getting-object-type))
+;;  (defun start_getting_type()
+;;    (getting-object-type))
 
-(defun getting-object-type ()
-   (roslisp-utilities:startup-ros :name "start_getting_type")
-   (roslisp:register-service "get_obj_type" 'cmd_mission-srv:get_obj_type)
-   (roslisp:ros-info (basics-system) "Service 'Getting Objects Type' already started.")
-   (roslisp:spin-until nil 1000))
+;; (defun getting-object-type ()
+;;    (roslisp-utilities:startup-ros :name "start_getting_type")
+;;    (roslisp:register-service "get_obj_type" 'cmd_mission-srv:get_obj_type)
+;;     (if (null *sem-map*)
+;;         (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
+;;    (roslisp:ros-info (basics-system) "Service 'Getting Objects Type' already started.")
+;;    (roslisp:spin-until nil 1000))
 
-(roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
-  (let ((result NIL))
-    (if (string-equal objname "")
-	(setf result NIL)
-	(setf result (get-elem-type objname)))
-  (roslisp:make-response :result_type result)))
+;; (roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
+;;   (let ((result NIL))
+;;     (if (string-equal objname "")
+;; 	(setf result NIL)
+;; 	(setf result (get-elem-type objname)))
+;;   (roslisp:make-response :result_type result)))
 
 (defun start_getting_property_list()
   (getting-property-list))
@@ -150,20 +154,20 @@
     (roslisp:make-response :result_props  result)))
 
 
-;; (defun start_getting_object_size()
-;;   (getting-object-size))
+(defun start_getting_object_size()
+ (getting-object-size))
 
-;; (defun getting-object-size ()
-;;   (roslisp-utilities:startup-ros :name "start_getting_object_size")
-;;   (roslisp:register-service "get_obj_size" 'cmd_mission-srv:get_obj_type)
-;;   (if (null *sem-map*)
-;;       (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
-;;   (roslisp:ros-info (basics-system) "Service 'Getting Object Size' already started.")
-;;   (roslisp:spin-until nil 1000))
+(defun getting-object-size ()
+  (roslisp-utilities:startup-ros :name "start_getting_object_size")
+  (roslisp:register-service "get_obj_size" 'cmd_mission-srv:get_obj_type)
+  (if (null *sem-map*)
+      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
+  (roslisp:ros-info (basics-system) "Service 'Getting Object Size' already started.")
+  (roslisp:spin-until nil 1000))
 
-;; (roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
-;;   (let ((result (checking-object-size objname)))
-;;         (roslisp:make-response :result_type  result)))
+(roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
+  (let ((result (checking-object-size objname)))
+        (roslisp:make-response :result_type  result)))
 
 (defun start_getting_reasoning_on_pose()
   (getting-reasoning-on-pose))
@@ -179,10 +183,28 @@
 (roslisp:def-service-callback cmd_mission-srv:get_reason_pose (act prep objname)
   (let*((result (get-desig-resolution act prep objname))
         (schetring NIL))
+    (setf *obj-name* objname)
      (setf schetring (concatenate 'string (write-to-string (cl-transforms:x (cl-transforms:origin result))) ","
                         (write-to-string (cl-transforms:y (cl-transforms:origin result))) ","
                     (write-to-string (cl-transforms:z (cl-transforms:origin result))) ","
                         (write-to-string (cl-transforms:x (cl-transforms:orientation result))) ","
                   (write-to-string (cl-transforms:y (cl-transforms:orientation result))) ","
                       (write-to-string (cl-transforms:z (cl-transforms:orientation result))) ","
-                      (write-to-string (cl-transforms:w (cl-transforms:orientation result)))))                      (roslisp:make-response :result_pose schetring)))
+                      (write-to-string (cl-transforms:w (cl-transforms:orientation result)))))                      
+    (roslisp:make-response :result_pose schetring)))
+
+(defun start_robot_rotation()
+ (rotate-robot))
+
+(defun rotate-robot ()
+  (roslisp-utilities:startup-ros :name "start_robot_rotation")
+  (roslisp:register-service "get_rotation" 'cmd_mission-srv:rotate)
+  (if (null *sem-map*)
+      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
+  (roslisp:ros-info (basics-system) "Service 'Rotation' already started.")
+  (roslisp:spin-until nil 1000))
+
+(roslisp:def-service-callback cmd_mission-srv:rotate (goal)
+  (let ((result (set-rotation-based-elem)))
+    (format t "result ~a~%" result)
+    (roslisp:make-response :result  result)))

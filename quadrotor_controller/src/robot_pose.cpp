@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "quadrotor_controller/cmd_points.h"
+#include "cmd_mission/rotate.h"
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/PoseStamped.h>
 #include <geometry_msgs/Twist.h>
@@ -18,7 +19,10 @@
 bool executecallback(quadrotor_controller::cmd_points::Request &req,
          quadrotor_controller::cmd_points::Response &res)
 {
+  ROS_INFO("THIS IS ROBOT POSE");
+  ros::NodeHandle n_rot;
 ros::NodeHandle nh;
+ ros::NodeHandle n_getrot;
   ros::NodeHandle nh_;
   ros::ServiceClient gms_c;  
   gazebo_msgs::SetModelState setmodelstate;
@@ -27,7 +31,6 @@ ros::NodeHandle nh;
   ros::ServiceClient smsl;
   geometry_msgs::Pose end_pose;
   geometry_msgs::Twist end_twist;
-  
   ROS_INFO("START HECTOR FOR TASK EXECUTION");
   publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
   gms_c = nh_.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
@@ -74,7 +77,7 @@ ros::NodeHandle nh;
   if(now_z <= 11)
     {
       while(now_z <= 11)
-	{
+	{ 
 	  tw.linear.z = 0.8;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
@@ -228,12 +231,37 @@ ros::NodeHandle nh;
       publisher.publish(tw);
    
 
-  ros::Duration(1.0).sleep();
+      ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw);
+      gms_c.call(getmodelstate);
+ 
+      // ros::ServiceClient client_getrot = n_getrot.serviceClient<cmd_mission::rotate>("get_rotation");
+      // cmd_mission::rotate srv_getrot;
+      // srv_getrot.request.goal = "";
+      // if (client_getrot.call(srv_getrot))
+      // 	{
+      // 	  ROS_INFO("COOL JOB for ROTATION");
+      // 	}else
+      // 	{
+      // 	  ROS_ERROR("Failed to call service getRotation");
+      // 	} 
 
+      ros::ServiceClient client_rot = n_rot.serviceClient<quadrotor_controller::cmd_points>("setRobotRotation");
+      quadrotor_controller::cmd_points srv_rot;
+      srv_rot.request.qx = req.qx;
+      srv_rot.request.qy = req.qy;
+      srv_rot.request.qz = req.qz;
+      srv_rot.request.qw = req.qw;
+      if (client_rot.call(srv_rot))
+	{
+	  ROS_INFO("COOL JOB");
+	}else
+	{
+	  ROS_ERROR("Failed to call service setRobotRotation");
+	}
 
   res.repl = "Task Execution completed";
   return true;

@@ -72,7 +72,7 @@
   <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
 </owl:Class>
  
-<owl:Class rdf:about="&knowrob;Lake"> 
+<owl:Class rdf:about="&knowrob;House"> 
   <rdfs:subClassOf rdf:resource="&knowrob;SpatialThing-Localized"/> 
 </owl:Class>
 
@@ -453,8 +453,8 @@
         </rdfs:subClassOf> 
   </owl:Class>
 
- <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#lake">
-	<rdfs:subClassOf rdf:resource="&knowrob;Lake"/> 
+ <owl:Class rdf:about="http://knowrob.org/kb/knowrob.owl#house">
+	<rdfs:subClassOf rdf:resource="&knowrob;House"/> 
         <rdfs:subClassOf>
             <owl:Restriction>
                 <owl:onProperty rdf:resource="&knowrob;pathToCadModel"/>
@@ -1690,7 +1690,7 @@
 <!-- ######################################################################### -->
 <!-- house01 -->
 <owl:NamedIndividual rdf:about="&knowrob;house01">
-    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#lake"/>
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#house"/>
     <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
     <knowrob:hasColor rdf:datatype="&xsd;string">grey</knowrob:hasColor>
     <knowrob:isAlive rdf:datatype="&xsd;string">inanimate</knowrob:isAlive>
@@ -1712,7 +1712,7 @@
 
 <!-- house02 -->
 <owl:NamedIndividual rdf:about="&knowrob;house02">
-    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#lake"/>
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#house"/>
     <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
     <knowrob:hasColor rdf:datatype="&xsd;string">grey</knowrob:hasColor>
     <knowrob:isAlive rdf:datatype="&xsd;string">inanimate</knowrob:isAlive>
@@ -1734,7 +1734,7 @@
 
 <!-- house03 -->
 <owl:NamedIndividual rdf:about="&knowrob;house03">
-    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#lake"/>
+    <rdf:type rdf:resource="http://knowrob.org/kb/knowrob.owl#house"/>
     <knowrob:describedInMap rdf:resource="http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"/>
     <knowrob:hasColor rdf:datatype="&xsd;string">grey</knowrob:hasColor>
     <knowrob:isAlive rdf:datatype="&xsd;string">inanimate</knowrob:isAlive>

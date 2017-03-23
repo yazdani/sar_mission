@@ -203,8 +203,8 @@ start-mission start-mission::start_checking_relation)
 add_lisp_executable(start_checking_property
 start-mission start-mission::start_checking_property)
 
-#add_lisp_executable(start_getting_type
-#start-mission start-mission::start_getting_type)
+add_lisp_executable(start_getting_object_size
+start-mission start-mission::start_getting_object_size)
 
 #add_lisp_executable(start_checking_property
 #start-mission start-mission::start_checking_property)
@@ -215,5 +215,6 @@ start-mission start-mission::start_getting_property_list)
 add_lisp_executable(start_getting_reasoning_on_pose
 start-mission start-mission::start_getting_reasoning_on_pose)
 
-
+add_lisp_executable(start_robot_rotation
+start-mission start-mission::start_robot_rotation)
 
