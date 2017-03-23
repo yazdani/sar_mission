@@ -236,7 +236,7 @@ ros::NodeHandle nh;
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw);
-      gms_c.call(getmodelstate);
+      //  gms_c.call(getmodelstate);
  
       // ros::ServiceClient client_getrot = n_getrot.serviceClient<cmd_mission::rotate>("get_rotation");
       // cmd_mission::rotate srv_getrot;
@@ -249,19 +249,19 @@ ros::NodeHandle nh;
       // 	  ROS_ERROR("Failed to call service getRotation");
       // 	} 
 
-      ros::ServiceClient client_rot = n_rot.serviceClient<quadrotor_controller::cmd_points>("setRobotRotation");
-      quadrotor_controller::cmd_points srv_rot;
-      srv_rot.request.qx = req.qx;
-      srv_rot.request.qy = req.qy;
-      srv_rot.request.qz = req.qz;
-      srv_rot.request.qw = req.qw;
-      if (client_rot.call(srv_rot))
-	{
-	  ROS_INFO("COOL JOB");
-	}else
-	{
-	  ROS_ERROR("Failed to call service setRobotRotation");
-	}
+      // ros::ServiceClient client_rot = n_rot.serviceClient<quadrotor_controller::cmd_points>("setRobotRotation");
+      // quadrotor_controller::cmd_points srv_rot;
+      // srv_rot.request.qx = req.qx;
+      // srv_rot.request.qy = req.qy;
+      // srv_rot.request.qz = req.qz;
+      // srv_rot.request.qw = req.qw;
+      // if (client_rot.call(srv_rot))
+      // 	{
+      // 	  ROS_INFO("COOL JOB");
+      // 	}else
+      // 	{
+      // 	  ROS_ERROR("Failed to call service setRobotRotation");
+      // 	}
 
   res.repl = "Task Execution completed";
   return true;

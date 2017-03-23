@@ -129,12 +129,11 @@
       (setf *puby* (create-local-tf-publisher tom "test"))))
   tom)
 
-(defun set-rotation-based-elem ()
-  (format t "*objname is  ~a~%"*obj-name*)
-  (if (not (null *obj-name*))
-      (let*((quad-pose (cl-transforms:transform->pose (cl-tf:lookup-transform *tf* "map" "red_wasp/base_footprint")))
-            (elem NIL))
-        (setf elem (look-at-object-x (cl-transforms:make-pose (cl-transforms:origin quad-pose)(cl-transforms:orientation (cl-transforms:transform->pose (cam-depth-tf-human-transform )))) (get-elem-pose *obj-name*)))
+(defun set-rotation-based-elem (goal)
+(if (not (string-equal "picture" goal))
+    (let*((quad-pose (cl-transforms:transform->pose (cl-tf:lookup-transform *tf* "map" "red_wasp/base_footprint")))
+	  (elem NIL))
+      (setf elem (look-at-object-x (cl-transforms:make-pose (cl-transforms:origin quad-pose)(cl-transforms:orientation (cl-transforms:transform->pose (cam-depth-tf-human-transform )))) (get-elem-pose goal)))
         (format t "elem is ~a und ~a~%" elem (cl-transforms:x (cl-transforms:orientation elem)))
         (roslisp:make-msg "geometry_msgs/Pose" :orientation
                           (roslisp:make-msg "geometry_msgs/Quaternion"
