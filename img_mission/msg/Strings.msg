@@ -1,0 +1,2 @@
+string image
+string object

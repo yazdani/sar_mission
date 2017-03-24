@@ -1,6 +1,8 @@
 <launch>
 
 <node pkg="img_mission" type="show_image" name="show_image" respawn="false" />
-<node pkg="img_mission" type="store_image" name="store_image" respawn="false" />
+<node pkg="img_mission" type="subscribing_storing" name="subscribing_storing" respawn="false" />
+<node pkg="img_mission" type="publishing_storing" name="publishing_storing" respawn="false" />
+<!--node pkg="img_mission" type="store_image" name="store_object_image" respawn="false" /-->
 
 </launch>

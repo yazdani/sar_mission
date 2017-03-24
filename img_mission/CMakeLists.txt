@@ -51,11 +51,10 @@ find_package(OpenCV REQUIRED)
 ##   * add every package in MSG_DEP_SET to generate_messages(DEPENDENCIES ...)
 
 ## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
+ add_message_files(
+   FILES
+   Strings.msg
+)
 
 ## Generate services in the 'srv' folder
 add_service_files(
@@ -147,12 +146,15 @@ include_directories(
 add_executable(show_image src/show_image.cpp)
 target_link_libraries(show_image ${catkin_LIBRARIES})
 add_dependencies(show_image img_mission_generate_messages_cpp)
-add_executable(store_image src/store_image.cpp)
-target_link_libraries(store_image ${catkin_LIBRARIES})
-add_dependencies(store_image img_mission_generate_messages_cpp)
+add_executable(publishing_storing src/publishing_storing.cpp)
+target_link_libraries(publishing_storing ${catkin_LIBRARIES})
+add_dependencies(publishing_storing img_mission_generate_messages_cpp)
 add_executable(pub_img src/pub_img.cpp)
 target_link_libraries(pub_img  ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 add_dependencies(pub_img img_mission_generate_messages_cpp)
+add_executable(subscribing_storing src/subscribing_storing.cpp)
+target_link_libraries(subscribing_storing ${catkin_LIBRARIES})
+add_dependencies(subscribing_storing img_mission_generate_messages_cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(img_mission_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

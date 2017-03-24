@@ -7,5 +7,6 @@
  <node pkg="start_mission" type="start_getting_property_list" name="start_getting_property_list" respawn="false" />
   <!--already given in mountain_map.launch -->
   <node pkg="start_mission" type="start_getting_reasoning_on_pose" name="start_getting_reasoning_on_pose" respawn="false" />
+  <node pkg="start_mission" type="start_robot_rotation" name="start_robot_rotation" respawn="false" />
   <!--node pkg="quadrotor_controller" type="quadrotor_controller" name="quadrotor_simulation" respawn="false" /-->
 </launch>

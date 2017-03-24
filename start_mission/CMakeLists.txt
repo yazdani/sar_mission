@@ -217,4 +217,3 @@ start-mission start-mission::start_getting_reasoning_on_pose)
 
 add_lisp_executable(start_robot_rotation
 start-mission start-mission::start_robot_rotation)
-

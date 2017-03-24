@@ -205,6 +205,6 @@
   (roslisp:spin-until nil 1000))
 
 (roslisp:def-service-callback cmd_mission-srv:rotate (goal)
-  (let ((result (set-rotation-based-elem)))
+  (let ((result (set-rotation-based-elem goal)))
     (format t "result ~a~%" result)
     (roslisp:make-response :result  result)))
