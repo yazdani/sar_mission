@@ -58,6 +58,6 @@ name="mountain_state_publisher" output="screen">
   <!--node pkg="quadrotor_controller" type="cmd_executer" name="cmd_executer" respawn="false" /-->
 
   
-  <include file="$(find env_mission)/launch/executables.launch" />
+  <!--include file="$(find env_mission)/launch/executables.launch" /-->
 
 </launch>
