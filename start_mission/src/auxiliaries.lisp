@@ -130,7 +130,9 @@
   tom)
 
 (defun set-rotation-based-elem (goal)
-(if (not (string-equal "picture" goal))
+(if (or (not (string-equal "picture" goal))
+	(not (null goal))
+	(not (string-equal "" goal)))
     (let*((quad-pose (cl-transforms:transform->pose (cl-tf:lookup-transform *tf* "map" "red_wasp/base_footprint")))
 	  (elem NIL))
       (setf elem (look-at-object-x (cl-transforms:make-pose (cl-transforms:origin quad-pose)(cl-transforms:orientation (cl-transforms:transform->pose (cam-depth-tf-human-transform )))) (get-elem-pose goal)))

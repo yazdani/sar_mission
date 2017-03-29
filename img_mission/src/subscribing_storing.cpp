@@ -48,28 +48,31 @@ void call(const img_mission::Strings& msg)
   cmd_mission::rotate srv_getrot;
   std::string str1 = msg.object;
   srv_getrot.request.goal = msg.object;
-  if(str1.compare("picture") != 0)
+  if(str1.compare("picture") != 0) 
     {
-      if (client_getrot.call(srv_getrot))
+      if(!str1.empty())
 	{
-	  ROS_INFO("COOL JOB for ROTATION");
-	}else
-	{
-	  ROS_ERROR("Failed to call service getRotation");
-	} 
-      
-      ros::ServiceClient client_rot = n_rot.serviceClient<quadrotor_controller::cmd_points>("setRobotRotation");
-      quadrotor_controller::cmd_points srv_rot;
-      srv_rot.request.qx = srv_getrot.response.result.orientation.x;
-      srv_rot.request.qy = srv_getrot.response.result.orientation.y;
-      srv_rot.request.qz = srv_getrot.response.result.orientation.z;
-      srv_rot.request.qw = srv_getrot.response.result.orientation.w;
-      if (client_rot.call(srv_rot))
-	{
-	  ROS_INFO("COOL JOB");
-	}else
-	{
-	  ROS_ERROR("Failed to call service setRobotRotation");
+	  if (client_getrot.call(srv_getrot))
+	    {
+	      ROS_INFO("COOL JOB for ROTATION");
+	    }else
+	    {
+	      ROS_ERROR("Failed to call service getRotationOK?");
+	    } 
+	  
+	  ros::ServiceClient client_rot = n_rot.serviceClient<quadrotor_controller::cmd_points>("setRobotRotation");
+	  quadrotor_controller::cmd_points srv_rot;
+	  srv_rot.request.qx = srv_getrot.response.result.orientation.x;
+	  srv_rot.request.qy = srv_getrot.response.result.orientation.y;
+	  srv_rot.request.qz = srv_getrot.response.result.orientation.z;
+	  srv_rot.request.qw = srv_getrot.response.result.orientation.w;
+	  if (client_rot.call(srv_rot))
+	    {
+	      ROS_INFO("COOL JOB");
+	    }else
+	    {
+	      ROS_ERROR("Failed to call service setRobotRotation");
+	    }
 	}
     }
  kette = msg.image;
