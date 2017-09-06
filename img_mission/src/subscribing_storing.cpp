@@ -57,7 +57,7 @@ void call(const img_mission::Strings& msg)
 	      ROS_INFO("COOL JOB for ROTATION");
 	    }else
 	    {
-	      ROS_ERROR("Failed to call service getRotationOK?");
+	      ROS_ERROR("Failed to call service getRotation.OK?");
 	    } 
 	  
 	  ros::ServiceClient client_rot = n_rot.serviceClient<quadrotor_controller::cmd_points>("setRobotRotation");

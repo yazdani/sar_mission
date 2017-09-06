@@ -47,7 +47,9 @@
 
 (roslisp:def-service-callback cmd_mission-srv:all_objs (all)
   (format t "all ~a~%" all)
-  (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
+   (if (null *sem-map*)
+      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
+ ;; (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap"))
   (let*((liste (get-all-objects)))
   (roslisp:make-response :result_all liste)))
 

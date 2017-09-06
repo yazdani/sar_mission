@@ -34,7 +34,7 @@ ros::NodeHandle nh;
   ROS_INFO("START HECTOR FOR TASK EXECUTION");
   publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
   gms_c = nh_.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
-  getmodelstate.request.model_name="red_wasp";
+  getmodelstate.request.model_name="quadrotor";
   
   geometry_msgs::Twist tw;
   publisher.publish(tw);

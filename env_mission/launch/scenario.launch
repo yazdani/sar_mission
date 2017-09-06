@@ -1,6 +1,0 @@
-<launch>
-<include file="$(find env_mission)/launch/alpine.launch"/>   
- <node pkg="cmd_mission" type="cmd_parser" name="cmd_parser" respawn="false" output="screen" />
-
- <node pkg="cmd_mission" type="closer" name="closer" respawn="false" output="screen" />
-</launch>

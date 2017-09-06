@@ -41,7 +41,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   ROS_INFO_STREAM("Start controller");
   publisher = nh.advertise<geometry_msgs::Twist>("/cmd_vel", 1);
   gms_c = nh_.serviceClient<gazebo_msgs::GetModelState>("/gazebo/get_model_state");
-  getmodelstate.request.model_name="red_wasp";
+  getmodelstate.request.model_name="quadrotor";
   cam = nh_cam.serviceClient<img_mission::returnString>("/store_image");
   img_mission::returnString retsrv;
   geometry_msgs::Twist tw;
@@ -61,7 +61,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   publisher.publish(tw);
   ros::Duration(2.0).sleep();
   
-  //S_INFO("Hector is starting its motors!");
+  ROS_INFO("Hector is starting its motors!");
   
   new_x = -7.55;
   new_y = -26;
@@ -69,6 +69,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   
   if(now_z <= new_z)
     {
+      ROS_INFO("Z have to be set");
       while(now_z <= new_z)
 	{
 	  tw.linear.z = 0.8;
@@ -83,8 +84,13 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       tw.linear.y = 0;
       publisher.publish(tw);
     }
+  ros::Duration(2.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
 
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
     {
       ROS_INFO_STREAM(retsrv.response.result);
@@ -95,14 +101,25 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       return 1;
     }
 
-  //first position
+  temp = getmodelstate.response.pose.orientation.z;
+  ROS_INFO("Z will be set internally");
+  while(temp <= 0.95)
+    {
+      tw.angular.z = 0.2;
+      publisher.publish(tw);
+      ros::Duration(1.0).sleep();
+      gms_c.call(getmodelstate);
+      temp = getmodelstate.response.pose.orientation.z;
+    }
+
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
 	{
+	  ROS_INFO("X needs to be set");
 	  ROS_INFO_STREAM(now_x);
 	  ROS_INFO_STREAM(new_x);
-	  tw.linear.x = -0.6;
+	  tw.linear.x = 0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
@@ -116,33 +133,22 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       publisher.publish(tw);
     }
   else
-    {
-      temp = getmodelstate.response.pose.orientation.z;
-      
-      while(temp <= 0.95)
-	{
-	  tw.angular.z = 0.2;
-	  publisher.publish(tw);
-	  ros::Duration(1.0).sleep();
-	  gms_c.call(getmodelstate);
-	  temp = getmodelstate.response.pose.orientation.z;
-	}
-      
+    {     
       ros::Duration(2.0).sleep();
       tw.angular.z = 0;
       publisher.publish(tw);
-      
       while(now_x > new_x)
 	{
+	  ROS_INFO("x old and new");
 	  ROS_INFO_STREAM(now_x);
 	  ROS_INFO_STREAM(new_x);
-	  tw.linear.x = 0.6;
+	  tw.linear.x = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
 	  now_x =  getmodelstate.response.pose.position.x;
 	}
-      
+      ROS_INFO_STREAM("STOOOOP"); 
       ros::Duration(1.0).sleep();
       tw.linear.z = 0;
       tw.linear.x = 0;
@@ -155,14 +161,15 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
-    
+ 
   if(now_y <= new_y)
     {
+      ROS_INFO("Y needs to be set now and new");
       while(now_y <= new_y)
 	{
 	  ROS_INFO_STREAM(now_y);
 	  ROS_INFO_STREAM(new_y);
-	  tw.linear.y = -0.6;
+	  tw.linear.y = 0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
@@ -177,9 +184,10 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
     {
       while(now_y > new_y)
 	{
+	  ROS_INFO("Y now and new");
           ROS_INFO_STREAM(now_y);
 	  ROS_INFO_STREAM(new_y);
-	  tw.linear.y = 0.6;
+	  tw.linear.y = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
@@ -200,6 +208,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
 
     if(getmodelstate.response.pose.position.z > 5)
     {
+      ROS_INFO("Go down Z");
       while(getmodelstate.response.pose.position.z > 5)
 	{
 	  tw.linear.z = -0.8;
@@ -223,6 +232,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
 
     if(getmodelstate.response.pose.position.z < 10)
     {
+      ROS_INFO("GO up Z");
       while(getmodelstate.response.pose.position.z < 10)
 	{
 	  tw.linear.z = 0.8;
@@ -242,8 +252,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);     
-
-  retsrv.request.goal = "take pictures";
+  ROS_INFO("first positiondsaada");
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -258,13 +268,15 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_y = -19;
   
   //second position
+  now_x =  getmodelstate.response.pose.position.x;
   if(now_x <= new_x)
     {
+  ROS_INFO("first positionsadsadsa");
       while(now_x <= new_x)
 	{
 	  ROS_INFO_STREAM(now_x);
 	  ROS_INFO_STREAM(new_x);
-	  tw.linear.x = -0.6;
+	  tw.linear.x = 0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
@@ -279,12 +291,13 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
     }
   else
     {
+  ROS_INFO("first positionasdsa");
       while(now_x > new_x)
 	{
 	  ROS_INFO_STREAM(" Perfect! saasdada");
 	  ROS_INFO_STREAM(now_x);
 	  ROS_INFO_STREAM(new_x);
-	  tw.linear.x = 0.6;
+	  tw.linear.x = -0.6;
 	  publisher.publish(tw);
 	  ros::Duration(1.0).sleep();
 	  gms_c.call(getmodelstate);
@@ -303,11 +316,30 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
-  
-  if(now_y <= new_y)
+  now_y =  getmodelstate.response.pose.position.y;
+  if(now_y <= new_y && new_y <= 0)
     {
       while(now_y <= new_y)
 	{
+	  ROS_INFO_STREAM("HEEELLLOOO123");
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw);
+    }else if(now_y <= new_y)
+{
+      while(now_y <= new_y)
+	{
+	  ROS_INFO_STREAM("HEEELqweqeLLOOO");
 	  ROS_INFO_STREAM(now_y);
 	  ROS_INFO_STREAM(new_y);
 	  tw.linear.y = -0.6;
@@ -321,10 +353,12 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw);
-    }else
+    }else if(now_y > new_y && now_y <= 0)
     {
-      while(now_y > new_y)
+      while(now_y > new_y && now_y <= 0)
 	{
+	  ROS_INFO_STREAM("HaaaaaaaaaaaaEEELqweqeLLOOO");
+	  
 	  ROS_INFO_STREAM(now_y);
 	  ROS_INFO_STREAM(new_y);
 	  tw.linear.y = 0.6;
@@ -339,7 +373,26 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
       tw.linear.x = 0;
       tw.linear.y = 0;
       publisher.publish(tw); 
+    }else{
+      while(now_y > new_y)
+	{
+	  ROS_INFO_STREAM("HEEELLLOOOsaddddddddddddad");
+	  ROS_INFO_STREAM(now_y);
+	  ROS_INFO_STREAM(new_y);
+	  tw.linear.y = - 0.6;
+	  publisher.publish(tw);
+	  ros::Duration(1.0).sleep();
+	  gms_c.call(getmodelstate);
+	  now_y =  getmodelstate.response.pose.position.y;
+	}
+      
+      ros::Duration(1.0).sleep();
+      tw.linear.z = 0;
+      tw.linear.x = 0;
+      tw.linear.y = 0;
+      publisher.publish(tw); 
     }
+
   ros::Duration(1.0).sleep();
   tw.linear.z = 0;
   tw.linear.x = 0;
@@ -391,7 +444,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -404,6 +457,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
 
   new_x = -8;
   new_y = -10;
+  now_x =  getmodelstate.response.pose.position.x;
 
   //third position
   if(now_x <= new_x)
@@ -449,6 +503,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -537,7 +592,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -551,6 +606,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_x = 25;
   new_y = -10;
   //fourth        
+  now_x =  getmodelstate.response.pose.position.x;
+	  
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
@@ -595,7 +652,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
-  
+  now_y =  getmodelstate.response.pose.position.y;
+	  
   if(now_y <= new_y)
     {
       while(now_y <= new_y)
@@ -638,7 +696,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);
   
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -648,7 +706,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
     ROS_ERROR("Failed to call service store image");
     return 1;
   }
-
+  now_x =  getmodelstate.response.pose.position.x;
+	  
   new_x = 29.99;
   new_y = 3.0;
   //fifth position        
@@ -696,7 +755,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
-  
+  now_y =  getmodelstate.response.pose.position.y;
+	  
   if(now_y <= new_y)
     {
       while(now_y <= new_y)
@@ -787,7 +847,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_x = 9.59;
   new_y = 1.95;
   
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -797,6 +857,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
     ROS_ERROR("Failed to call service store image");
     return 1;
   }
+  now_x =  getmodelstate.response.pose.position.x;
 
   //sixth position        
   if(now_x <= new_x)
@@ -843,6 +904,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -884,7 +946,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
-      if(getmodelstate.response.pose.position.z > 5)
+  
+    if(getmodelstate.response.pose.position.z > 5)
     {
       while(getmodelstate.response.pose.position.z > 5)
 	{
@@ -929,7 +992,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -943,6 +1006,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_x = -1.4;
   new_y = 5.0;
   //seventh position        
+  now_x =  getmodelstate.response.pose.position.x;
+
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
@@ -987,6 +1052,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -1075,7 +1141,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -1089,6 +1155,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_x = -16.45;
   new_y = -2.0;
   //seventh position
+  now_x =  getmodelstate.response.pose.position.x;
+
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
@@ -1133,6 +1201,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -1222,7 +1291,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -1236,6 +1305,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_x = -32.99;
   new_y = 3.96;
   //eigth position
+  now_x =  getmodelstate.response.pose.position.x;
+
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
@@ -1280,7 +1351,9 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
-  
+
+  now_y =  getmodelstate.response.pose.position.y;
+	  
   if(now_y <= new_y)
     {
       while(now_y <= new_y)
@@ -1324,7 +1397,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);
  
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -1338,6 +1411,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_x = 7.49;
   new_y = 17;
   //nineth position        
+  now_x =  getmodelstate.response.pose.position.x;
+
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
@@ -1382,6 +1457,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -1471,7 +1547,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -1485,6 +1561,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_x = -42.99;
   new_y = 2.99;
   //eleventh position        
+  now_x =  getmodelstate.response.pose.position.x;
+
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
@@ -1529,6 +1607,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -1617,7 +1696,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);     
 
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -1631,6 +1710,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_x = -23;
   new_y = 10;
   //twelveth position
+  now_x =  getmodelstate.response.pose.position.x;
+
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
@@ -1675,6 +1756,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -1764,7 +1846,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.y = 0;
   publisher.publish(tw);       
 
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -1778,6 +1860,8 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   new_x = -15;
   new_y = 18.99;
   //thirdtenth position
+  now_x =  getmodelstate.response.pose.position.x;
+
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
@@ -1820,6 +1904,7 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -1866,9 +1951,11 @@ bool execute(quadrotor_controller::scan_reg::Request &req,
 
 
     //next pose 
-new_x = 0;
+  new_x = 0;
   new_y = 21;
   //thirdtenth position
+  now_x =  getmodelstate.response.pose.position.x;
+
   if(now_x <= new_x)
     {
       while(now_x <= new_x)
@@ -1911,6 +1998,7 @@ new_x = 0;
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -1955,7 +2043,7 @@ new_x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
   //else
-  retsrv.request.goal = "take pictures";
+  retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -1966,8 +2054,10 @@ new_x = 0;
     return 1;
   }
   //next pose 
-new_x = 2.5;
+  new_x = 2.5;
   new_y = 28.5;
+  now_x =  getmodelstate.response.pose.position.x;
+
   //thirdtenth position
   if(now_x <= new_x)
     {
@@ -2011,6 +2101,7 @@ new_x = 2.5;
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -2077,7 +2168,7 @@ new_x = 2.5;
   tw.linear.y = 0;
   publisher.publish(tw);
  
- retsrv.request.goal = "take pictures";
+ retsrv.request.goal = "take-pictures";
   if (cam.call(retsrv))
   {
     ROS_INFO_STREAM(retsrv.response.result);
@@ -2091,6 +2182,8 @@ new_x = 2.5;
 
   new_x = 11;
   new_y = -2.0;
+  now_x =  getmodelstate.response.pose.position.x;
+
   //thirdtenth position
   if(now_x <= new_x)
     {
@@ -2134,6 +2227,7 @@ new_x = 2.5;
   tw.linear.x = 0;
   tw.linear.y = 0;
   publisher.publish(tw);
+  now_y =  getmodelstate.response.pose.position.y;
   
   if(now_y <= new_y)
     {
@@ -2178,6 +2272,7 @@ new_x = 2.5;
   tw.linear.y = 0;
   publisher.publish(tw);
 
+  now_z =  getmodelstate.response.pose.position.z;
 
   //next pose
   ROS_INFO_STREAM(" Move down! ");

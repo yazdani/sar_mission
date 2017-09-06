@@ -112,7 +112,7 @@
     (setf tom (get-elem-pose objname))
     (let*((desig (make-designator :location `((,(direction-symbol preposition) ,objname))))
           (result NIL)
-          (cam (cl-transforms-stamped:make-transform-stamped "human" "red_wasp/camera_depth_frame" 1596.0 (cl-transforms:make-identity-vector) (cl-transforms:make-quaternion 0.0 0.0 1 -0.05)))
+          (cam (cl-transforms-stamped:make-transform-stamped "human" "camera_depth_frame" 1596.0 (cl-transforms:make-identity-vector) (cl-transforms:make-quaternion 0.0 0.0 1 -0.05)))
           ;;(cam-depth-tf-transform))
           (temp NIL)
           (tmp NIL))
@@ -130,23 +130,27 @@
   tom)
 
 (defun set-rotation-based-elem (goal)
-(if (or (not (string-equal "picture" goal))
-	(not (null goal))
-	(not (string-equal "" goal)))
-    (let*((quad-pose (cl-transforms:transform->pose (cl-tf:lookup-transform *tf* "map" "red_wasp/base_footprint")))
-	  (elem NIL))
-      (setf elem (look-at-object-x (cl-transforms:make-pose (cl-transforms:origin quad-pose)(cl-transforms:orientation (cl-transforms:transform->pose (cam-depth-tf-human-transform )))) (get-elem-pose goal)))
-        (format t "elem is ~a und ~a~%" elem (cl-transforms:x (cl-transforms:orientation elem)))
+(format t "goal ~a~%" goal)
+(cond((and (not (string= "take-pictures" goal))
+	   (not (null goal))
+	   (not (string-equal "" goal)))
+      (let*((quad-pose (cl-transforms:transform->pose (cl-tf:lookup-transform *tf* "map" "base_footprint")))
+	    (elem NIL))
+	(setf elem (look-at-object-x (cl-transforms:make-pose (cl-transforms:origin quad-pose)
+							      (cl-transforms:orientation (cl-transforms:transform->pose 
+											  (cam-depth-tf-human-transform )))) 
+				     (get-elem-pose goal)))
         (roslisp:make-msg "geometry_msgs/Pose" :orientation
                           (roslisp:make-msg "geometry_msgs/Quaternion"
                                             :x (cl-transforms:x (cl-transforms:orientation elem))
                                             :y (cl-transforms:y (cl-transforms:orientation elem))
                                             :z (cl-transforms:z (cl-transforms:orientation elem))
-                                            :w (cl-transforms:w (cl-transforms:orientation elem)))))
-      (roslisp:make-msg "geometry_msgs/Pose")))
+                                            :w (cl-transforms:w (cl-transforms:orientation elem))))))
+     (t (format t "not rotated~%")
+	(roslisp:make-msg "geometry_msgs/Pose"))))
       
 (defun cam-depth-tf-human-transform ()
-  (cl-transforms-stamped:lookup-transform *tf* "human" "red_wasp/camera_depth_frame"))
+  (cl-transforms-stamped:lookup-transform *tf* "human" "camera_depth_frame"))
 
 (defun checking-object-size (name)
   (let*((type (get-elem-type name))
@@ -166,8 +170,10 @@
         
         
 (defun get-all-objects()
+  (format t "~a~%" *sem-map*)
   (let*((map *sem-map*)
         (sem-hash (slot-value map 'sem-map-utils:parts)))
+   ;; (format t "~a~%" sem-hash)
     (hash-table-keys sem-hash)))
 
 (defun get-objs-with-victim())
@@ -1083,13 +1089,13 @@ objects))
 ;;####### CHECKING THE VISIBILITY OF QUADCOPTER #######;;
 
 (defun cam-depth-tf-transform ()
-  (cl-transforms-stamped:lookup-transform *tf* "human" "red_wasp/camera_depth_frame"))
+  (cl-transforms-stamped:lookup-transform *tf* "human" "camera_depth_frame"))
 
 (defun cam-rgb-tf-transform ()
-  (cl-transforms-stamped:lookup-transform *tf* "map" "red_wasp/camera_rgb_frame"))
+  (cl-transforms-stamped:lookup-transform *tf* "map" "camera_rgb_frame"))
 
 (defun cam-get-pose->relative-map (vec)
-(let((pose-stmp (cl-transforms-stamped:make-pose-stamped "red_wasp/camera_depth_frame"
+(let((pose-stmp (cl-transforms-stamped:make-pose-stamped "camera_depth_frame"
                                                          0.0 vec
                                                          (cl-transforms:make-identity-rotation))))
   (cl-transforms-stamped:pose-stamped->pose (cl-tf:transform-pose *tf* :pose pose-stmp :target-frame "map"))))
