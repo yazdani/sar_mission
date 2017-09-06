@@ -1,7 +1,7 @@
 <launch>
 
  <include file="$(find quadrotor_controller)/launch/spawn_quadrotor_with_asus.launch" />
-<!--node pkg="quadrotor_controller" type="scan_region" name="scan_region" respawn="false" /-->
+<node pkg="quadrotor_controller" type="scan_region" name="scan_region" respawn="false" />
 <node pkg="quadrotor_controller" type="rotate_cam" name="rotate_cam" respawn="false" />
 <node pkg="quadrotor_controller" type="robot_pose" name="robot_pose" respawn="false" />
 <node pkg="quadrotor_controller" type="take_off" name="take_off" respawn="false" />
