@@ -54,6 +54,7 @@
      ?reasoning-generator-id
      (make-reasoning-cost-function ?object-pose :Y < 0.3)
      ?costmap)
+      (format "go into adjust function")
     (adjust-map ?costmap ?object-pose ?object-name))
 
 
@@ -96,6 +97,7 @@
       (adjust-map ?costmap ?object-pose ?object-name))
 
 (<- (adjust-map ?costmap ?object-pose ?object-name)
+    (format "adjust-function")
   ;;(semantic-map-costmap::semantic-map-objects ?all-objects)
   ;;(format "get-elem-pose~%")
   ;;(lisp-fun get-elem-pose ?object-name ?pose)
