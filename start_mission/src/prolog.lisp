@@ -98,20 +98,24 @@
 
 (<- (adjust-map ?costmap ?object-pose ?object-name)
     (format "adjust-function")
-  ;;(semantic-map-costmap::semantic-map-objects ?all-objects)
-  ;;(format "get-elem-pose~%")
-  ;;(lisp-fun get-elem-pose ?object-name ?pose)
-  ;;(lisp-fun get-geom-objects ?all-objects 10 ?pose ?objects)
-  ;;(costmap-padding ?padding)
-  ;;(costmap-add-function semantic-map-free-space
-  ;;                      (make-semantic-map-costmap-human
-  ;;                       ?objects :invert t :padding ?padding)
-  ;;                      ?costmap)
-  ;;(costmap ?costmap)
-  ;;(instance-of gaussian-generator ?gaussian-generator-id)
-  ;;(costmap-add-function ?gaussian-generator-id
-  ;;                      (make-location-cost-function ?object-pose  3.0)
-  ;;                      ?costmap)
+  (format "object-name~a~%" ?object-name)
+  (semantic-map-costmap::semantic-map-objects ?all-objects)
+  (format "get-elem-pose~%")
+  (lisp-fun get-elem-pose ?object-name ?pose)
+  (lisp-fun get-geom-objects ?all-objects 10 ?pose ?objects)
+  (format "after get-geom~%")
+  (costmap-padding ?padding)
+  (format "after padding~%")
+  (costmap-add-function semantic-map-free-space
+                       (make-semantic-map-costmap-human
+                        ?objects :invert t :padding ?padding)
+                       ?costmap)
+  (costmap ?costmap)
+  (instance-of gaussian-generator ?gaussian-generator-id)
+  (costmap-add-function ?gaussian-generator-id
+                       (make-location-cost-function ?object-pose  3.0)
+                       ?costmap)
+    (format "gaus")
     (costmap ?costmap)
     (costmap-add-height-generator
      (make-consistent-height-function ?object-name ?resulting-z)

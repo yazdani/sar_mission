@@ -321,9 +321,9 @@
          (t (format t "func(): determine-relations~%")))
     (list axis pred)))
 
-(defun make-consistent-height-function (obj-name height &optional (sem-map (sem-map-utils::get-semantic-map)))
-  (format t "sem-map ~a~%"sem-map)
-  (setf sem-hash (slot-value sem-map 'sem-map-utils:parts))
+(defun make-consistent-height-function (obj-name height);; &optional (sem-map (sem-map-utils::get-semantic-map)))
+  (format t "sem-map ~a~%"*sem-map*)
+  (setf sem-hash (slot-value *sem-map* 'sem-map-utils:parts))
   (format t "sem-hash ~a~%" sem-hash)
   (setf sem-hash (copy-hash-table sem-hash)) 
   (setf dim  (slot-value (gethash obj-name sem-hash) 'sem-map-utils:dimensions))
