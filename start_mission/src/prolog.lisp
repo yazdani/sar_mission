@@ -96,10 +96,16 @@
       (lisp-fun get-human-elem-pose ?object-name ?object-pose)
       (adjust-map ?costmap ?object-pose ?object-name))
 
+  (<- (hack-to-get-objects-of-semantic-map ?all-objects)
+    (lisp-fun get-internal-map ?sem-map)
+    (lisp-fun sem-map-utils:semantic-map-parts ?sem-map
+              :recursive nil ?all-objects))
+    
 (<- (adjust-map ?costmap ?object-pose ?object-name)
     (format "adjust-function")
   (format "object-name~a~%" ?object-name)
-  (semantic-map-costmap::semantic-map-objects ?all-objects)
+  (hack-to-get-objects-of-semantic-map ?all-objects)
+ ;; (semantic-map-costmap::semantic-map-objects ?all-objects)
   (format "get-elem-pose~%")
   (lisp-fun get-elem-pose ?object-name ?pose)
   (lisp-fun get-geom-objects ?all-objects 10 ?pose ?objects)

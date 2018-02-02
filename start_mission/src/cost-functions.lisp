@@ -387,6 +387,11 @@ list of SEM-MAP-UTILS:SEMANTIC-MAP-GEOMs"
                                 (alexandria:compose #'invert-matrix #'generator)
                                 #'generator)))))
 
+(defun get-internal-map ()
+  (if (null *sem-map*)
+      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
+  *sem-map*)
+
 (defun make-semantic-map-object-costmap-human-generator (object &key (padding 0.0))
   (declare (type sem-map-utils:semantic-map-geom object))
  ;; (format t "object is ~a~%"  (cl-transforms:pose->transform  (cl-transforms:make-pose (cl-transforms:origin (get-human-elem-pose (sem-map-utils:name object))) (cl-transforms:make-identity-rotation))))
