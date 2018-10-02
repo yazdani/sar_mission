@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 
 <launch>
+   <param name="quadrotor_description"
+	 command="$(find xacro)/xacro.py '$(find quadrotor_controller)/urdf/quadrotor_base.urdf.xacro'"/>
    <arg name="name" default="quadrotor"/>
    <arg name="tf_prefix" default="$(optenv ROS_NAMESPACE)"/>
    <arg name="x" default="7.0"/>

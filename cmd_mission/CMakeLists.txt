@@ -8,7 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   cram_designators
   geometry_msgs
   message_generation
-  message_runtime
+#  message_runtime
   roscpp
   rospy
   std_msgs
@@ -45,7 +45,7 @@ generate_messages(
    geometry_msgs std_msgs 
  )
 
-catkin_package( CATKIN_DEPENDS geometry_msgs roscpp std_msgs)
+catkin_package( CATKIN_DEPENDS geometry_msgs std_msgs)
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
