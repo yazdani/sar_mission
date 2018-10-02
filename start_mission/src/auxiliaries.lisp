@@ -86,6 +86,8 @@
     ret))
 
 (defun get-elem-type (name)
+(format t "get-elem-type of ~a~%" name)
+(format t "sem map ~a~%" *sem-map*)
  (let*((type NIL)
        (sem-map *sem-map*);(sem-map-utils:get-semantic-map))
        (sem-hash (slot-value sem-map 'sem-map-utils:parts))

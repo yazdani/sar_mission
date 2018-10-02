@@ -170,6 +170,7 @@
 (roslisp:def-service-callback cmd_mission-srv:get_obj_type (objname)
  ;; (if (null *sem-map*)
  ;;      (setf *sem-map* (sem-map-utils:get-semantic-map "http://knowrob.org/kb/ias_semantic_map.owl#MountainMap")))
+(format t "objname : ~a~%" objname)
   (let ((result (checking-object-size objname)))
         (roslisp:make-response :result_type  result)))
 
